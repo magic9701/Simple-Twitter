@@ -1,0 +1,253 @@
+//reset css
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+
+// basic setting
+//import google fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+
+:root {
+  --white: #FFFFFF;
+  --dark-100: #171725;
+  --dark-90: #44444F;
+  --dark-80: #696974;
+  --dark-70: #92929D;
+  --dark-60: #B5B5BE;
+  --dark-50: #92929D;
+  --dark-40: #E2E2EA;
+  --dark-30: #F1F1F5;
+  --dark-20: #FAFAFB;
+  --dark-0: #FFFFFF;
+
+  --base-font-size: 16px;
+  --secondary-font-size: 14px;
+  --small-font-size: 12px;
+
+  --main-font-family: 'Noto Sans TC', sans-serif;
+  --numeric-font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  --background-color: #FFFFFF;
+  --main-color: #FF6600;
+  --primary-color: #0062FF;
+  --secondary-color: #6C757D;
+  --success-color: #3DD598;
+  --warning: #FFC542;
+  --danger: #FC5A5A;
+  --orange: #FF974A;
+  --blue: #50B5FF;
+  --green: #82C43C;
+  --purple: #A461D8;
+  --pink: #FF9AD5;
+
+  --main-text: #171725;
+  --active-color: #FF6600;
+
+  background-color: var(--background-color);
+  color: var(--main-text);
+  font-family: var(--main-font-family);
+  font-size: var(--base-font-size);
+  user-select: none;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 68px;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 42px;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+h4 {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+h5 {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cursor-point {
+  cursor: pointer;
+}
+
+//內文字大小及粗體
+.base-text-medium {
+  font-weight: 700;
+}
+
+.secondary-text {
+  font-size: var(--secondary-font-size);
+}
+
+.secondary-text-medium {
+  font-size: var(--secondary-font-size);
+  font-weight: 500;
+}
+
+.small-text {
+  font-size: var(--small-font-size);
+}
+
+.small-text-medium {
+  font-size: var(--small-font-size);
+  font-weight: 500;
+}
