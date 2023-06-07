@@ -1,0 +1,31 @@
+// 登入、註冊、Nav推文、setting儲存
+Button {
+  width: 100%;
+  background-color: var(--active-color);
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  color:white;
+  padding: 8px 24px;
+  height: 46px;
+  font-family: var(--main-font-family);
+}
+
+//MainPage、PostModule推文、ReplyModal回覆、UserInfoModal儲存
+.secondaryButton {
+  padding: 8px 16px;
+  height: 40px;
+  font-size: 16px;
+}
+
+
+//未跟隨、編輯個人資料
+.notActiveButton {
+  background-color: white;
+  color: var(--active-color);
+  border: 1px solid var(--active-color);
+  padding: 8px 16px;
+  height: 40px;
+  font-size: 16px;
+}
+
