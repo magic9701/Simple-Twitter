@@ -1,5 +1,7 @@
 export default function LoginPage() {
   return(
-    <div>123</div>
+    <div className="container mx-auto">
+      <h1>LoginPage</h1>
+    </div>
   )
 }

@@ -1,10 +1,8 @@
-import { MainNav } from "components/Nav/Nav.jsx"
-
 
 export default function SettingPage() {
   return(
     <div className="container mx-auto">
-      <MainNav></MainNav>
+      <h1>SettingPage</h1>
     </div>
   )
 }

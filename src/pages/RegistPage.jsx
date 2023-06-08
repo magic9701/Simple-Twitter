@@ -1,5 +1,7 @@
 export default function RegistPage() {
   return(
-    <div>123</div>
+    <div className="container mx-auto">
+      <h1>RegistPage</h1>
+    </div>
   )
 }

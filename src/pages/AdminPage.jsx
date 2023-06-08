@@ -1,5 +1,7 @@
 export default function AdminPage() {
   return(
-    <div>123</div>
+    <div className="container mx-auto">
+      <h1>AdminPage</h1>
+    </div>
   )
 }
