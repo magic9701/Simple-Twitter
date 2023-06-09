@@ -1,0 +1,53 @@
+.modal {
+    position: fixed;
+    width: 634px;
+    height: 610px;
+    background-color: #ffffff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000000;
+    top: 50px;
+    left: 334px;
+    right: 432px;
+  }
+  
+  .modal .modalContent {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    align-self: flex-start;
+  }
+  img {
+    height: 140px;
+    width: 141.10406494140625px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .modalHeader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 50%;
+      height: 1px;
+      background-color: #E6ECF0;
+    }
+  
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+}
+.avatarContainer {
+    margin-right: 10px;
+  }
