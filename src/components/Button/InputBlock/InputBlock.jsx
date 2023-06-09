@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "styles/InputBlock.module.scss"
 
-export default function InputBlock({ label, placeholder, value, type, onChange, maxLength, setIsError }) {
+export default function InputBlock({ label, placeholder, value, type, onChange, maxLength, setIsError,inputHeight }) {
   const [errorMessage, setErrorMessage] = useState("")
   
   //檢查account輸入內容是否符合要求，若不符合顯示errorMessage
@@ -85,6 +85,7 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
           value={value || ''}
           onChange={(e) => onChange?.(e.target.value)}
           id={label}
+          style={{ height: inputHeight }}
         />
       </div>
       <div className={`${styles.message} small-text-medium`}>
