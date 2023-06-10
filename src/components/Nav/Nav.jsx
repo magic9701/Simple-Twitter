@@ -7,7 +7,7 @@ import { ReactComponent as SettingIcon } from "assets/icons/setting-Icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout-Icon.svg";
 //components或 其他
 import { PrimaryButton } from "components/Button/Button.jsx";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
 
@@ -46,6 +46,14 @@ const NavItem = ({ icon: Icon, name, route }) => {
 
 //Main Navbar
 export function MainNav() {
+  const navigate = useNavigate
+
+  //登出功能
+  const handleClick = () => {
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
+
   return (
     <div className={styles.navContainer}>
       <Link to="/main"><Logo className={styles.logo} /></Link>
@@ -55,7 +63,7 @@ export function MainNav() {
       <PrimaryButton>推文</PrimaryButton>
       <div className={styles.logoutContainer}>
         <Link to="/login">
-          <div className={`${styles.navItem} ${styles.logout} cursor-point`}>
+          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleClick}>
             <LogoutIcon />
             <h5 className={styles.itemName}>登出</h5>
           </div>
@@ -67,6 +75,14 @@ export function MainNav() {
 
 //Admin Navbar
 export function AdminNav() {
+  const navigate = useNavigate
+
+  //登出功能
+  const handleClick = () => {
+    localStorage.removeItem('authToken')
+    navigate('/login')
+  }
+
   return (
     <div className={styles.navContainer}>
       <Link to="/main"><Logo className={styles.logo} /></Link>
@@ -75,7 +91,7 @@ export function AdminNav() {
       ))}
       <div className={styles.logoutContainer}>
         <Link to="/login">
-          <div className={`${styles.navItem} ${styles.logout} cursor-point`}>
+          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleClick}>
             <LogoutIcon />
             <h5 className={styles.itemName}>登出</h5>
           </div>
