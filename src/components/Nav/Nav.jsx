@@ -14,7 +14,7 @@ import { useState } from "react";
 //main navbar選項的內容
 const mainNavItems = [
   { icon: HomepageIcon, name: "首頁", route: "/main" },
-  { icon: ProfileIcon, name: "個人資料", route: "/:UserId" },
+  { icon: ProfileIcon, name: "個人資料", route: "user/:userAccount" },
   { icon: SettingIcon, name: "設定", route: "/setting" },
 ];
 
@@ -46,13 +46,13 @@ const NavItem = ({ icon: Icon, name, route }) => {
 
 //Main Navbar
 export function MainNav() {
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
   //登出功能
-  const handleClick = () => {
-    localStorage.removeItem('authToken')
-    navigate('/login')
-  }
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    navigate('/login');
+  };
 
   return (
     <div className={styles.navContainer}>
@@ -63,7 +63,7 @@ export function MainNav() {
       <PrimaryButton>推文</PrimaryButton>
       <div className={styles.logoutContainer}>
         <Link to="/login">
-          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleClick}>
+          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>
             <LogoutIcon />
             <h5 className={styles.itemName}>登出</h5>
           </div>
@@ -75,10 +75,10 @@ export function MainNav() {
 
 //Admin Navbar
 export function AdminNav() {
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
   //登出功能
-  const handleClick = () => {
+  const handleLogout = () => {
     localStorage.removeItem('authToken')
     navigate('/login')
   }
@@ -91,7 +91,7 @@ export function AdminNav() {
       ))}
       <div className={styles.logoutContainer}>
         <Link to="/login">
-          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleClick}>
+          <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>
             <LogoutIcon />
             <h5 className={styles.itemName}>登出</h5>
           </div>
