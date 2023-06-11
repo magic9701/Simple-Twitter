@@ -1,0 +1,39 @@
+.navContainer {
+    height: 100vh;
+    min-height: 400px;
+    width: 178px;
+    margin-right: 20px;
+    position: relative;
+  }
+  .logo {
+    margin: 13px;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--main-text);
+  }
+  
+  .navItem {
+    display: flex;
+    align-items: center;
+    height: 58px;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    .itemName {
+      margin-left: 16px;
+    }
+  }
+  
+  .activeNavItem {
+    color: var(--active-color);
+  }
+  
+  .activeIcon {
+    fill: var(--active-color);
+  }
+  
+  .logoutContainer {
+    position: absolute;
+    bottom: 0;
+  }
