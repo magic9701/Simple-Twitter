@@ -1,41 +1,41 @@
-import { NavLink, useLocation } from "react-router-dom";
-import styled from "../../styles/Header.module.scss";
-import { device } from "../globalStyles";
-import { ReactComponent as BackArrowIcon } from "../../assets/icons/back-arrow-icon.svg";
-import { useUser } from "../contexts/UserContext";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { ReactComponent as BackIcon } from "../../assets/icons/back-arrow-icon.svg";
+import styles from "../../styles/Header.module.scss";
+import { getUserTweetsCount } from "../../api/user";
 
-export default function Header({
-  headerText,
-  BackArrowIcon,
-  user,
-  shownUserTweets,
-}) {
-  const { pathname } = useLocation();
-  const { currentUser } = useUser();
+const Header = () => {
+  const { userId } = useParams();
+  const history = useHistory();
+  const [tweetCount, setTweetCount] = useState(0);
+
+  useEffect(() => {
+    if (userId) {
+      getUserTweetsCount(userId)
+        .then((count) => {
+          setTweetCount(count);
+        })
+        .catch((error) => {
+          console.error("Failed to get user's tweet count: ", error);
+        });
+    }
+  }, [userId]);
+
+  const handleBack = () => {
+    history.push("/main");
+  };
+
   return (
     <div>
-      {BackArrowIcon && (
-        <NavLink
-          to={
-            pathname.includes("follow") ? `users/${user.id}/tweets` : "/tweets"
-          }
-        >
-          <BackArrowIcon />
-        </NavLink>
-      )}
-      <div className={user && "small"}>
-        {pathname === "/tweets" && (
-          <img
-            className="user-avatar"
-            src={currentUser.avatar}
-            alt="user-avatar"
-          />
-        )}
-        <h1>{headerText}</h1>
-        <p>
-          <span>{shownUserTweets?.length}</span>推文
-        </p>
+      <div className={styles.header}>
+        <div className={styles.backIcon} onClick={handleBack}>
+          <BackIcon />
+        </div>
+        <p>{userId ? `使用者主頁 - ${userId}` : "首頁"}</p>
+        {userId && <p className={styles.tweetCount}>{`${tweetCount}推文`}</p>}
       </div>
     </div>
   );
-}
+};
+
+export default Header;
