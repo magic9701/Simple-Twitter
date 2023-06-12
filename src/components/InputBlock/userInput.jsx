@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "../../styles/UserInputModal.module.scss";
+import styles from "../../styles/UserInput.module.scss";
 
 export default function InputBlock({
   label,
