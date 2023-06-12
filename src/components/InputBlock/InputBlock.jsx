@@ -58,6 +58,19 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
     }
   }
 
+  //檢查email
+  const checkEmail = () => {
+    const whitespaceRegex = /^\s*$/;
+
+    if (value.length > 100) {
+      setErrorMessage("字數超出上限！")
+    }else if (whitespaceRegex.test(value) && value.length !== 0) {
+      setErrorMessage("請輸入內容！")
+    }else {
+      setErrorMessage("");
+    }
+  }
+
   useEffect(() => {
     if (label === "帳號") {
       checkAccount();
@@ -67,6 +80,8 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
       checkName()
     }else if (label === "自我介紹") {
       checkDescription()
+    }else if (label === "Email") {
+      checkEmail()
     }
   }, [value, label]);
 
