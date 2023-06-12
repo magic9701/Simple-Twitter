@@ -1,0 +1,38 @@
+.mainContainer {
+    display: flex;
+  }
+  
+  .Header {
+    height: 74px;
+    font-family: "Noto Sans TC";
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 26px;
+    border-bottom: 1px solid #E6ECF0;
+    width: 639px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .mainMiddle {
+    width: 639px;
+    flex: 2;
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
+  }
+  
+  .Nav {
+    flex: 1;
+  }
+  
+  .Popular {
+    margin-right: 130px;
+    flex: 2;
+  }
+  
+  .TweetLine {
+    height: 10px;
+    width: 639px;
+    background-color: #E6ECF0;
+  }

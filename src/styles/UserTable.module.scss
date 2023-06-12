@@ -1,0 +1,24 @@
+  .userTable{
+  display: flex;
+  justify-content: start;
+  border-bottom:1px solid #E6ECF0;
+  color: var(--color-secondary);
+  font-weight: 700;
+  }
+  .category {
+    width: 7em;
+    display: grid;
+    place-items: center;
+    border-bottom: 3px solid white;
+    line-height: 3em;
+
+    :hover {
+      background-color: var(--color-gray-100);
+      border-bottom: 3px solid var(--color-gray-100);
+    }
+
+    &.active {
+      border-bottom: 3px solid var(--color-theme);
+      color: var(--color-theme);
+    }
+  }

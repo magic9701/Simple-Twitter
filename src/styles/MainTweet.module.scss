@@ -1,0 +1,47 @@
+.tweetContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+   
+    .tweetContext {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px;
+      border-radius: 8px;
+      
+    }
+  
+    .tweetDetail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 30px;
+    }
+  
+    .tweetInput {
+      color: var(--Secondary);
+      outline: none;
+      width: 100%;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .tweetTextarea{
+        color: var(--Secondary);
+        outline: none;
+        width: 100%;
+        font-size: 18px;
+        font-weight: 700;
+        border: none;
+    }
+  }
+  img{
+    height: 50px;
+    width: 50px;
+    border-radius:50%;
+  }
+  .SecondaryButton{
+    
+    margin-left: 547px;
+    margin-bottom: 16px;
+}
+  
