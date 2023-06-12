@@ -50,7 +50,7 @@ export function MainNav() {
 
   //登出功能
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
     navigate('/login');
   };
 
@@ -79,8 +79,8 @@ export function AdminNav() {
 
   //登出功能
   const handleLogout = () => {
-    localStorage.removeItem('authToken')
-    navigate('/login')
+    localStorage.removeItem('adminToken')
+    navigate('/admin')
   }
 
   return (
@@ -90,7 +90,7 @@ export function AdminNav() {
         <NavItem key={index} icon={item.icon} name={item.name} route={item.route} />
       ))}
       <div className={styles.logoutContainer}>
-        <Link to="/login">
+        <Link to="/admin">
           <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>
             <LogoutIcon />
             <h5 className={styles.itemName}>登出</h5>
