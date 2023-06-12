@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import styles from "styles/InputBlock.module.scss"
 
-export default function InputBlock({ label, placeholder, value, type, onChange, maxLength, setIsError,inputHeight }) {
+
+//需要設定InputBlock height請輸入inputHeight
+//需要下方出現紅字提示(如字數限制50字) 請輸入needErrorMessage="true"
+  //並且需要輸入maxLength(輸入內容總長限制)
+export default function InputBlock({ label, placeholder, value, type, onChange, maxLength, setIsError ,inputHeight, needErrorMessage }) {
   const [errorMessage, setErrorMessage] = useState("")
   
   //檢查account輸入內容是否符合要求，若不符合顯示errorMessage
@@ -53,7 +57,7 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
   useEffect(() => {
     if (label === "帳號") {
       checkAccount();
-    }else if (label === "密碼") {
+    }else if (label === "密碼" || label === "密碼確認") {
       checkPassword();
     }else if (label === "名稱") {
       checkName()
@@ -77,8 +81,7 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
   return (
     <div>
       <div className={styles.inputBlockContainer}>
-        <label className={styles.inputLabel} for={label}>{label}</label>
-        {/* ${styles.danger} */}
+        <label className={styles.inputLabel} htmlFor={label}>{label}</label>
         <input className={`${styles.inputBlock} ${errorMessage !== "" ? styles.danger : ""}`}
           type={type || 'text'} 
           placeholder={placeholder || ''} 
@@ -89,13 +92,11 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
         />
       </div>
       <div className={`${styles.message} small-text-medium`}>
-        {/* ${styles.danger} */}
         <div className={`${styles.leftMessage} ${errorMessage !== "" ? styles.danger : ""}`}>
-          {errorMessage}
+          { needErrorMessage && errorMessage }
         </div>
-        {/* ${styles.danger} */}
         <div className={`${styles.rightMessage} ${errorMessage !== "" ? styles.danger : ""}`}>
-          {value.length}/{maxLength}
+          { needErrorMessage && value.length}{ needErrorMessage && "/" }{ needErrorMessage && maxLength}
         </div>
       </div>
     </div>
