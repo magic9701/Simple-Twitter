@@ -8,18 +8,9 @@ import { ReactComponent as LogoutIcon } from "assets/icons/logout-Icon.svg";
 //components或 其他
 import { PrimaryButton } from "components/Button/Button.jsx";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import TweetModal from "components/Modal/TweetModal.jsx"
 
-//獲得currentUserAccount
-const currentUserAccount = localStorage.getItem('currentUserAccount')
-
-
-//main navbar選項的內容
-const mainNavItems = [
-  { icon: HomepageIcon, name: "首頁", route: "/main" },
-  { icon: ProfileIcon, name: "個人資料", route: `/user/${currentUserAccount}` },
-  { icon: SettingIcon, name: "設定", route: "/setting" },
-];
 
 //admin navbar選項的內容
 const adminNavItems = [
@@ -49,23 +40,83 @@ const NavItem = ({ icon: Icon, name, route }) => {
 
 //Main Navbar
 export function MainNav() {
-  const navigate = useNavigate()
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserAccount'));
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isActiveHome, setIsActiveHome] = useState(location.pathname === "/main");
+  const [isActiveUser, setIsActiveUser] = useState(location.pathname === `/user/${currentUser}`);
+  const [isActiveSetting, setIsActiveSetting] = useState(location.pathname === "/setting");
 
-  //登出功能
+  useEffect(() => {
+    setCurrentUser(localStorage.getItem('currentUserAccount'));
+  }, [navigate]);
+
+  // 登出功能
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUserId');
-    localStorage.removeItem('account')
+    localStorage.removeItem('currentUserAccount');
     navigate('/login');
+  };
+  //推文功能
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = (event) => {
+    if (event.target === event.currentTarget) {
+      setModalOpen(false);
+    }
+  };
+  const handleTweetPost= () => {
+    openModal();
   };
 
   return (
     <div className={styles.navContainer}>
       <Link to="/main"><Logo className={styles.logo} /></Link>
-      {mainNavItems.map((item, index) => (
-        <NavItem key={index} icon={item.icon} name={item.name} route={item.route} />
-      ))}
-      <PrimaryButton>推文</PrimaryButton>
+
+      {/* 首頁 */}
+      <Link to="/main">
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveHome ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveHome(true)}
+        >
+          <HomepageIcon className={`${styles.icon} ${isActiveHome ? styles.activeIcon : ""}`} />
+          <h5 className={styles.itemName}>首頁</h5>
+        </div>
+      </Link>
+
+      {/* 個人頁面 */}
+      <Link to={`/user/${currentUser}`}>
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveUser ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveUser(true)}
+        >
+          <ProfileIcon className={`${styles.icon} ${isActiveUser ? styles.activeIcon : ""}`} />
+          <h5 className={styles.itemName}>個人資料</h5>
+        </div>
+      </Link>
+
+      {/* 設定頁面 */}
+      <Link to="/setting">
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveSetting ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveSetting(true)}
+        >
+          <SettingIcon className={`${styles.icon} ${isActiveSetting ? styles.activeIcon : ""}`} />
+          <h5 className={styles.itemName}>設定</h5>
+        </div>
+      </Link>
+
+      <PrimaryButton onClick={handleTweetPost}>推文</PrimaryButton>
+      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen}/>
       <div className={styles.logoutContainer}>
         <Link to="/login">
           <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>
