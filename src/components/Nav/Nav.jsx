@@ -10,11 +10,14 @@ import { PrimaryButton } from "components/Button/Button.jsx";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
+//獲得currentUserAccount
+const currentUserAccount = localStorage.getItem('currentUserAccount')
+
 
 //main navbar選項的內容
 const mainNavItems = [
   { icon: HomepageIcon, name: "首頁", route: "/main" },
-  { icon: ProfileIcon, name: "個人資料", route: "user/:userAccount" },
+  { icon: ProfileIcon, name: "個人資料", route: `/user/${currentUserAccount}` },
   { icon: SettingIcon, name: "設定", route: "/setting" },
 ];
 
@@ -51,6 +54,8 @@ export function MainNav() {
   //登出功能
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('currentUserId');
+    localStorage.removeItem('account')
     navigate('/login');
   };
 
