@@ -19,10 +19,6 @@ export default function RegistPage() {
   const [checkPassword, setCheckPassword] = useState('');
   const [isError, setIsError] = useState(false)
   const navigate = useNavigate()
-  
-  useEffect (() => {
-    console.log(isError)
-  },[isError])
 
   useEffect(() => {
     const checkUserTokenIsValid = async () => {
