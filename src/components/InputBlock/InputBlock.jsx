@@ -101,7 +101,7 @@ export default function InputBlock({ label, placeholder, value, type, onChange, 
     <div>
       <div className={styles.inputBlockContainer}>
         <label className={styles.inputLabel} htmlFor={label}>{label}</label>
-        <input className={`${styles.inputBlock} ${errorMessage !== "" ? styles.danger : ""}`}
+        <input className={`${styles.inputBlock} ${errorMessage !== "" && needErrorMessage === "true" ? styles.danger : ""}`}
           type={type || 'text'} 
           placeholder={placeholder || ''} 
           value={value || ''}
