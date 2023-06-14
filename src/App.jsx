@@ -21,11 +21,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="admin" element={<AdminPage />} />
+          <Route path="admin/adminMain" element={<AdminMainPage />} />
+          <Route path="admin/adminUser" element={<AdminUserPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="regist" element={<RegistPage />} />
           <Route path="setting" element={<SettingPage />} />
-          <Route path="admin/adminMain" element={<AdminMainPage />} />
-          <Route path="admin/adminUser" element={<AdminUserPage />} />
           <Route path="main" element={<MainPage />} />
           <Route path="user/:userAccount" element={<UserPage />} />
           <Route
@@ -38,9 +38,10 @@ function App() {
             element={<UserReplyPage />}
           />
           <Route path="user/:userAccount/userLike" element={<UserLikePage />} />
-          <Route path="user/:userAccount/post" element={<PostPage />} />
+          <Route path="user/:userAccount/post/:postId" element={<PostPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
+        `
       </BrowserRouter>
     </div>
   );

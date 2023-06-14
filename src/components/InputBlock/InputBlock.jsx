@@ -39,6 +39,8 @@ export default function InputBlock({
 
   //檢查name
   const checkName = () => {
+    const whitespaceRegex = /^\s*$/;
+
     if (value.length > 50) {
       setErrorMessage("字數上限50字！");
     } else {
