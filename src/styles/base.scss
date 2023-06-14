@@ -224,20 +224,14 @@ h5 {
   cursor: pointer;
 }
 
-//所有頁面最外層的請包mx-auto、container，讓頁面置中並區分L跟M的規格
+//所有頁面最外層的請包mx-auto、container，讓頁面置中並限制寬度
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
 }
 
 .container {
-  @media (min-width: 1200px) {
-    width: 1140px;
-  }
-
-  @media (min-width: 992px) and (max-width: 1199px) {
-    width: 960px;
-  }
+  width: 1140px;
 }
 
 //內文字大小及粗體
