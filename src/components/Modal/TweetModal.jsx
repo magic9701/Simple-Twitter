@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SecondaryButton } from "components/Button/Button.jsx";
 import styles from "styles/TweetModal.module.scss";
-import { ReactComponent as NotiFailIcon } from "assets/icons/noti-fail.svg";
+import notiFailIcon from "assets/icons/noti-fail.svg";
 import { postTweet } from "api/PostTweet";
 import Swal from 'sweetalert2';
+import { Link, useNavigate } from "react-router-dom";
+import { getUserData } from "api/setting.js"
+import { checkUserPermission } from "api/auth.js"
+import defaultAvatar from "assets/icons/default-avatar.svg"
 
 //icon引入
 import greenIcon from "assets/icons/green-Icon.svg"
@@ -11,11 +15,35 @@ import redIcon from "assets/icons/red-icon.svg"
 
 
 const TweetModal = ({ isOpen, onClose, setModalOpen }) => {
+  const navigate = useNavigate()
   const [description, setDescription] = useState('');
+  const [userAvatar, setUserAvatar] = useState('')
+  const [userAccount, setUserAccount] = useState('')
 
   const handleDescriptionChange = event => {
     setDescription(event.target.value);
   }
+
+useEffect (() => {
+  //取得使用者的頭像
+  const getAvatar = async () => {
+    const token = await localStorage.getItem('token')
+    const id = await localStorage.getItem('currentUserId')
+    const Account = await localStorage.getItem('currentUserAccount')
+    setUserAccount(Account)
+    if (!token) {
+      navigate('/login')
+    }
+    const result = await checkUserPermission(token)
+    if (result) {
+      const { avatar } = await getUserData(token, id)
+      if(avatar) {
+        setUserAvatar(avatar)
+      }
+    }
+  }
+  getAvatar()
+}, [navigate])
 
   //處理送出推文內容
   const handleTweet = async () => {
@@ -92,16 +120,16 @@ const TweetModal = ({ isOpen, onClose, setModalOpen }) => {
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
             <div className={`${styles.IconContainer} cursor-point`} onClick={onClose}>
-              <NotiFailIcon className={styles.NotiFailIcon} onClick={onClose}/>
+              <img className={styles.NotiFailIcon} onClick={onClose} src={notiFailIcon} alt="close"/>
             </div>
           </div>
           <div className={styles.tweetContainer}>
             <div className={styles.avatarContainer}>
               {/* 待加入連結個人頁面 */}
-              <img className="cursor-point"
-                src={"https://picsum.photos/300/300?text=1"}
+              <Link to={`/user/${userAccount}`}><img className="cursor-point"
+                src={userAvatar ? userAvatar : defaultAvatar}
                 alt="avatar"
-              />
+              /></Link>
             </div>
             <div className={styles.textAreaContainer}>
               <textarea
