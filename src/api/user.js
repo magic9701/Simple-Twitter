@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const baseURL = 'https://pure-falls-11392.herokuapp.com/';
+const authURL = 'https://pure-falls-11392.herokuapp.com/api';
 
-const axiosInstance = axios.create({
-  baseURL,
+const axiosTwitter = axios.create({
+  authURL,
 });
-
-axiosInstance.interceptors.request.use(
+//核對TOKEN
+axiosTwitter.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -19,10 +19,10 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// * 取得目前登入的使用者資訊
-export async function getCurrentUser() {
+// * 目前登入的使用者資訊
+export async function getCurrentUser(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/current_user`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}`);
     return res.data;
   } catch (error) {
     console.error('[Get CurrentUser failed]: ', error);
@@ -30,42 +30,41 @@ export async function getCurrentUser() {
   }
 }
 
-// * 取得特定使用者資訊
+// * 取得使用者資訊
 export async function getUserData(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/${id}`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}`);
     return res.data;
   } catch (error) {
     console.error('[Get User Data failed]: ', error);
   }
 }
 
-// * 取得特定使用者發過的推文
+// * 取得使用者發過的推文
 export async function getUserTweets(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/${id}/tweets`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/tweets`);
     return res.data;
   } catch (error) {
     console.error('[Get User Tweets failed]: ', error);
   }
 }
 
-// * 取得特定使用者發過的留言
+// * 取得使用者回的推文
 export async function getUserReplies(id) {
   try {
-    const res = await axiosInstance.get(
-      `${baseURL}/users/${id}/回覆的貼文`
-    );
+    const res = await axiosTwitter.get(
+      `${authURL}/users/${id}/ replied_tweets`);
     return res.data;
   } catch (error) {
     console.error('[Get User Replies failed]: ', error);
   }
 }
 
-// * 取得特定使用者喜歡的推文
+// * 取得使用者喜歡的推文
 export async function getUserLikes(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/${id}/likes`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/likes`);
     return res.data;
   } catch (error) {
     console.error('[Get User Likes failed]: ', error);
@@ -75,7 +74,7 @@ export async function getUserLikes(id) {
 // * 取得特定使用者的追隨者清單
 export async function getUserFollowers(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/${id}/followers`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/followers`);
     return res.data;
   } catch (error) {
     console.error('[Get User Followers failed]: ', error);
@@ -85,51 +84,16 @@ export async function getUserFollowers(id) {
 // * 取得特定使用者的正在追隨清單
 export async function getUserFollowings(id) {
   try {
-    const res = await axiosInstance.get(`${baseURL}/users/${id}/followings`);
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/followings`);
     return res.data;
   } catch (error) {
     console.error('[Get User Followings failed]: ', error);
   }
 }
 
-// * 取得追蹤人數 top N 的使用者名單
-export async function getTopUsers() {
-  const limit = 10;
-  try {
-    const res = await axiosInstance.get(`${baseURL}/users/top?limit=${limit}`);
-    return res.data;
-  } catch (error) {
-    console.error('[Get Top Users failed]: ', error);
-  }
-}
-
-// * 修改個人資料 settings
-export async function changeUserInformation({
-  id,
-  account,
-  name,
-  email,
-  password,
-  checkPassword,
-}) {
-  try {
-    const response = await axiosInstance.put(`${baseURL}/users/${id}/setting`, {
-      account,
-      name,
-      email,
-      password,
-      checkPassword,
-    });
-    const { data, status } = response;
-    return { data, status };
-  } catch (error) {
-    console.error('[Change User Information failed]: ', error);
-  }
-}
-
 // * 修改個人資料 profile
 export async function changeUserProfile(payload) {
-  const { id, name, introduction, avatar, cover } = payload;
+  const { id, name, introduction, avatar, banner } = payload;
   const config = {
     headers: {
       Accept: 'application/json',
@@ -137,13 +101,13 @@ export async function changeUserProfile(payload) {
     },
   };
   try {
-    const res = await axiosInstance.put(
-      `${baseURL}/users/${id}`,
+    const res = await axiosTwitter.put(
+      `${authURL}/users/${id}`,
       {
         name,
         introduction,
         avatar,
-        cover,
+        banner,
       },
       config
     );

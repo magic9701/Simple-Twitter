@@ -18,9 +18,10 @@
   .mainMiddle {
     width: 639px;
     flex: 2;
-    border-left: 1px solid#E6ECF0;
-    border-right: 1px solid#E6ECF0;
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
   }
+  
   .Nav {
     flex: 1;
   }
@@ -29,22 +30,9 @@
     margin-right: 130px;
     flex: 2;
   }
-
-  p{
-//     font-family: Montserrat;
-// font-size: 19px;
-// font-weight: 700;
-// line-height: 23px;
-// letter-spacing: 0px;
-// text-align: left;
-
-font-family: Noto Sans TC;
-font-size: 19px;
-font-weight: 500;
-line-height: 28px;
-letter-spacing: 0px;
-text-align: left;
-  }
-  .replyTotal{
-    display: flex;
+  
+  .TweetLine {
+    height: 10px;
+    width: 639px;
+    background-color: #E6ECF0;
   }

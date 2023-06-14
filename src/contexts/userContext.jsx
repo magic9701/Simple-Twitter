@@ -1,78 +1,20 @@
-import { createContext, useContext, useState } from "react";
-// import { followUser, unfollowUser } from "../api/followship";
-// import { likeTweet, unLikeTweet } from "../api/like.js";
+import React from "react";
 
-const UserContext = createContext(null);
-const dummyUser = {
-  id: 1,
-  name: "user125",
-  email: "user125@example.com",
-  account: "user125",
-  introduction: "",
-  avatar: "",
-  cover: "",
-  isAdmin: false,
-  createdAt: "2023-03-20T15:44:34.000Z",
-  updatedAt: "2023-03-20T15:44:34.000Z",
-};
-const dummyArray = [1, 2, 3];
+const UserContext = React.createContext(null);
 
-function useUser() {
-  return useContext(UserContext);
-}
+export const UserProvider = ({ children }) => {
+  const [currentMember, setCurrentMember] = React.useState(null);
 
-function UserProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(dummyUser);
-  const [userFollowings, setUserFollowings] = useState(dummyArray);
-  const [userLikes, setUserLikes] = useState(dummyArray);
-
-  const handleUserUpdate = (data) => {
-    setCurrentUser(data);
+  // 在使用者驗證成功後，設置當前使用者
+  const handleAuthentication = (userData) => {
+    setCurrentMember(userData);
   };
 
-  //   const handleFollow = async (id) => {
-  //     if (userFollowings.includes(id)) {
-  //       await unfollowUser(id);
-  //       const newFollowings = userFollowings.filter(
-  //         (followingId) => followingId !== id
-  //       );
-  //       setUserFollowings(newFollowings);
-  //     } else {
-  //       await followUser(id);
-  //       const newFollowings = [...userFollowings, id];
-  //       setUserFollowings(newFollowings);
-  //     }
-  //   };
-
-  //   const handleLike = async (id) => {
-  //     if (userLikes.includes(id)) {
-  //       await unLikeTweet(id);
-  //       const newLikes = userLikes.filter((tweetId) => tweetId !== id);
-  //       setUserLikes(newLikes);
-  //     } else {
-  //       await likeTweet(id);
-  //       const newLikes = [...userLikes, id];
-  //       setUserLikes(newLikes);
-  //     }
-  //   };
-
   return (
-    <UserContext.Provider
-      value={{
-        currentUser,
-        userFollowings,
-        userLikes,
-        setCurrentUser,
-        setUserFollowings,
-        setUserLikes,
-        // handleFollow,
-        // handleLike,
-        handleUserUpdate,
-      }}
-    >
+    <UserContext.Provider value={{ currentMember, handleAuthentication }}>
       {children}
     </UserContext.Provider>
   );
-}
+};
 
-export { useUser, UserProvider };
+export default UserContext;

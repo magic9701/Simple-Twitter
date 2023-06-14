@@ -1,10 +1,18 @@
 
-  .header{
-    height: 74px;
-font-family: Noto Sans TC;
-font-size: 24px;
-font-weight: 700;
-line-height: 26px;
-letter-spacing: 0px;
-text-align: left;
+.backIcon{
+  height: 14px;
+  width: 17px;
 }
+
+// .header {
+//   position: fixed;
+//   z-index: 1;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   gap: 1rem;
+//   padding: 1rem;
+//   border-inline: 1px solid var(--color-gray-200);
+//   background-color: white;
+//   width: 639px;
+// }

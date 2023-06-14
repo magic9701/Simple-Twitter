@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const baseURL = 'https://pure-falls-11392.herokuapp.com/';
+const authURL = 'https://pure-falls-11392.herokuapp.com/api';
 
-const axiosInstance = axios.create({
-  baseURL,
+const axiosTwitter = axios.create({
+  authURL,
 });
-
-axiosInstance.interceptors.request.use(
+//核對TOKEN
+axiosTwitter.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use(
 // * 追蹤
 export async function followUser(id) {
   try {
-    const res = await axiosInstance.post(`${baseURL}/following`, { id });
+    const res = await axiosTwitter.post(`${authURL}/followships`, { id });
     return res.data;
   } catch (error) {
     console.error('[Follow User failed]: ', error);
@@ -32,9 +32,39 @@ export async function followUser(id) {
 // * 取消追蹤
 export async function unfollowUser(id) {
   try {
-    const res = await axiosInstance.delete(`${baseURL}/following/${id}`);
+    const res = await axiosTwitter.delete(`${authURL}/followships/${id}`);
     return res.data;
   } catch (error) {
     console.error('[Unfollow User failed]: ', error);
+  }
+}
+
+// * 取得追蹤人數 top N 的使用者名單
+export async function getTopUsers() {
+  try {
+    const res = await axiosTwitter.get(`${authURL}/followships?top=n`);
+    return res.data;
+  } catch (error) {
+    console.error('[Get Top Users failed]: ', error);
+  }
+}
+
+// * 取得使用者的追隨者名單
+export async function getUserFollowers(id) {
+  try {
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/followers`);
+    return res.data;
+  } catch (error) {
+    console.error('[Get User Followers failed]: ', error);
+  }
+}
+
+// * 取得使用者的正在追隨名單
+export async function getUserFollowings(id) {
+  try {
+    const res = await axiosTwitter.get(`${authURL}/users/${id}/followings`);
+    return res.data;
+  } catch (error) {
+    console.error('[Get User Followings failed]: ', error);
   }
 }

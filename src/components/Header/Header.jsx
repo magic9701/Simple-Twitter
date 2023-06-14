@@ -1,38 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from "../../assets/icons/back-arrow-icon.svg";
 import styles from "../../styles/Header.module.scss";
-import { getUserTweetsCount } from "../../api/user";
+import { getCurrentUser } from "../../api/user";
 
 const Header = () => {
   const { userId } = useParams();
-  const history = useHistory();
-  const [tweetCount, setTweetCount] = useState(0);
-
+  //   const [tweetCount, setTweetCount] = useState(0);
+  //   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
   useEffect(() => {
-    if (userId) {
-      getUserTweetsCount(userId)
-        .then((count) => {
-          setTweetCount(count);
-        })
-        .catch((error) => {
-          console.error("Failed to get user's tweet count: ", error);
-        });
-    }
-  }, [userId]);
+    const fetchUserData = async () => {
+      try {
+        const user = await getCurrentUser();
+        setUserData(user);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleBack = () => {
-    history.push("/main");
+    Navigate("/main");
   };
 
   return (
     <div>
       <div className={styles.header}>
-        <div className={styles.backIcon} onClick={handleBack}>
+        {/* <div className={styles.backIcon} onClick={handleBack}>
           <BackIcon />
-        </div>
-        <p>{userId ? `使用者主頁 - ${userId}` : "首頁"}</p>
-        {userId && <p className={styles.tweetCount}>{` ${tweetCount}推文`}</p>}
+        </div> */}
+        <p>{userId ? `使用者主頁 - ${userData.name}` : "首頁"}</p>
+        {/* {userData && <p className={styles.tweetCount}>{`${tweetCount}推文`}</p>} */}
       </div>
     </div>
   );

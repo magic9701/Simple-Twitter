@@ -1,58 +1,76 @@
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-  .modal {
-    position: fixed;
-    top: 56px;
-    left: 334px;
-    width: 634px;
-    height: 300px;
-    background-color: #FFFFFF;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-  }
-  .modalHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 57px;
-    border-bottom:1px solid #E6ECF0;
-    .notiFailIcon {
-          width: 15px;
-          height: 15px;
-          position: absolute;
-          left:19.5px;
-          top:20.5px
-      }
-  }
-  .imgTweet{
-    display: flex;
-    padding-left: 24px;
-    padding-top: 16px;
-    padding-right: 24px;
-  }
-  .userImg{
-    left:16.13px;
-    top:181px;
-    img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-  }
-.userTextarea{
-    width: 528px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99; /* 將 z-index 設定為比 modal 小 */
 }
-.buttonContent{
-    font-size: 16px;
-    position: absolute;
-    right:16px;
-    bottom: 16px;
+
+.modal {
+  position: fixed;
+  top: 56px;
+  left: 336px;
+  width: 634px;
+  height: 300px;
+  background-color: #FFFFFF;
+  border-radius:14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+.modalContent {
+  
+
+}
+
+.modalHeader {
+  height: 56px;
+  border-bottom: 1px solid #E6ECF0;
+  .NotiFailIcon{
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      left: 19.5px;
+      top:20.5px;
+  }
+}
+.tweetContainer{
+  display: flex;
+}
+.TweetInput{
+  padding-left: 82px;
+  width: 528px;
+  resize:none;
+
+}
+.avatarContainer {
+  position: absolute;
+  top: 73px;
+  width: 50px;
+  height: 50px; 
+  padding-left: 24px;
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+}
+
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .tweetButton {
+  position: absolute;
+  right:16px;
+  bottom: 16px;
+  
 }

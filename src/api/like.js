@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const baseURL = 'https://pure-falls-11392.herokuapp.com/';
+const authURL = 'https://pure-falls-11392.herokuapp.com/api';
 
-const axiosInstance = axios.create({
-  baseURL,
+const axiosTwitter = axios.create({
+  authURL,
 });
 
-axiosInstance.interceptors.request.use(
+axiosTwitter.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -19,18 +19,18 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-export async function likeTweet(id) {
+export async function likeTweet(tweetId) {
   try {
-    const res = await axiosInstance.post(`${baseURL}/tweets/${id}/like`);
+    const res = await axiosTwitter.post(`${authURL}/tweets/${tweetId}/like`);
     return res.data;
   } catch (error) {
     console.error('[Like Tweet failed]: ', error);
   }
 }
 
-export async function unLikeTweet(id) {
+export async function unLikeTweet(tweetId) {
   try {
-    const res = await axiosInstance.post(`${baseURL}/tweets/${id}/unlike`);
+    const res = await axiosTwitter.post(`${authURL}/tweets/${tweetId}/unlike`);
     return res.data;
   } catch (error) {
     console.error('[Unlike Tweet failed]: ', error);

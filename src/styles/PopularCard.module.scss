@@ -1,0 +1,25 @@
+.popularCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+  
+    img {
+      margin-right: 16px;
+    }
+  
+    .popularCardInfo {
+      display: flex;
+      flex-direction: column;
+      margin: auto 8px;
+  
+      .popularCardUserInfo {
+        font-size: 14px;
+        color: var(--gray-600);
+      }
+    }
+  }
+  .NotActiveButton{
+    height: 40px;
+    width: 100px;
+  }

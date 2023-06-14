@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/TweetInput.module.scss";
 
-export default function InputBlock({
-  label,
+export default function TweetInput({
   placeholder,
   value,
   onChange,
@@ -12,33 +11,18 @@ export default function InputBlock({
 }) {
   const [errorMessage, setErrorMessage] = useState("");
 
-  // 檢查 name 輸入內容是否符合要求，若不符合顯示 errorMessage
-  const checkName = () => {
+  // 檢查輸入內容是否符合要求，若不符合顯示 errorMessage
+  const checkInput = () => {
     if (value.length > maxLength) {
-      setErrorMessage(`姓名不能超过${maxLength}个字符！`);
-    } else {
-      setErrorMessage("");
-    }
-  };
-
-  // 檢查 description 輸入內容是否符合要求
-  const checkDescription = () => {
-    if (value.length > maxLength) {
-      setErrorMessage(`自我介绍不能超过${maxLength}个字符！`);
-    } else if (value.trim() === " ") {
-      setErrorMessage("请输入自我介绍内容！");
+      setErrorMessage(`輸入不可超過${maxLength}個字！`);
     } else {
       setErrorMessage("");
     }
   };
 
   useEffect(() => {
-    if (label === "名稱") {
-      checkName();
-    } else if (label === "自我介紹") {
-      checkDescription();
-    }
-  }, [value, label]);
+    checkInput();
+  }, [value]);
 
   useEffect(() => {
     if (errorMessage !== "") {
@@ -51,9 +35,6 @@ export default function InputBlock({
   return (
     <div>
       <div className={styles.inputBlockContainer}>
-        <label className={styles.inputLabel} htmlFor={label}>
-          {label}
-        </label>
         <textarea
           className={`${styles.inputBlock} ${
             errorMessage !== "" ? styles.danger : ""
@@ -62,7 +43,6 @@ export default function InputBlock({
           placeholder={placeholder || ""}
           value={value || ""}
           onChange={(e) => onChange?.(e.target.value)}
-          id={label}
           style={{ height: textareaHeight }}
         />
       </div>
@@ -78,9 +58,7 @@ export default function InputBlock({
           className={`${styles.rightMessage} ${
             errorMessage !== "" ? styles.danger : ""
           }`}
-        >
-          {value.length}/{maxLength}
-        </div>
+        ></div>
       </div>
     </div>
   );
