@@ -1,0 +1,31 @@
+.logo,
+.title,
+.catContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  margin-top: 100px;
+  img {
+    width: 65px;
+  }
+}
+.title {
+  margin-top: 40px;
+}
+
+.catContainer{
+  margin-top: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  margin-top: 70px;
+  justify-content: center;
+  .buttonOne,
+  .buttonTwo {
+    width: 200px;
+    margin: 0 20px;
+  }
+}
