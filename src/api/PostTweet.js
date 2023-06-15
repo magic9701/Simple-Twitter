@@ -20,3 +20,21 @@ export const postTweet = async (token, description) => {
     console.error("[Get User Data Failed]: ", error);
   }
 };
+
+//取得所有推文
+export const getAllTweets = async (token) => {
+  try {
+    const response = await axios.get(`${authURL}/tweets`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const { data } = response;
+    if (data) {
+      return { data };
+    }
+  } catch (error) {
+    console.error("[Get User Data Failed]: ", error);
+  }
+};
