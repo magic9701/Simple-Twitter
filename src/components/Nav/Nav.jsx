@@ -10,6 +10,8 @@ import { PrimaryButton } from "components/Button/Button.jsx";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import TweetModal from "components/Modal/TweetModal.jsx"
+import { getUserData } from "api/setting.js"
+import { checkUserPermission } from "api/auth.js"
 
 
 //admin navbar選項的內容
@@ -38,6 +40,8 @@ const NavItem = ({ icon: Icon, name, route }) => {
   );
 };
 
+
+
 //Main Navbar
 export function MainNav() {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserAccount'));
@@ -46,6 +50,8 @@ export function MainNav() {
   const [isActiveHome, setIsActiveHome] = useState(location.pathname === "/main");
   const [isActiveUser, setIsActiveUser] = useState(location.pathname === `/user/${currentUser}`);
   const [isActiveSetting, setIsActiveSetting] = useState(location.pathname === "/setting");
+  const [userAvatar, setUserAvatar] = useState('')
+  const [userAccount, setUserAccount] = useState('')
 
   useEffect(() => {
     setCurrentUser(localStorage.getItem('currentUserAccount'));
@@ -58,6 +64,29 @@ export function MainNav() {
     localStorage.removeItem('currentUserAccount');
     navigate('/login');
   };
+
+  //點擊推文按鈕，獲得使用者頭貼
+  const getAvatar = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const id = localStorage.getItem('currentUserId');
+      const Account = localStorage.getItem('currentUserAccount');
+      setUserAccount(Account);
+      if (!token) {
+        navigate('/login');
+      }
+      const result = await checkUserPermission(token);
+      if (result) {
+        const { avatar } = await getUserData(token, id);
+        if (avatar) {
+          setUserAvatar(avatar);
+        }
+      }
+    } catch (error) {
+      console.error('Error occurred while getting avatar:', error);
+    }
+  };
+
   //推文功能
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => {
@@ -70,6 +99,7 @@ export function MainNav() {
   };
   const handleTweetPost= () => {
     openModal();
+    getAvatar();
   };
 
   return (
@@ -116,7 +146,7 @@ export function MainNav() {
       </Link>
 
       <PrimaryButton onClick={handleTweetPost}>推文</PrimaryButton>
-      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen}/>
+      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount}/>
       <div className={styles.logoutContainer}>
         <Link to="/login">
           <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>

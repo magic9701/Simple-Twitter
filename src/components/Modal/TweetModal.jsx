@@ -4,9 +4,7 @@ import styles from "styles/TweetModal.module.scss";
 import notiFailIcon from "assets/icons/noti-fail.svg";
 import { postTweet } from "api/PostTweet";
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from "react-router-dom";
-import { getUserData } from "api/setting.js"
-import { checkUserPermission } from "api/auth.js"
+import { Link } from "react-router-dom";
 import defaultAvatar from "assets/icons/default-avatar.svg"
 
 //icon引入
@@ -14,36 +12,13 @@ import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
 
-const TweetModal = ({ isOpen, onClose, setModalOpen }) => {
-  const navigate = useNavigate()
+const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) => {
   const [description, setDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('')
-  const [userAccount, setUserAccount] = useState('')
+
 
   const handleDescriptionChange = event => {
     setDescription(event.target.value);
   }
-
-useEffect (() => {
-  //取得使用者的頭像
-  const getAvatar = async () => {
-    const token = await localStorage.getItem('token')
-    const id = await localStorage.getItem('currentUserId')
-    const Account = await localStorage.getItem('currentUserAccount')
-    setUserAccount(Account)
-    if (!token) {
-      navigate('/login')
-    }
-    const result = await checkUserPermission(token)
-    if (result) {
-      const { avatar } = await getUserData(token, id)
-      if(avatar) {
-        setUserAvatar(avatar)
-      }
-    }
-  }
-  getAvatar()
-}, [navigate])
 
   //處理送出推文內容
   const handleTweet = async () => {
@@ -125,7 +100,6 @@ useEffect (() => {
           </div>
           <div className={styles.tweetContainer}>
             <div className={styles.avatarContainer}>
-              {/* 待加入連結個人頁面 */}
               <Link to={`/user/${userAccount}`}><img className="cursor-point"
                 src={userAvatar ? userAvatar : defaultAvatar}
                 alt="avatar"
