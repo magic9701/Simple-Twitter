@@ -18,3 +18,33 @@ export const adminGetUserList = async (adminToken) => {
 };
 
 //瀏覽全站的Tweet
+export const adminGetTweet = async (adminToken) => {
+  try {
+    const response = await axios.get(`${authURL}/admin/tweets`, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+    const tweetList = response.data;
+    return { tweetList };
+  } catch (error) {
+    console.error("[Get tweet List Failed]: ", error);
+  }
+};
+
+//刪除使用者貼文
+export const adminDeleteTweet = async (adminToken, id) => {
+  try {
+    const response = await axios.delete(`${authURL}/admin/tweets/${id}`, {
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    });
+    if (response) {
+      console.log(response);
+      return { success: "success" };
+    }
+  } catch (error) {
+    console.error("[Get tweet List Failed]: ", error);
+  }
+};
