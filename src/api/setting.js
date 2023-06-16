@@ -2,7 +2,7 @@ import axios from "axios";
 
 const authURL = "https://pure-falls-11392.herokuapp.com/api";
 
-//取得使用者資料
+//取得使用者資料by id
 export const getUserData = async (token, id) => {
   try {
     const response = await axios.get(`${authURL}/users/${id}`, {
@@ -13,6 +13,20 @@ export const getUserData = async (token, id) => {
     return response.data;
   } catch (error) {
     console.error("[Get User Data Failed]: ", error);
+  }
+};
+
+//取得使用者資料by account
+export const getUserDataByAccount = async (token, account) => {
+  try {
+    const response = await axios.get(`${authURL}/users/${account}/users`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("[Get User Data by Account Failed]: ", error);
   }
 };
 

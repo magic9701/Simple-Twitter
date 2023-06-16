@@ -1,0 +1,94 @@
+//整個頁面的架構
+.pageContainer {
+  display: flex;
+  
+  .navContainer {
+    width: 202px;
+  }
+  .MiddlePartContainer{
+    width: 639px;
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
+  }
+  .popularContainer {
+    width: 261px;
+  }
+}
+
+//內容
+//header
+.headerContainer {
+  display: flex;
+  align-items: center;
+  height: 74px;
+  width: 100%;
+  border-bottom: 1px solid #E6ECF0;
+  .backArrow {
+    margin: 0 19px 0 28px;
+    width: 17px;
+  }
+  .pathUserName {
+    margin-top: 2px;
+  }
+  .pathUserTweetCount{
+    margin-top: 3px;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--secondary-color)
+  }
+}
+
+//header下方
+.postPanel {
+  border-bottom: 10px solid #E6ECF0;
+}
+.controlPanel {
+  height: 53px;
+  border-bottom: 1px solid #E6ECF0;
+  display: flex;
+}
+
+.tweetContainer {
+  overflow-y: auto;
+  max-height: calc(100vh - 74px);
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.tweetContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tweetContainer::-webkit-scrollbar-track {
+  background-color: #FAFAFA;
+  border-radius: 4px;
+}
+
+.tweetContainer::-webkit-scrollbar-thumb {
+  background-color: #C1C1C1;
+  border-radius: 4px;
+}
+
+.tweetContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #acacac;
+}
+
+
+//followePage
+.follower,
+.following {
+  display: flex;
+  width: 130px;
+  height: 52px;
+  font-weight: 700;
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  color: #657786;
+}
+
+.isActive {
+  color: var(--active-color);
+  border-bottom: 2px solid var(--active-color);
+}

@@ -3,7 +3,7 @@ import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
 import defaultAvatar from "assets/icons/default-avatar.svg"
 import { Link } from "react-router-dom";
 import { UserContext } from "contexts/UserContext.jsx"
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 
 
