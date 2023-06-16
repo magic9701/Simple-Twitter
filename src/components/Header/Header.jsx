@@ -1,41 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as BackIcon } from "../../assets/icons/back-arrow-icon.svg";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "../../styles/Header.module.scss";
-import { getCurrentUser } from "../../api/user";
 
-const Header = () => {
-  const { userId } = useParams();
-  //   const [tweetCount, setTweetCount] = useState(0);
-  //   const navigate = useNavigate();
+const authURL = "https://pure-falls-11392.herokuapp.com/api";
+
+const axiosTwitter = axios.create({
+  baseURL: authURL,
+});
+
+const Header = ({ name }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [userData, setUserData] = useState(null);
+  const [tweetCount, setTweetCount] = useState(null);
+
+  const handleBackClick = () => {
+    navigate("/main");
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = await getCurrentUser();
-        setUserData(user);
+        const account = localStorage.getItem("currentAccount");
+        const response = await axiosTwitter.get(`/users/${account}/users`);
+        const { name, tweetCount } = response.data;
+        setUserData({ name, tweetCount });
+        setTweetCount(tweetCount);
       } catch (error) {
-        console.error("Failed to fetch user data:", error);
+        console.error("[Get User Data failed]: ", error);
       }
     };
 
     fetchUserData();
   }, []);
 
-  const handleBack = () => {
-    Navigate("/main");
-  };
-
   return (
-    <div>
-      <div className={styles.header}>
-        {/* <div className={styles.backIcon} onClick={handleBack}>
-          <BackIcon />
-        </div> */}
-        <p>{userId ? `使用者主頁 - ${userData.name}` : "首頁"}</p>
-        {/* {userData && <p className={styles.tweetCount}>{`${tweetCount}推文`}</p>} */}
-      </div>
-    </div>
+    <header>
+      {location.pathname !== "/main" && (
+        <div className={styles.headerContainer} onClick={handleBackClick}>
+          <div className={styles.backIcon}>
+            <BackIcon />
+          </div>
+          <div className={styles.userData}>
+            <p className={styles.name}>{name}</p>
+            <p className={styles.tweetCount}>25推文</p>
+          </div>
+        </div>
+      )}
+
+      {location.pathname === "/main" && userData}
+    </header>
   );
 };
 

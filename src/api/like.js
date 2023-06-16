@@ -5,7 +5,7 @@ const authURL = 'https://pure-falls-11392.herokuapp.com/api';
 const axiosTwitter = axios.create({
   authURL,
 });
-
+//核對TOKEN
 axiosTwitter.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -18,7 +18,7 @@ axiosTwitter.interceptors.request.use(
     console.error(error);
   }
 );
-
+//推文點擊喜歡
 export async function likeTweet(tweetId) {
   try {
     const res = await axiosTwitter.post(`${authURL}/tweets/${tweetId}/like`);
@@ -27,7 +27,7 @@ export async function likeTweet(tweetId) {
     console.error('[Like Tweet failed]: ', error);
   }
 }
-
+//推文取消喜歡
 export async function unLikeTweet(tweetId) {
   try {
     const res = await axiosTwitter.post(`${authURL}/tweets/${tweetId}/unlike`);

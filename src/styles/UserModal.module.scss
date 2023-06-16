@@ -10,8 +10,8 @@
 
 .modal {
   position: fixed;
-  top: 56px;
-  left: 334px;
+  top:56px;
+  left:600px;
   width: 634px;
   height: 610px;
   background-color: #FFFFFF;
@@ -26,7 +26,6 @@
   justify-content: space-between;
   height: 57px;
 }
-
 .notiFailIcon {
   svg {
     width: 15px;
@@ -36,7 +35,6 @@
     top:20.5px
   }
 }
-
 .changeUserInfo {
   //styleName: heading/h5;
 font-family: Noto Sans TC;
@@ -54,22 +52,24 @@ top:15px;
     right:16px;
     top:8px;     
 }
-
 .backGroundImg {
   margin-bottom: 16px;
-  
+  width: 634px;
+  height: 200px;
 
   img {
-    width: 639px;
+    width: 634px;
     height: 200px;
     border-radius: 4px;
   }
 }
-
 .userImg {
   position: absolute;
   left:16.13px;
-  top:181px;
+  top: 181px;
+  width: 141px;
+    height: 140px;
+    z-index: 1;
   img {
     width: 141px;
     height: 140px;
@@ -81,7 +81,26 @@ top:15px;
 .UserInputLabel {
 padding-left: 16px;
 position: absolute;
-bottom: 40px;
+top:337px;
 width: 602px;
 }
-  
+.userName{
+height: 54px;
+}
+.userIntroduction{
+
+}
+.fileInputLabel {
+  display: none;
+}
+.userImg label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .fileInputLabel {
+    display: none;
+  }
+}

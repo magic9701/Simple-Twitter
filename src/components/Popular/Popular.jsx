@@ -1,6 +1,8 @@
 import styles from "styles/Popular.module.scss";
 import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getTopUsers } from "../../api/follow.js";
+
 const dummyData = {
   user1: {
     avatar: null,
@@ -93,6 +95,20 @@ function SuggestedFollow({ avatar, userName, userId }) {
 }
 
 export default function Popular() {
+  const [topUsers, setTopUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchTopUsers = async () => {
+      try {
+        const usersData = await getTopUsers();
+        const processedData = Array.isArray(usersData) ? usersData : [];
+        setTopUsers(processedData);
+      } catch (error) {
+        console.error("獲取推薦跟隨失敗：", error);
+      }
+    };
+    fetchTopUsers();
+  }, []);
   return (
     <div className={styles.popularContainer}>
       <div className={styles.header}>
@@ -100,7 +116,7 @@ export default function Popular() {
       </div>
       <div className={styles.suggestedFollowContainer}>
         <div className={styles.suggestedFollowContainer}>
-          {Object.values(dummyData).map((user, index) => (
+          {topUsers.map((user, index) => (
             <SuggestedFollow
               key={index}
               userName={user.userName}

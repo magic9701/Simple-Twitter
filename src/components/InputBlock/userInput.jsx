@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "../../styles/UserInput.module.scss";
 
-export default function InputBlock({
+export default function UserInput({
   label,
   placeholder,
   value,
@@ -11,11 +11,10 @@ export default function InputBlock({
   textareaHeight,
 }) {
   const [errorMessage, setErrorMessage] = useState("");
-
   // 檢查 name 輸入內容是否符合要求，若不符合顯示 errorMessage
   const checkName = () => {
-    if (value.length > maxLength) {
-      setErrorMessage(`姓名不能超过${maxLength}个字符！`);
+    if (value && value.length > maxLength) {
+      setErrorMessage(`姓名不能超過 ${maxLength} 個字元！`);
     } else {
       setErrorMessage("");
     }
@@ -23,15 +22,14 @@ export default function InputBlock({
 
   // 檢查 description 輸入內容是否符合要求
   const checkDescription = () => {
-    if (value.length > maxLength) {
-      setErrorMessage(`自我介绍不能超过${maxLength}个字符！`);
-    } else if (value.trim() === " ") {
-      setErrorMessage("请输入自我介绍内容！");
+    if (value && value.length > maxLength) {
+      setErrorMessage(`自我介紹不能超過 ${maxLength} 個字元！`);
+    } else if (!value || value.trim() === "") {
+      setErrorMessage("請輸入自我介紹內容！");
     } else {
       setErrorMessage("");
     }
   };
-
   useEffect(() => {
     if (label === "名稱") {
       checkName();
@@ -41,11 +39,7 @@ export default function InputBlock({
   }, [value, label]);
 
   useEffect(() => {
-    if (errorMessage !== "") {
-      setIsError(true);
-    } else {
-      setIsError(false);
-    }
+    setIsError(errorMessage !== "");
   }, [errorMessage]);
 
   return (
@@ -59,8 +53,8 @@ export default function InputBlock({
             errorMessage !== "" ? styles.danger : ""
           }`}
           type="text"
-          placeholder={placeholder || ""}
-          value={value || ""}
+          placeholder={placeholder}
+          value={value}
           onChange={(e) => onChange?.(e.target.value)}
           id={label}
           style={{ height: textareaHeight }}
@@ -79,7 +73,7 @@ export default function InputBlock({
             errorMessage !== "" ? styles.danger : ""
           }`}
         >
-          {value.length}/{maxLength}
+          {value ? `${value.length}/${maxLength}` : ""}
         </div>
       </div>
     </div>

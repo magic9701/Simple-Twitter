@@ -20,6 +20,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="" element={<LoginPage />} />
           <Route path="admin" element={<AdminPage />} />
           <Route path="admin/adminMain" element={<AdminMainPage />} />
           <Route path="admin/adminUser" element={<AdminUserPage />} />
@@ -41,7 +42,6 @@ function App() {
           <Route path="user/:userAccount/post/:postId" element={<PostPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-        `
       </BrowserRouter>
     </div>
   );

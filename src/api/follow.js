@@ -38,7 +38,6 @@ export async function unfollowUser(id) {
     console.error('[Unfollow User failed]: ', error);
   }
 }
-
 // * 取得追蹤人數 top N 的使用者名單
 export async function getTopUsers() {
   try {
@@ -46,25 +45,5 @@ export async function getTopUsers() {
     return res.data;
   } catch (error) {
     console.error('[Get Top Users failed]: ', error);
-  }
-}
-
-// * 取得使用者的追隨者名單
-export async function getUserFollowers(id) {
-  try {
-    const res = await axiosTwitter.get(`${authURL}/users/${id}/followers`);
-    return res.data;
-  } catch (error) {
-    console.error('[Get User Followers failed]: ', error);
-  }
-}
-
-// * 取得使用者的正在追隨名單
-export async function getUserFollowings(id) {
-  try {
-    const res = await axiosTwitter.get(`${authURL}/users/${id}/followings`);
-    return res.data;
-  } catch (error) {
-    console.error('[Get User Followings failed]: ', error);
   }
 }

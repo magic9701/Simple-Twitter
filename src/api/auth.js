@@ -69,6 +69,7 @@ export const checkUserPermission = async (token) => {
     return response;
   } catch (error) {
     console.error("[Check Permission Failed]:", error);
+    return false;
   }
 };
 

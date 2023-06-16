@@ -1,24 +1,29 @@
-.userTable{
-    display: flex;
-    justify-content: start;
-    border-bottom:1px solid #E6ECF0;
-    color: var(--color-secondary);
-    font-weight: 700;
-    }
-    .category {
-      width: 7em;
-      display: grid;
-      place-items: center;
-      border-bottom: 3px solid white;
-      line-height: 3em;
+.userTable {
+  display: flex;
+  width: 639px;
+  height: 60px;
+  border-bottom: 1px solid #E6ECF0;
   
-      :hover {
-        background-color: var(--color-gray-100);
-        border-bottom: 3px solid var(--color-gray-100);
-      }
-  
-      &.active {
-        border-bottom: 3px solid var(--color-theme);
-        color: var(--color-theme);
-      }
-    }
+}
+
+.tweet,
+.replies,
+.likes {
+  flex: 1;
+  width: 100px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Sans TC";
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0;
+  text-align: center;
+
+  &.activeIcon {
+    color: orange; /* 设置文本颜色为橙色 */
+    text-decoration: underline; /* 添加下划线 */
+  }
+}

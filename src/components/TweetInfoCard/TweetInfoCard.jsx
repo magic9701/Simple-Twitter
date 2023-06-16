@@ -51,18 +51,14 @@ export function ReplyInfoCard() {
           <h6 className={styles.userId}>@apple・3 小時</h6>
         </div>
         {/* 內容 */}
-        <div className={styles.tweetContent}>
-          Nulla Lorem mollit cupidatat irure. Laborum magna nulla duis ullamco
-          cillum dolor. Voluptate exercitation incididunt aliquip deserunt
-          reprehenderit elit laborum.
-        </div>
+        <div className={styles.tweetContent}>des</div>
         {/* 回覆及愛心 */}
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
             <NavLink to={`/post`}>
               <ReplyIcon className={styles.replyIcon} />
             </NavLink>
-            <h6 className={styles.replyCount}>1</h6>
+            <h6 className={styles.replyCount}>{}</h6>
           </div>
           <div className={styles.likeContainer}>
             <LikeIcon className={styles.likeIcon} onClick={handleLikeIcon} />

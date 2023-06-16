@@ -1,18 +1,43 @@
-
-.backIcon{
-  height: 14px;
-  width: 17px;
+.headerContainer{
+  display: flex;
+height: 24px;
+width: 90px;
+padding-left: 16px;
+padding-top: 0px;
+border-radius: nullpx;
+//styleName: heading/h5;
 }
+.backIcon{
+  padding-top: 30px;
+}
+.userData{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+  padding-left:19px;
+  height: 24px;
+  width: 90px;
+}
+.name{
+//styleName: heading/h5;
+font-family: Noto Sans TC;
+font-size: 18px;
+font-weight: 700;
+line-height: 26px;
+letter-spacing: 0px;
+text-align: left;
+width: 90px;
+height: 24px;
 
-// .header {
-//   position: fixed;
-//   z-index: 1;
-//   width: 100%;
-//   display: flex;
-//   align-items: center;
-//   gap: 1rem;
-//   padding: 1rem;
-//   border-inline: 1px solid var(--color-gray-200);
-//   background-color: white;
-//   width: 639px;
-// }
+}  
+.tweetCount{
+  font-family: Noto Sans TC;
+font-size: 13px;
+font-weight: 500;
+line-height: 19px;
+letter-spacing: 0px;
+text-align: left;
+width: 90px;
+height: 19px;
+}

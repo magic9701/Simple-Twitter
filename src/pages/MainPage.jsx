@@ -16,9 +16,7 @@ const MainPage = () => {
           <MainNav />
         </div>
         <div className={styles.mainMiddle}>
-          <div className={styles.Header}>
-            <Header />
-          </div>
+          <div className={styles.Header}>首頁</div>
           <div className={styles.Tweetinput}>
             <div className={styles.tweetInput}>
               <MainTweet />

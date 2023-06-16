@@ -1,0 +1,69 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99; /* 將 z-index 設定為比 modal 小 */
+  }
+  
+  .modal {
+    position: absolute;
+    top: 56px;
+    left: 200px;
+    width: 634px;
+    height: 500px;
+    background-color: #FFFFFF;
+    border-radius:14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+  }
+  
+  .modalHeader {
+    height: 56px;
+    .NotiFailIcon{
+        height: 15px;
+        width: 15px;
+        position: absolute;
+        left: 19.5px;
+        top:20.5px;
+    }
+  }
+  .tweetContainer {
+    display: flex;}
+  
+    .tweetContent {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        align-items: center;
+        justify-content: center;
+      }  
+      .inputContainer{
+        display: flex;
+
+      }
+    
+  .avatarContainer {
+    padding-right: 24px;
+    width: 50px;
+    height: 50px; 
+    padding-left: 24px;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+    .tweetButton {
+    position: absolute;
+    right:16px;
+    bottom: 16px;
+    
+  }
+  .textarea{
+    width: 80%;
+    resize: none;
+    padding-left: 35px;
+    padding-top: 10px;
+  }
