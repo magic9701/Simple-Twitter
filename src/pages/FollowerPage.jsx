@@ -88,6 +88,11 @@ export default function FollowerPage() {
   const handelClickfollowing = () => {
     setIsFollowerActive(false);
   };
+
+  //回到上一頁
+  const handleBack = () => {
+    navigate(-1)
+  }
   
   return(
     <div className="container mx-auto">
@@ -98,7 +103,7 @@ export default function FollowerPage() {
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>
             {/* header */}
-            <div className='cursor-point'>
+            <div className='cursor-point' onClick={handleBack}>
               <img className={styles.backArrow} src={arrow} alt="back-arrow" />
             </div>
             <div className={styles.userInformation}>
