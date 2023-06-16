@@ -10,7 +10,7 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
-export default function TweetPanel ({userAvatar}) {
+export default function TweetPanel ({userAvatar, setNeedRerender}) {
   const userAccount = localStorage.getItem('currentUserAccount');
   const [description, setDescription] = useState('');
   const navigate = useNavigate();
@@ -65,6 +65,7 @@ export default function TweetPanel ({userAvatar}) {
         }
       })
       setDescription("")
+      setNeedRerender(true)
     }if (!success) {
       //顯示推文失敗
       Swal.fire({
