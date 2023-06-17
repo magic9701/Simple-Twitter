@@ -29,7 +29,10 @@ function App() {
               <Route path="setting" element={<SettingPage />} />
               <Route path="main" element={<MainPage />} />
               <Route path="user/:userAccount" element={<UserPage />} />
+              <Route path="user/:userAccount/replies" element={<UserPage />} />
+              <Route path="user/:userAccount/likes" element={<UserPage />} />
               <Route path="user/:userAccount/follower" element={<FollowerPage />} />
+              <Route path="user/:userAccount/following" element={<FollowerPage />} />
               <Route path="user/:userAccount/post/:postId" element={<PostPage />} />
               <Route path="*" element={<ErrorPage />} />
               <Route path="error" element={<ErrorPage />} />
