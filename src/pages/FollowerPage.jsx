@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 //scss
 import styles from "styles/MainPage.module.scss"
@@ -19,6 +19,7 @@ import arrow from "assets/icons/back-arrow-icon.svg"
 
 export default function FollowerPage() {
     const navigate = useNavigate()
+    const location = useLocation();
     const [ topTenUsers, setTopTenUsers ] = useState(null)
     const { userAccount } = useParams();
     const [ pathUserName, setPathUserName] = useState(null)
@@ -33,7 +34,13 @@ export default function FollowerPage() {
   useEffect (() => {
     //驗證使用者有有效token，若沒有，轉跳回login
     const getPopular = async () => {
+      if(location.pathname.includes("follower")) {
+        setIsFollowerActive(true)
+      }else {
+        setIsFollowerActive(false)
+      }
       const token = localStorage.getItem('token')
+
       if (!token) {
         navigate('/login')
       }
@@ -83,10 +90,10 @@ export default function FollowerPage() {
 
   //選項變色功能
   const handelClickfllower = () => {
-    setIsFollowerActive(true);
+    navigate(`/user/${userAccount}/follower`)
   };
   const handelClickfollowing = () => {
-    setIsFollowerActive(false);
+    navigate(`/user/${userAccount}/following`)
   };
 
   //回到上一頁
