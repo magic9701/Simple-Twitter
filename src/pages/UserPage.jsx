@@ -1,7 +1,8 @@
 import styles from "styles/MainPage.module.scss"
 import { useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { UserContext } from "contexts/UserContext.jsx"
 
 //svg
 import arrow from "assets/icons/back-arrow-icon.svg"
@@ -35,8 +36,10 @@ export default function UserPage() {
   const [ tweetList, setTweetList ] = useState(null)
   const [ replyList, setReplyList ] = useState(null)
   const [ likeList, setLikeList ] = useState(null)
+  const [ isfollow, setisfollow ] = useState(null)
   const [ needRerender, setNeedRerender] = useState(false)
   const [ isPageActive, setIsPageActive] = useState(null)
+  const { follow, unfollow } = useContext(UserContext)
 
   //先call API 確認使用者輸入的帳號是否存在
   useEffect(() => {
@@ -63,11 +66,14 @@ export default function UserPage() {
         if (users) {
           //call API取得前10名追蹤，放入popular
           setTopTenUsers(users)
+          //確認網址輸入的帳號是否存在，是使用者自己的帳號或是他人的帳號，渲染不同內容
           if (data && currentUserAccount === data.account) {
+            setisfollow(!data.isCurrentUserFollowed)
             setUserData(data)
             setUserId(data.id)
             setIsSelf(true)
           } else if (data && currentUserAccount !== data.account){
+            setisfollow(!data.isCurrentUserFollowed)
             setUserData(data)
             setUserId(data.id)
             setIsSelf(false)
@@ -118,6 +124,23 @@ export default function UserPage() {
   const handleBack = () => {
     navigate(-1)
   }
+
+  //追蹤功能
+  const handleFollowClick = () => {
+    follow(userId)
+    setisfollow(false)
+  };
+
+  const handleUnfollowClick = () => {
+    unfollow(userId)
+    setisfollow(true)
+  };
+
+
+  //撰寫回文
+  // const handleReply = () => {
+
+  // }
   
 
   return(
@@ -189,7 +212,19 @@ export default function UserPage() {
                   <img className={`${styles.messageIcon} cursor-point`} src={messageIcon} alt="messageIcon" />
                   <img className={`${styles.notiIcon} cursor-point`} src={notiIcon} alt="notiIcon" />
                   <div className={`${styles.buttonContainer} cursor-point`}>
-                    <SecondaryButton>正在跟隨</SecondaryButton>
+                    {isfollow ? (
+                      <div className={styles.notActiveButtonContainer}>
+                        <NotActiveButton onClick={handleFollowClick}>
+                          跟隨
+                        </NotActiveButton>
+                      </div>
+                    ) : (
+                      <div className={styles.secondaryButtonContainer}>
+                        <SecondaryButton onClick={handleUnfollowClick}>
+                          正在跟隨
+                        </SecondaryButton>
+                      </div>
+                    )}
                   </div>
                 </div>
               }
