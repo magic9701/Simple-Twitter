@@ -11,7 +11,7 @@ function SuggestedFollow({user}) {
   const { id, avatar, account, name, isFollowed } = user
   const { follow, unfollow } = useContext(UserContext)
   const [ isfollow, setisfollow ] = useState(!isFollowed)
-  
+  const currentUserId = localStorage.getItem('currentUserId')
 
 
   const handleFollowClick = () => {
@@ -43,21 +43,23 @@ function SuggestedFollow({user}) {
           @{name}
         </h6>
       </div>
-      <div className={styles.buttonContainer}>
-        {isfollow ? (
-          <div className={styles.notActiveButtonContainer}>
-            <NotActiveButton onClick={handleFollowClick} id={id}>
-              跟隨
-            </NotActiveButton>
-          </div>
-        ) : (
-          <div className={styles.secondaryButtonContainer}>
-            <SecondaryButton onClick={handleUnfollowClick} id={id}>
-              正在跟隨
-            </SecondaryButton>
-          </div>
-        )}
-      </div>
+      { currentUserId !== id.toString() &&
+        <div className={styles.buttonContainer}>
+          {isfollow ? (
+            <div className={styles.notActiveButtonContainer}>
+              <NotActiveButton onClick={handleFollowClick} id={id}>
+                跟隨
+              </NotActiveButton>
+            </div>
+          ) : (
+            <div className={styles.secondaryButtonContainer}>
+              <SecondaryButton onClick={handleUnfollowClick} id={id}>
+                正在跟隨
+              </SecondaryButton>
+            </div>
+          )}
+        </div>
+      }  
     </div>
   );
 }
