@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
+import styles from "styles/TweetPanel.module.scss"
+import { useState } from "react";
 import { SecondaryButton } from "components/Button/Button.jsx";
-import styles from "styles/TweetModal.module.scss";
-import notiFailIcon from "assets/icons/noti-fail.svg";
 import { postTweet } from "api/PostTweet";
 import Swal from 'sweetalert2';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import defaultAvatar from "assets/icons/default-avatar.svg"
 
 //icon引入
 import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
-
-const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) => {
+export default function TweetPanel ({userAvatar, setNeedRerender}) {
+  const userAccount = localStorage.getItem('currentUserAccount');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
-
+  //輸入內容
   const handleDescriptionChange = event => {
     setDescription(event.target.value);
   }
@@ -64,7 +64,8 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
           popup: styles['my-custom-popup'],
         }
       })
-      setModalOpen(false)
+      setDescription("")
+      setNeedRerender(true)
     }if (!success) {
       //顯示推文失敗
       Swal.fire({
@@ -86,18 +87,8 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
     }
   };
 
-  if (!isOpen) {
-    return null;
-  }
-
-  return (
-      <div className={styles.modalOverlay} onClick={onClose} >
-        <div className={styles.modal}>
-          <div className={styles.modalHeader}>
-            <div className={`${styles.IconContainer} cursor-point`} onClick={onClose}>
-              <img className={styles.NotiFailIcon} onClick={onClose} src={notiFailIcon} alt="close"/>
-            </div>
-          </div>
+  return(
+        <div className={styles.panelContainer}>
           <div className={styles.tweetContainer}>
             <div className={styles.avatarContainer}>
               <Link to={`/user/${userAccount}`}><img className="cursor-point"
@@ -120,8 +111,5 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
             <SecondaryButton  onClick={handleTweet}>推文</SecondaryButton>
           </div>
         </div>
-      </div>
-  );
-};
-
-export default TweetModal;
+  )
+}

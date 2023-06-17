@@ -27,11 +27,11 @@ export default function AdminTweetCard( {tweetInfo} ) {
     timeAgo = `${secondsDiff} 秒前`;
   } else if (secondsDiff < 3600) {
     const minutesDiff = Math.floor(secondsDiff / 60);
-    timeAgo = `${minutesDiff} 分钟前`;
+    timeAgo = `${minutesDiff} 分鐘前`;
   } else if (hoursDiff >= 24) {
     timeAgo = `${Math.floor(hoursDiff / 24)} 天前`;
   } else {
-    timeAgo = `${hoursDiff} 小时前`;
+    timeAgo = `${hoursDiff} 小時前`;
   }
 
   //刪除功能
