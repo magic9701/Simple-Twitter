@@ -19,7 +19,7 @@ import { SecondaryButton, NotActiveButton } from "components/Button/Button";
 
 //api
 import { getTopTenUser } from 'api/followship';
-import { getUserDataByAccount } from "api/setting.js"
+import { getUserDataByAccount, getUserData } from "api/setting.js"
 import { checkUserPermission } from "api/auth.js"
 import { getUserTweets, getUserReply ,getUserLike } from "api/PostTweet"
 
@@ -37,6 +37,7 @@ export default function UserPage() {
   const [ replyList, setReplyList ] = useState(null)
   const [ likeList, setLikeList ] = useState(null)
   const [ isfollow, setisfollow ] = useState(null)
+  const [ userAvatar, setUserAvatar ] = useState('')
   const [ needRerender, setNeedRerender] = useState(false)
   const [ isPageActive, setIsPageActive] = useState(null)
   const { follow, unfollow } = useContext(UserContext)
@@ -60,12 +61,15 @@ export default function UserPage() {
       if (!result) {
         navigate('/login');
       } else {
+        const id = localStorage.getItem('currentUserId')
         const { users } = await getTopTenUser(token)
+        const { avatar } = await getUserData(token, id)
         const data = await getUserDataByAccount(token, userAccount)
         const currentUserAccount = localStorage.getItem('currentUserAccount')
         if (users) {
           //call API取得前10名追蹤，放入popular
           setTopTenUsers(users)
+          setUserAvatar(avatar)
           //確認網址輸入的帳號是否存在，是使用者自己的帳號或是他人的帳號，渲染不同內容
           if (data && currentUserAccount === data.account) {
             setisfollow(!data.isCurrentUserFollowed)
@@ -88,37 +92,22 @@ export default function UserPage() {
   }, [navigate]);
 
   useEffect(() => {
-    const getTweets = async () => {
+    const fetchData = async () => {
       const token = localStorage.getItem('token');
-      const { data } = await getUserTweets(token, userData.id)
-      setTweetList(data)
-    }
-    if(userData) {
-      getTweets()
-    }
-  }, [userId])
+      const tweetData = await getUserTweets(token, userData.id);
+      const likeData = await getUserLike(token, userData.id);
+      const replyData = await getUserReply(token, userData.id);
 
-  useEffect(() => {
-    const getLikeTweets = async () => {
-      const token = localStorage.getItem('token');
-      const { data } = await getUserLike(token, userData.id)
-      setLikeList(data.reverse())
+      setTweetList(tweetData.data);
+      setLikeList(likeData.data.reverse());
+      setReplyList(replyData.data);
+      
+      setNeedRerender(false)
+    };
+    if (userData) {
+      fetchData();
     }
-    if(userData) {
-      getLikeTweets()
-    }
-  }, [userId])
-
-  useEffect(() => {
-    const getReplyTweets = async () => {
-      const token = localStorage.getItem('token');
-      const { data } = await getUserReply(token, userData.id)
-      setReplyList(data)
-    }
-    if(userData) {
-      getReplyTweets()
-    }
-  }, [userId])
+  }, [userId, needRerender]);
 
   //回到上一頁
   const handleBack = () => {
@@ -135,12 +124,6 @@ export default function UserPage() {
     unfollow(userId)
     setisfollow(true)
   };
-
-
-  //撰寫回文
-  // const handleReply = () => {
-
-  // }
   
 
   return(
@@ -251,15 +234,15 @@ export default function UserPage() {
           <div className={styles.userPageTweetContainer}>
             {tweetList && isPageActive === "tweets" &&
               tweetList.map((tweet) => (
-                <TweetInfoCard key={tweet.id} tweet={tweet} />
+                <TweetInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
               ))}
             {likeList && isPageActive === "likes" &&
               likeList.map((tweet) => (
-                <LikeTweetInfoCard key={tweet.id} tweet={tweet} />
+                <LikeTweetInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
               ))}
             {replyList && isPageActive === "replies" &&
               replyList.map((tweet) => (
-                <ReplyInfoCard key={tweet.id} tweet={tweet} />
+                <ReplyInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} />
               ))}
           </div>
         </div>

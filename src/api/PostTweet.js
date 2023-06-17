@@ -17,7 +17,30 @@ export const postTweet = async (token, description) => {
       return { success: true };
     }
   } catch (error) {
-    console.error("[Post Failed]: ", error);
+    console.error("[Post Tweet Failed]: ", error);
+  }
+};
+
+//新增回覆
+export const postReply = async (token, comment, tweetId) => {
+  try {
+    const bodyData = {
+      comment: comment,
+    };
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/replies`,
+      bodyData,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("[Post Reply Failed]: ", error);
   }
 };
 

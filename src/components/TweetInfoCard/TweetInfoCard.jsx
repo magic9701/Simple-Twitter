@@ -7,6 +7,7 @@ import styles from "styles/TweetInfoCard.module.scss"
 
 //components
 import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
+import ReplyModal from "components/Modal/ReplyModal.jsx"
 
 //ICON
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
@@ -17,7 +18,9 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 //回覆推文的內容框框
 export function ReplyInfoCard({tweet}) {
   const { account, avatar, name} = tweet.User
-  const { createdAt, description, userId } = tweet.Tweet
+  const { createdAt } = tweet.Tweet
+  const { comment } = tweet
+  const postUser = tweet.Tweet.User.account
   
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
@@ -58,11 +61,11 @@ export function ReplyInfoCard({tweet}) {
         {/* 回覆 */}
         <div className={styles.replyBy}>
           <h6 className={styles.reply}>回覆</h6>
-          <h6 className={styles.replyUserId}>@{userId}</h6>
+          <h6 className={styles.replyUserId}>@{postUser}</h6>
         </div>
         {/* 內容 */}
         <div className={styles.botInfo}>
-          {description}
+          {comment}
         </div>
       </div>
     </div>
@@ -70,9 +73,10 @@ export function ReplyInfoCard({tweet}) {
 }
 
 //mainPage userPage所有貼文
-export function TweetInfoCard( {tweet} ) {
+export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const { createdAt, description, likeCount, replyCount } = tweet
   const { account, avatar, name} = tweet.User
+  const userAccount = localStorage.getItem('currentUserAccount')
   
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
@@ -92,6 +96,20 @@ export function TweetInfoCard( {tweet} ) {
   } else {
     timeAgo = `${hoursDiff} 小時前`;
   }
+
+  //回文modal功能
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = (event) => {
+    if (event.target === event.currentTarget) {
+      setModalOpen(false);
+    }
+  };
+  const handleReply = () => {
+    openModal();
+  };
 
   return (
     <div className={styles.tweetCardContainer}>
@@ -115,7 +133,8 @@ export function TweetInfoCard( {tweet} ) {
         {/* 回覆及愛心 */}
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
-            <ReplyIcon className={styles.replyIcon}/>
+            <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
+            <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
@@ -129,10 +148,11 @@ export function TweetInfoCard( {tweet} ) {
 }
 
 //User喜歡的貼文
-export function LikeTweetInfoCard( {tweet} ) {
+export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const { likeCount, replyCount } = tweet
   const { account, avatar, name} = tweet.User
   const { createdAt, description } = tweet.Tweet
+  const userAccount = localStorage.getItem('currentUserAccount')
   
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
@@ -152,6 +172,20 @@ export function LikeTweetInfoCard( {tweet} ) {
   } else {
     timeAgo = `${hoursDiff} 小時前`;
   }
+
+  //回文modal功能
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = (event) => {
+    if (event.target === event.currentTarget) {
+      setModalOpen(false);
+    }
+  };
+  const handleReply = () => {
+    openModal();
+  };
 
   return (
     <div className={styles.tweetCardContainer}>
@@ -175,7 +209,8 @@ export function LikeTweetInfoCard( {tweet} ) {
         {/* 回覆及愛心 */}
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
-            <ReplyIcon className={styles.replyIcon}/>
+            <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
+            <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>

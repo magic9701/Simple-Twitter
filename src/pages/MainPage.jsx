@@ -84,7 +84,7 @@ export default function MainPage() {
           <div className={styles.tweetContainer}>
             {tweetsList &&
               tweetsList.map((tweet) => (
-                <TweetInfoCard key={tweet.id} tweet={tweet} />
+                <TweetInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
               ))}
           </div>
         </div>
