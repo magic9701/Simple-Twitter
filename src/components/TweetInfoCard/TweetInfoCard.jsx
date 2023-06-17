@@ -188,65 +188,9 @@ export function LikeTweetInfoCard( {tweet} ) {
   )
 }
 
+//使用者的被追蹤/追隨者
 export function FollowBlock({data}) {
-  const { id, name, account, avatar, introduction } = data.Follower
-  const { isCurrentUserFollowed } = data
-  const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
-  const { follow, unfollow } = useContext(UserContext)
-
-  const handleFollowClick = () => {
-    follow(id)
-    setisfollow(false)
-  };
-
-  const handleUnfollowClick = () => {
-    unfollow(id)
-    setisfollow(true)
-  };
-
-
-  return(
-    <div className={styles.followCardContainer}>
-      <div className={styles.avatarContainer}>
-        <Link to={`/user/${account}`}><img className="cursor-point"
-          src={avatar ? avatar : defaultAvatar}
-          alt="avatar"
-        /></Link>
-      </div>
-      <div className={styles.information}>
-        {/* 使用者名字、追蹤按鈕 */}
-        <div className={styles.nameAndButton}>
-          <div className={`${styles.topInfo} ${styles.topInfoFollowBlock}`}>
-            <h6 className={styles.name}>{name}</h6>
-          </div>
-            <div className={styles.buttonContainer}>
-              {isfollow ? (
-                <div className={styles.notActiveButtonContainer}>
-                  <NotActiveButton onClick={handleFollowClick} id={id}>
-                    跟隨
-                  </NotActiveButton>
-                </div>
-              ) : (
-                <div className={styles.secondaryButtonContainer}>
-                  <SecondaryButton onClick={handleUnfollowClick} id={id}>
-                    正在跟隨
-                  </SecondaryButton>
-                </div>
-              )}
-            </div>
-        </div>
-        {/* 自我介紹 */}
-        <div className={styles.introduction}>
-          {introduction}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function FollowingBlock({data}) {
-  const { id, name, account, avatar, introduction } = data.Following
-  const { isCurrentUserFollowed } = data
+  const { id, name, account, avatar, introduction,isCurrentUserFollowed } = data
   const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
   const { follow, unfollow } = useContext(UserContext)
 
