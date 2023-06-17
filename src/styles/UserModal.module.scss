@@ -10,8 +10,8 @@
 
 .modal {
   position: fixed;
-  top:56px;
-  left:600px;
+  top: 56px;
+  left: 600px;
   width: 634px;
   height: 610px;
   background-color: #FFFFFF;
@@ -26,81 +26,80 @@
   justify-content: space-between;
   height: 57px;
 }
-.notiFailIcon {
-  svg {
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    left:19.5px;
-    top:20.5px
-  }
+
+.notiFailIcon svg {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 19.5px;
+  top: 20.5px;
 }
+
 .changeUserInfo {
-  //styleName: heading/h5;
-font-family: Noto Sans TC;
-font-size: 18px;
-font-weight: 700;
-line-height: 26px;
-position: absolute;
-left:71px;
-top:15px;
+  font-family: "Noto Sans TC";
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  position: absolute;
+  left: 71px;
+  top: 15px;
 }
 
 .buttonContent {
-    font-size: 16px;
-    position: absolute;
-    right:16px;
-    top:8px;     
+  font-size: 16px;
+  position: absolute;
+  right: 16px;
+  top: 8px;
 }
+
 .backGroundImg {
   margin-bottom: 16px;
   width: 634px;
   height: 200px;
-
-  img {
-    width: 634px;
-    height: 200px;
-    border-radius: 4px;
-  }
 }
+
+.backGroundImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
 .userImg {
-  position: absolute;
-  left:16.13px;
+  position: relative; /* 修改這裡 */
+  left: 16.13px;
   top: 181px;
   width: 141px;
-    height: 140px;
-    z-index: 1;
-  img {
-    width: 141px;
-    height: 140px;
-    border-radius: 50%;
-    border: 4px solid #FFFFFF;
-  }
+  height: 140px;
+  z-index: 1;
+}
+
+.userImg label {
+  width: 140px;
+  height: 141px;
+  position: absolute; /* 修改這裡 */
+  top: 0; /* 調整為適當的位置 */
+  left: 0; /* 調整為適當的位置 */
+}
+.userImg img {
+  width: 140px;
+  height: 141px;
+  border-radius: 50%;
+  border: 4px solid #FFFFFF;
 }
 
 .UserInputLabel {
-padding-left: 16px;
-position: absolute;
-top:337px;
-width: 602px;
+  padding-left: 16px;
+  position: absolute;
+  top: 337px;
+  width: 602px;
 }
-.userName{
-height: 54px;
-}
-.userIntroduction{
 
+.userName {
+  height: 54px;
 }
+
+.userIntroduction {}
+
 .fileInputLabel {
   display: none;
-}
-.userImg label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .fileInputLabel {
-    display: none;
-  }
 }

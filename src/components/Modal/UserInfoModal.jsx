@@ -10,21 +10,38 @@ import { ReactComponent as CameraIcon } from "../../assets/icons/camera-icon.svg
 const Modal = ({ isOpen, onClose, userData }) => {
   const [isError, setIsError] = useState(false);
   const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState(userData.avatar);
-  const [banner, setBanner] = useState(userData.banner);
+  const [avatar, setAvatar] = useState(null);
+  const [banner, setBanner] = useState(null);
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState("");
-  useEffect(() => {
-    // 在元件 mount 時從 localStorage 中獲取當前使用者帳號
-    const currentUserAccount = localStorage.getItem("currentUserAccount");
+  const [userProfile, setUserProfile] = useState(userData);
+  const [bannerURL, setBannerURL] = useState(null);
+  const [avatarURL, setAvatarURL] = useState(null);
 
+  useEffect(() => {
+    const currentUserAccount = localStorage.getItem("currentUserAccount");
     setCurrentUser(currentUserAccount);
   }, []);
-  const [userProfile, setUserProfile] = useState(userData);
 
-  if (!isOpen) {
-    return null;
-  }
+  useEffect(() => {
+    if (banner) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBannerURL(reader.result);
+      };
+      reader.readAsDataURL(banner);
+    }
+  }, [banner]);
+
+  useEffect(() => {
+    if (avatar) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatarURL(reader.result);
+      };
+      reader.readAsDataURL(avatar);
+    }
+  }, [avatar]);
 
   const handleIntroductionChange = (value) => {
     setIntroduction(value);
@@ -32,12 +49,20 @@ const Modal = ({ isOpen, onClose, userData }) => {
 
   const handleBannerChange = (event) => {
     const file = event.target.files[0];
-    setBanner(file);
+    if (file) {
+      setBanner(file);
+    } else {
+      console.error("未選擇有效的文件");
+    }
   };
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
-    setAvatar(file);
+    if (file) {
+      setAvatar(file);
+    } else {
+      console.error("未選擇有效的文件");
+    }
   };
 
   const handleSave = async () => {
@@ -46,22 +71,21 @@ const Modal = ({ isOpen, onClose, userData }) => {
       return;
     }
 
-    const payload = {
-      id: userData.id,
-      name: userData.name,
-      introduction: introduction,
-      avatar: avatar,
-    };
-
-    // 使用 FormData 來傳送圖片
     const formData = new FormData();
-    formData.append("avatar", avatar);
-    formData.append("banner", banner);
+    formData.append("id", userData.id);
+    formData.append("name", userData.name);
+    formData.append("introduction", introduction);
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+    if (banner) {
+      formData.append("banner", banner);
+    }
 
     try {
       const response = await axios.put(
         `https://pure-falls-11392.herokuapp.com/api/users/${userData.id}`,
-        formData, // 將 formData 傳遞給 axios 的 data 參數
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -85,6 +109,10 @@ const Modal = ({ isOpen, onClose, userData }) => {
       console.error("儲存失敗: ", error);
     }
   };
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <>
@@ -116,8 +144,18 @@ const Modal = ({ isOpen, onClose, userData }) => {
                 accept="image/*"
                 onChange={handleBannerChange}
               />
+              {bannerURL || userProfile.banner ? (
+                <img
+                  className={styles.backGroundImg}
+                  src={bannerURL || userProfile.banner}
+                  alt="背景圖片"
+                />
+              ) : (
+                <div className={styles.defaultBanner}>
+                  <img src="https://i.imgur.com/W5M72pN.jpeg" alt="預設圖片" />
+                </div>
+              )}
             </label>
-            <img src="https://i.imgur.com/W5M72pN.jpeg" alt="" />
           </div>
           <div className={styles.userImg}>
             <label htmlFor="avatarUpload" className={styles.fileInputLabel}>
@@ -128,8 +166,16 @@ const Modal = ({ isOpen, onClose, userData }) => {
                 accept="image/*"
                 onChange={handleAvatarChange}
               />
+              <img
+                className={styles.userImg}
+                src={
+                  avatarURL ||
+                  userProfile.avatar ||
+                  "https://i.imgur.com/W5M72pN.jpeg"
+                }
+                alt="頭像"
+              />
             </label>
-            <img src="https://i.imgur.com/W5M72pN.jpeg" alt="沒有東西" />
           </div>
           <div className={styles.UserInputLabel}>
             <div className={styles.userName}>
