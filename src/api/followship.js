@@ -23,14 +23,13 @@ export const getTopTenUser = async (token) => {
 export const followUser = async (token, id) => {
   try {
     const bodyData = {
-      id: id,
+      id,
     };
     const response = await axios.post(`${authURL}/followships`, bodyData, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
-    console.log(response);
     if (response) {
       return { success: true };
     }

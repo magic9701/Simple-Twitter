@@ -49,7 +49,7 @@ const NavItem = ({ icon: Icon, name, route }) => {
 
 
 //Main Navbar
-export function MainNav() {
+export function MainNav({setNeedRerender}) {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserAccount'));
   const navigate = useNavigate();
   const location = useLocation();
@@ -152,7 +152,7 @@ export function MainNav() {
       </Link>
 
       <PrimaryButton onClick={handleTweetPost}>推文</PrimaryButton>
-      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount}/>
+      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} setNeedRerender={setNeedRerender}/>
       <div className={styles.logoutContainer}>
         <Link to="/login">
           <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>

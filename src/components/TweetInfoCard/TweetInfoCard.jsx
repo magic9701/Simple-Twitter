@@ -18,8 +18,7 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 //回覆推文的內容框框
 export function ReplyInfoCard({tweet}) {
   const { account, avatar, name} = tweet.User
-  const { createdAt } = tweet.Tweet
-  const { comment } = tweet
+  const { comment, createdAt } = tweet
   const postUser = tweet.Tweet.User.account
   
   //距今多久的發文，時間轉換
@@ -149,6 +148,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
 
 //User喜歡的貼文
 export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
+
   const { likeCount, replyCount } = tweet
   const { account, avatar, name} = tweet.User
   const { createdAt, description } = tweet.Tweet

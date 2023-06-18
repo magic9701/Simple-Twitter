@@ -52,12 +52,9 @@ export default function MainPage() {
     const rerenderPage = async () => {
       if(needRerender) {
         const token = localStorage.getItem('token');
-        const id = localStorage.getItem('currentUserId');
         const { users } = await getTopTenUser(token)
         const response = await getAllTweets(token)
-        const { avatar } = await getUserData(token, id)
         setTweetsList(response.data.reverse())
-        setUserAvatar(avatar);
         if (users) {
           setTopTenUsers(users)
         }
@@ -72,7 +69,7 @@ export default function MainPage() {
     <div className="container mx-auto">
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
-          <MainNav />
+          <MainNav setNeedRerender={setNeedRerender}/>
         </div>
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>

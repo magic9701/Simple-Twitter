@@ -12,7 +12,7 @@ import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
 
-const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) => {
+const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount, setNeedRerender }) => {
   const [description, setDescription] = useState('');
 
 
@@ -64,6 +64,8 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
           popup: styles['my-custom-popup'],
         }
       })
+      setDescription("")
+      setNeedRerender(true)
       setModalOpen(false)
     }if (!success) {
       //顯示推文失敗

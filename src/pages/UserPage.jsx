@@ -97,17 +97,26 @@ export default function UserPage() {
       const tweetData = await getUserTweets(token, userData.id);
       const likeData = await getUserLike(token, userData.id);
       const replyData = await getUserReply(token, userData.id);
+      const filterTweetData = tweetData.data.filter(function(item) {
+        return item.Tweet !== null;
+      });
+      const filterLikeData = likeData.data.filter(function(item) {
+        return item.Tweet !== null;
+      });
+      const filterReplyData = replyData.data.filter(function(item) {
+        return item.Tweet !== null;
+      });
 
-      setTweetList(tweetData.data);
-      setLikeList(likeData.data.reverse());
-      setReplyList(replyData.data);
+      setTweetList(filterTweetData);
+      setLikeList(filterLikeData.reverse());
+      setReplyList(filterReplyData);
       
       setNeedRerender(false)
     };
     if (userData) {
       fetchData();
     }
-  }, [userId, needRerender]);
+  }, [needRerender]);
 
   //回到上一頁
   const handleBack = () => {
@@ -130,7 +139,7 @@ export default function UserPage() {
     <div className="container mx-auto">
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
-          <MainNav />
+          <MainNav setNeedRerender={setNeedRerender}/>
         </div>
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>
