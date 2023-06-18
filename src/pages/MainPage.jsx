@@ -37,7 +37,7 @@ export default function MainPage() {
         const { users } = await getTopTenUser(token)
         const response = await getAllTweets(token)
         const { avatar } = await getUserData(token, id)
-          setTweetsList(response.data.reverse())
+          setTweetsList(response.data)
           setUserAvatar(avatar);
         if (users) {
         //call API取得前10名追蹤，放入popular
@@ -54,7 +54,7 @@ export default function MainPage() {
         const token = localStorage.getItem('token');
         const { users } = await getTopTenUser(token)
         const response = await getAllTweets(token)
-        setTweetsList(response.data.reverse())
+        setTweetsList(response.data)
         if (users) {
           setTopTenUsers(users)
         }
