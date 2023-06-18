@@ -116,7 +116,7 @@ export default function UserPage() {
     if (userData) {
       fetchData();
     }
-  }, [needRerender]);
+  }, [userId, needRerender]);
 
   //回到上一頁
   const handleBack = () => {

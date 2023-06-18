@@ -5,7 +5,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import styles from "styles/MainPage.module.scss"
 
 //components
-import { FollowBlock } from 'components/TweetInfoCard/TweetInfoCard';
+import { FollowBlock, FollowingBlock } from 'components/TweetInfoCard/TweetInfoCard';
 import { MainNav } from 'components/Nav/Nav';
 import Popular from 'components/Popular/Popular';
 
@@ -136,7 +136,7 @@ export default function FollowerPage() {
               <FollowBlock key={data.followerId} data={data} />
             ))}
             {isFollowerActive === false && renderFollowingList && renderFollowingList.map((data) => (
-              <FollowBlock key={data.followerId} data={data} />
+              <FollowingBlock key={data.followerId} data={data} />
             ))}
           </div>
         </div>
