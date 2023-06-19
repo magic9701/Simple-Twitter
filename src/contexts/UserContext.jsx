@@ -41,7 +41,7 @@ export function UserProvider({ children }) {
       const token = localStorage.getItem("token")
       const { success } =  await likeTweet(token,tweetId)
       if (success) {
-        return
+        console.log("喜歡貼文")
       } 
     } catch (error) {
       console.log("喜歡貼文時發生錯誤:", error)
@@ -55,7 +55,7 @@ export function UserProvider({ children }) {
       const token = localStorage.getItem("token")
       const { success } =  await unlikeTweet(token,tweetId)
       if (success) {
-        return
+        console.log("收回喜歡貼文")
       } 
     } catch (error) {
       console.log("收回喜歡貼文時發生錯誤:", error)

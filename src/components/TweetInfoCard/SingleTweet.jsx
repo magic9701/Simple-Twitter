@@ -58,12 +58,12 @@ export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
   };
 
   //like/unlike貼文
-  const handleLikeClick = (id) => {
+  const handleLikeClick = () => {
     likeATweet(id)
     setIsLike(true)
   };
 
-  const handleUnLikeClick = (id) => {
+  const handleUnLikeClick = () => {
     unlikeATweet(id)
     setIsLike(false)
   };
@@ -107,7 +107,7 @@ export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
       <div className={styles.iconContainer}>
         <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
         <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweetInfo} setNeedRerender={setNeedRerender}/>
-        { isLike ? <LikeActiveIcon className={styles.likeBig} onClick={handleUnLikeClick}/> : <LikeIcon className={styles.like} onClick={handleLikeClick}/>}
+        { isLike ? <LikeActiveIcon className={styles.likeBig} onClick={handleUnLikeClick} id={id}/> : <LikeIcon className={styles.like} onClick={handleLikeClick} id={id}/>}
       </div>
     </div>
   )

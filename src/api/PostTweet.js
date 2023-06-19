@@ -153,7 +153,7 @@ export const likeTweet = async (token, tweetId) => {
       },
     });
     if (response) {
-      return response;
+      return { success: true };
     }
   } catch (error) {
     console.error("[Get User Like Tweet Failed]: ", error);
@@ -169,7 +169,7 @@ export const unlikeTweet = async (token, tweetId) => {
       },
     });
     if (response) {
-      return response;
+      return { success: true };
     }
   } catch (error) {
     console.error("[Get User unLike Tweet Failed]: ", error);
