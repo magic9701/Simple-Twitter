@@ -104,11 +104,42 @@ export const getUserLike = async (token, id) => {
         Authorization: "Bearer " + token,
       },
     });
-    console.log(response);
     if (response) {
       return response;
     }
   } catch (error) {
     console.error("[Get User Likes tweets Failed]: ", error);
+  }
+};
+
+//取得單一推文的回應
+export const getSingleReplyTweet = async (token, postId) => {
+  try {
+    const response = await axios.get(`${authURL}/tweets/${postId}/replies`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.error("[Get User Single Tweet Replies Failed]: ", error);
+  }
+};
+
+//取得指定推文
+export const getSingleTweet = async (token, postId) => {
+  try {
+    const response = await axios.get(`${authURL}/tweets/${postId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.error("[Get User Single Tweet Failed]: ", error);
   }
 };

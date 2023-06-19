@@ -18,7 +18,7 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 import { postReply } from "api/PostTweet";
 
 
-const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAccount, tweet, setNeedRerender }) => {
+export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAccount, tweet, setNeedRerender }) => {
   const [ comment, setComment] = useState('');
   const [ inputNone , setInputNone ] = useState(false)
   //要回覆的推文的資訊
@@ -173,5 +173,3 @@ const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAccount, tw
       </div>
   );
 };
-
-export default ReplyModal;

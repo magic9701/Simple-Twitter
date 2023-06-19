@@ -7,7 +7,7 @@ import styles from "styles/TweetInfoCard.module.scss"
 
 //components
 import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
-import ReplyModal from "components/Modal/ReplyModal.jsx"
+import { ReplyModal } from "components/Modal/ReplyModal.jsx"
 
 //ICON
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
@@ -73,7 +73,7 @@ export function ReplyInfoCard({tweet}) {
 
 //mainPage userPage所有貼文
 export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
-  const { createdAt, description, likeCount, replyCount } = tweet
+  const { createdAt, description, likeCount, replyCount, id } = tweet
   const { account, avatar, name} = tweet.User
   const userAccount = localStorage.getItem('currentUserAccount')
   
@@ -111,6 +111,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
 
   return (
+    <Link to={`/user/${account}/post/${id}`}>
     <div className={styles.tweetCardContainer}>
       {/* 頭像 */}
       <div className={styles.avatarContainer}>
@@ -143,13 +144,14 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 
 //User喜歡的貼文
 export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
 
-  const { likeCount, replyCount } = tweet
+  const { likeCount, replyCount, TweetId } = tweet
   const { account, avatar, name} = tweet.User
   const { createdAt, description } = tweet.Tweet
   const userAccount = localStorage.getItem('currentUserAccount')
@@ -188,6 +190,7 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
 
   return (
+    <Link to={`/user/${account}/post/${TweetId}`}>
     <div className={styles.tweetCardContainer}>
       {/* 頭像 */}
       <div className={styles.avatarContainer}>
@@ -220,6 +223,7 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 
