@@ -123,6 +123,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
     likeATweet(id)
     setIsLike(true)
     setLikeCount(likeCount + 1)
+    setNeedRerender(true)
   };
 
   const handleUnLikeClick = (event) => {
@@ -130,6 +131,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
     unlikeATweet(id)
     setIsLike(false)
     setLikeCount(likeCount - 1)
+    setNeedRerender(true)
   };
 
   //導向貼文頁面

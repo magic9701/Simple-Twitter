@@ -11,7 +11,6 @@ export function UserProvider({ children }) {
     try {
       const token = localStorage.getItem("token")
       const { success } = await followUser(token,id)
-      console.log(success)
       if (success) {
         return
       } 
@@ -39,7 +38,7 @@ export function UserProvider({ children }) {
   const likeATweet = async (tweetId) => {
     try {
       const token = localStorage.getItem("token")
-      const { success } =  await likeTweet(token,tweetId)
+      const { success } =  await likeTweet(token, tweetId)
       if (success) {
         console.log("喜歡貼文")
       } 
@@ -53,7 +52,7 @@ export function UserProvider({ children }) {
   const unlikeATweet = async (tweetId) => {
     try {
       const token = localStorage.getItem("token")
-      const { success } =  await unlikeTweet(token,tweetId)
+      const { success } =  await unlikeTweet(token, tweetId)
       if (success) {
         console.log("收回喜歡貼文")
       } 

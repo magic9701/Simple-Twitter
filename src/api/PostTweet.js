@@ -147,31 +147,39 @@ export const getSingleTweet = async (token, postId) => {
 //喜歡一則貼文
 export const likeTweet = async (token, tweetId) => {
   try {
-    const response = await axios.get(`${authURL}/tweets/${tweetId}/like`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/like`,
+      null,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     if (response) {
       return { success: true };
     }
   } catch (error) {
-    console.error("[Get User Like Tweet Failed]: ", error);
+    console.error("[User Like Tweet Failed]: ", error);
   }
 };
 
 //取消喜歡一則貼文
 export const unlikeTweet = async (token, tweetId) => {
   try {
-    const response = await axios.get(`${authURL}/tweets/${tweetId}/unlike`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/unlike`,
+      null,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     if (response) {
       return { success: true };
     }
   } catch (error) {
-    console.error("[Get User unLike Tweet Failed]: ", error);
+    console.error("[User unLike Tweet Failed]: ", error);
   }
 };

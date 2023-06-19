@@ -44,7 +44,6 @@ export default function UserPage() {
 
   //先call API 確認使用者輸入的帳號是否存在
   useEffect(() => {
-
     const checkUserTokenIsValid = async () => {
       if(location.pathname.includes("replies")) {
         setIsPageActive("replies")
