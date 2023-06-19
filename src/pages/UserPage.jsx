@@ -138,7 +138,7 @@ export default function UserPage() {
   
 
   return(
-    <div className="container mx-auto">
+    <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
           <MainNav setNeedRerender={setNeedRerender}/>

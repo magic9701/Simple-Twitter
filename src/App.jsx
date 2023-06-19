@@ -36,7 +36,7 @@ function App() {
               <Route path="user/:userAccount/post/:postId" element={<PostPage />} />
               <Route path="*" element={<ErrorPage />} />
               <Route path="error" element={<ErrorPage />} />
-            </Routes>`
+            </Routes>
         </BrowserRouter>
       </UserProvider>
     </div>

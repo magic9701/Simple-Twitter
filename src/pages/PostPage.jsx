@@ -1,7 +1,6 @@
 import styles from "styles/MainPage.module.scss"
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 //svg
 import arrow from "assets/icons/back-arrow-icon.svg"
@@ -84,7 +83,7 @@ export default function PostPage() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
           <MainNav />
@@ -103,7 +102,7 @@ export default function PostPage() {
             <SingleTweet key={tweetInfo.id} tweetInfo={tweetInfo} userAccount={userAccount} userAvatar={userAvatar}/>
           }
           {/* 回覆內容 */}
-          <div className={styles.tweetContainer}>
+          <div className={styles.PostPageTweetContainer}>
             {replyInfo &&
               replyInfo.map((tweet) => (
                 <ReplyInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} />

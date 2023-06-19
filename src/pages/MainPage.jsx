@@ -67,7 +67,7 @@ export default function MainPage() {
 
 
   return(
-    <div className="container mx-auto">
+    <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
           <MainNav setNeedRerender={setNeedRerender}/>
@@ -79,7 +79,7 @@ export default function MainPage() {
           <div className={styles.postPanel}>
             <TweetPanel userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
           </div>
-          <div className={styles.tweetContainer}>
+          <div className={styles.MainPageTweetContainer}>
             {tweetsList &&
               tweetsList.map((tweet) => (
                 <TweetInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>

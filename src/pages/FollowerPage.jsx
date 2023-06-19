@@ -122,7 +122,7 @@ export default function FollowerPage() {
               正在追隨
             </div>
           </div>
-          <div className={styles.tweetContainer}>
+          <div className={styles.FollowerPageTweetContainer}>
             {isFollowerActive && renderList && renderList.map((data) => (
               <FollowBlock key={data.followerId} data={data} setNeedRerender={setNeedRerender}/>
             ))}

@@ -1,4 +1,7 @@
 //整個頁面的架構
+.middleContainer {
+  height: 100vh;
+}
 .pageContainer {
   display: flex;
   
@@ -52,30 +55,40 @@
   display: flex;
 }
 
-.tweetContainer {
+.tweetContainer,
+.MainPageTweetContainer,
+.PostPageTweetContainer,
+.userPageTweetContainer,
+.FollowerPageTweetContainer {
   overflow-y: auto;
-  max-height: calc(100vh - 74px);
   display: flex;
   flex-wrap: wrap;
-
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #FAFAFA;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+      border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #acacac;
+  }
 }
-
-.tweetContainer::-webkit-scrollbar {
-  width: 8px;
+.MainPageTweetContainer {
+  max-height: calc(100vh - 268px);
 }
-
-.tweetContainer::-webkit-scrollbar-track {
-  background-color: #FAFAFA;
-  border-radius: 4px;
+.PostPageTweetContainer {
+  max-height: calc(100vh - 409px);
 }
-
-.tweetContainer::-webkit-scrollbar-thumb {
-  background-color: #C1C1C1;
-  border-radius: 4px;
+.userPageTweetContainer {
+  max-height: calc(100vh - 526px);
 }
-
-.tweetContainer::-webkit-scrollbar-thumb:hover {
-  background-color: #acacac;
+.FollowerPageTweetContainer {
+  max-height: calc(100vh - 127px);
 }
 
 
@@ -102,27 +115,6 @@
 
 
 // UserPage
-.userPageTweetContainer {
-  overflow-y: auto;
-  max-height: calc(100vh - 520px);
-  display: flex;
-  flex-wrap: wrap;
-  &::-webkit-scrollbar {
-      width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #FAFAFA;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #C1C1C1;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #acacac;
-  }
-}
-
 .personalInfo {
   min-height: 393px;
   position: relative;
