@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Simple-Twitter/static/css/main.35eb8c60.css",
-    "main.js": "/Simple-Twitter/static/js/main.81e33112.js",
+    "main.css": "/Simple-Twitter/static/css/main.4adff771.css",
+    "main.js": "/Simple-Twitter/static/js/main.d7611508.js",
     "static/js/787.aa94361f.chunk.js": "/Simple-Twitter/static/js/787.aa94361f.chunk.js",
     "static/media/catShockPhoto.svg": "/Simple-Twitter/static/media/catShockPhoto.f4ece990bda9411178d442c62ec29fc9.svg",
     "static/media/default-banner.svg": "/Simple-Twitter/static/media/default-banner.16dd5fb8b7b1ea2ced6fc03ce840e242.svg",
@@ -22,12 +22,13 @@
     "static/media/green-Icon.svg": "/Simple-Twitter/static/media/green-Icon.2ecebb996b2b7577fce65d3dff74b329.svg",
     "index.html": "/Simple-Twitter/index.html",
     "static/media/back-arrow-icon.svg": "/Simple-Twitter/static/media/back-arrow-icon.c45ed6a25d001762d127aa33d93f6925.svg",
-    "main.35eb8c60.css.map": "/Simple-Twitter/static/css/main.35eb8c60.css.map",
-    "main.81e33112.js.map": "/Simple-Twitter/static/js/main.81e33112.js.map",
+    "static/media/like-active.svg": "/Simple-Twitter/static/media/like-active.5e5d892842ae545d6d81b84cec2019b6.svg",
+    "main.4adff771.css.map": "/Simple-Twitter/static/css/main.4adff771.css.map",
+    "main.d7611508.js.map": "/Simple-Twitter/static/js/main.d7611508.js.map",
     "787.aa94361f.chunk.js.map": "/Simple-Twitter/static/js/787.aa94361f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.35eb8c60.css",
-    "static/js/main.81e33112.js"
+    "static/css/main.4adff771.css",
+    "static/js/main.d7611508.js"
   ]
 }
