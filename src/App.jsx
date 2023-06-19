@@ -13,12 +13,13 @@ import PostPage from "pages/PostPage";
 import FollowerPage from "pages/FollowerPage";
 import { UserProvider } from "contexts/UserContext";
 
+const basename = process.env.PUBLIC_URL
 
 function App() {
   return (
     <div className="App">
       <UserProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
             <Routes>
               <Route path="/" element={<LoginPage />} />
               <Route path="admin" element={<AdminPage />} />
