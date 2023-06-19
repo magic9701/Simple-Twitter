@@ -110,7 +110,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
   const handleReply = (event) => {
     event.stopPropagation()
-    openModal();
+    openModal(event);
   };
 
   //導向貼文頁面
@@ -204,7 +204,8 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
 
   //導向貼文頁面
-  const handlePostClick = () => {
+  const handlePostClick = (event) => {
+    console.log(event)
     navigate(`/user/${account}/post/${TweetId}`)
   }
 

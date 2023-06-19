@@ -46,13 +46,19 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
     timeAgo = `${hoursDiff} 小時前`;
   }
 
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
 
   const handleCommentChange = event => {
+    event.stopPropagation()
     setComment(event.target.value);
   }
 
   //處理送出推文內容
-  const handleReply = async () => {
+  const handleReply = async (event) => {
+    event.stopPropagation()
     const token = localStorage.getItem('token');
     //前端檢查輸入內容
     if(comment.trim().length === 0) {
@@ -110,7 +116,7 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
 
   return (
       <div className={styles.modalOverlay} onClick={onClose} >
-        <div className={`${styles.modal} ${styles.replyModal}`}>
+        <div className={`${styles.modal} ${styles.replyModal}`} onClick={handleModalClick}>
           <div className={styles.modalHeader}>
             <div className={`${styles.IconContainer} cursor-point`} onClick={onClose}>
               <img className={styles.NotiFailIcon} onClick={onClose} src={notiFailIcon} alt="close"/>
@@ -208,6 +214,10 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
     setComment(event.target.value);
   }
 
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
   //處理送出推文內容
   const handleReply = async () => {
     const token = localStorage.getItem('token');
@@ -267,7 +277,7 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
 
   return (
       <div className={styles.modalOverlay} onClick={onClose} >
-        <div className={`${styles.modal} ${styles.replyModal}`}>
+        <div className={`${styles.modal} ${styles.replyModal}`} onClick={handleModalClick}>
           <div className={styles.modalHeader}>
             <div className={`${styles.IconContainer} cursor-point`} onClick={onClose}>
               <img className={styles.NotiFailIcon} onClick={onClose} src={notiFailIcon} alt="close"/>
