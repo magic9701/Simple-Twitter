@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 
@@ -56,6 +56,12 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
     setComment(event.target.value);
   }
 
+  useEffect(() => {
+    if( comment.length > 0 ){
+      setInputNone(false)
+    }
+  }, [comment])
+
   //處理送出推文內容
   const handleReply = async (event) => {
     event.stopPropagation()
@@ -89,6 +95,7 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
       setModalOpen(false)
       setInputNone(false)
       setNeedRerender(true)
+      setComment("")
     }if (!success) {
       //顯示推文失敗
       Swal.fire({
@@ -331,7 +338,7 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
               ></textarea>
             </div>
           </div>
-          { comment.length === 140 && <div className={styles.alertMessage}>字數不可超過140字!</div>}
+          { comment.length === 140  && <div className={styles.alertMessage}>字數不可超過140字!</div>}
           { inputNone && <div className={styles.alertMessage}>內容不可空白</div>}
           <div className={styles.tweetButton}>
             <SecondaryButton  onClick={handleReply}>回覆</SecondaryButton>
