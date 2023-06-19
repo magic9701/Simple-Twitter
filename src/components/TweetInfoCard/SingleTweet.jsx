@@ -16,7 +16,8 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 
 export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
   const { account, avatar, name } = tweetInfo.User
-  const { description, createdAt, likeCount, replyCount, id } = tweetInfo
+  const { description, createdAt, replyCount, id } = tweetInfo
+  const [likeCount, setLikeCount] = useState(tweetInfo.likeCount)
   const [ needRerender, setNeedRerender] = useState(false)
   const { likeATweet, unlikeATweet } = useContext(UserContext)
   const [ isLike, setIsLike ] = useState(tweetInfo.isLiked)
@@ -61,11 +62,13 @@ export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
   const handleLikeClick = () => {
     likeATweet(id)
     setIsLike(true)
+    setLikeCount(likeCount + 1)
   };
 
   const handleUnLikeClick = () => {
     unlikeATweet(id)
     setIsLike(false)
+    setLikeCount(likeCount - 1)
   };
 
 
