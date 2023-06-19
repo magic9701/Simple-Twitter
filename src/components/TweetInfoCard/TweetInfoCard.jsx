@@ -12,6 +12,7 @@ import { ReplyModal, SecondReplyModal } from "components/Modal/ReplyModal.jsx"
 //ICON
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/like-icon.svg";
+import { ReactComponent as LikeActiveIcon } from "assets/icons/like-active.svg";
 import defaultAvatar from "assets/icons/default-avatar.svg"
 
 
@@ -74,8 +75,11 @@ export function ReplyInfoCard({tweet}) {
 //mainPage userPage所有貼文
 export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const navigate = useNavigate()
-  const { createdAt, description, likeCount, replyCount, id } = tweet
+  const { createdAt, description, replyCount, id } = tweet
   const { account, avatar, name} = tweet.User
+  const [ likeCount, setLikeCount ] = useState(tweet.likeCount)
+  const [ isLike, setIsLike ] = useState(tweet.isLiked)
+  const { likeATweet, unlikeATweet } = useContext(UserContext)
   const userAccount = localStorage.getItem('currentUserAccount')
   
   //距今多久的發文，時間轉換
@@ -111,6 +115,21 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const handleReply = (event) => {
     event.stopPropagation()
     openModal(event);
+  };
+
+  //like/unlike貼文
+  const handleLikeClick = (event) => {
+    event.stopPropagation()
+    likeATweet(id)
+    setIsLike(true)
+    setLikeCount(likeCount + 1)
+  };
+
+  const handleUnLikeClick = (event) => {
+    event.stopPropagation()
+    unlikeATweet(id)
+    setIsLike(false)
+    setLikeCount(likeCount - 1)
   };
 
   //導向貼文頁面
@@ -151,7 +170,7 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
-            <LikeIcon className={styles.likeIcon}/>
+            { isLike ? <LikeActiveIcon className={`${styles.likeIcon} cursor-point`} onClick={handleUnLikeClick} id={id}/> : <LikeIcon className={`${styles.likeIcon} cursor-point`} onClick={handleLikeClick} id={id}/>}
             <h6 className={styles.LikeCount}>{likeCount}</h6>
           </div>
         </div>
@@ -163,9 +182,12 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
 //User喜歡的貼文
 export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const navigate = useNavigate()
-  const { likeCount, replyCount, TweetId } = tweet
+  const { replyCount, TweetId } = tweet
   const { account, avatar, name} = tweet.User
   const { createdAt, description } = tweet.Tweet
+  const [ likeCount, setLikeCount ] = useState(tweet.likeCount)
+  const [ isLike, setIsLike ] = useState(tweet.isLiked)
+  const { likeATweet, unlikeATweet } = useContext(UserContext)
   const userAccount = localStorage.getItem('currentUserAccount')
   
   //距今多久的發文，時間轉換
@@ -201,6 +223,21 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   const handleReply = (event) => {
     event.stopPropagation()
     openModal();
+  };
+
+  //like/unlike貼文
+  const handleLikeClick = (event) => {
+    event.stopPropagation()
+    likeATweet(TweetId)
+    setIsLike(true)
+    setLikeCount(likeCount + 1)
+  };
+
+  const handleUnLikeClick = (event) => {
+    event.stopPropagation()
+    unlikeATweet(TweetId)
+    setIsLike(false)
+    setLikeCount(likeCount - 1)
   };
 
   //導向貼文頁面
@@ -242,7 +279,7 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
-            <LikeIcon className={styles.likeIcon}/>
+            { isLike ? <LikeActiveIcon className={`${styles.likeIcon} cursor-point`} onClick={handleUnLikeClick} id={TweetId}/> : <LikeIcon className={`${styles.likeIcon} cursor-point`} onClick={handleLikeClick} id={TweetId}/>}
             <h6 className={styles.LikeCount}>{likeCount}</h6>
           </div>
         </div>
