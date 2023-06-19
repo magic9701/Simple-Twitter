@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext } from 'react'
 import { followUser, unfollowUser } from 'api/followship'
 import { likeTweet, unlikeTweet } from 'api/PostTweet'
 
