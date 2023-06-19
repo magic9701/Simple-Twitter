@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "contexts/UserContext.jsx"
 import { useContext, useState } from 'react';
 
@@ -7,7 +7,7 @@ import styles from "styles/TweetInfoCard.module.scss"
 
 //components
 import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
-import { ReplyModal } from "components/Modal/ReplyModal.jsx"
+import { ReplyModal, SecondReplyModal } from "components/Modal/ReplyModal.jsx"
 
 //ICON
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
@@ -73,6 +73,7 @@ export function ReplyInfoCard({tweet}) {
 
 //mainPage userPage所有貼文
 export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
+  const navigate = useNavigate()
   const { createdAt, description, likeCount, replyCount, id } = tweet
   const { account, avatar, name} = tweet.User
   const userAccount = localStorage.getItem('currentUserAccount')
@@ -103,22 +104,34 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
   const closeModal = (event) => {
     if (event.target === event.currentTarget) {
+      event.stopPropagation()
       setModalOpen(false);
     }
   };
-  const handleReply = () => {
+  const handleReply = (event) => {
+    event.stopPropagation()
     openModal();
   };
 
+  //導向貼文頁面
+  const handlePostClick = () => {
+    navigate(`/user/${account}/post/${id}`)
+  }
+
+  //導向使用者頁面
+  const handleAvatarClick = (event) => {
+    event.stopPropagation()
+    navigate(`/user/${account}/`)
+  }
+
   return (
-    <Link to={`/user/${account}/post/${id}`}>
-    <div className={styles.tweetCardContainer}>
+    <div className={styles.tweetCardContainer} onClick={handlePostClick}>
       {/* 頭像 */}
-      <div className={styles.avatarContainer}>
-        <Link to={`/user/${account}`}><img className="cursor-point"
+      <div className={styles.avatarContainer} onClick={handleAvatarClick}>
+        <img className="cursor-point"
           src={avatar ? avatar : defaultAvatar}
           alt="avatar"
-        /></Link>
+        />
       </div>
       <div className={styles.information}>
         {/* 使用者名字、帳號、時間 */}
@@ -144,13 +157,12 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         </div>
       </div>
     </div>
-    </Link>
   )
 }
 
 //User喜歡的貼文
 export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
-
+  const navigate = useNavigate()
   const { likeCount, replyCount, TweetId } = tweet
   const { account, avatar, name} = tweet.User
   const { createdAt, description } = tweet.Tweet
@@ -182,22 +194,34 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
   const closeModal = (event) => {
     if (event.target === event.currentTarget) {
+      event.stopPropagation()
       setModalOpen(false);
     }
   };
-  const handleReply = () => {
+  const handleReply = (event) => {
+    event.stopPropagation()
     openModal();
   };
 
+  //導向貼文頁面
+  const handlePostClick = () => {
+    navigate(`/user/${account}/post/${TweetId}`)
+  }
+
+  //導向使用者頁面
+  const handleAvatarClick = (event) => {
+    event.stopPropagation()
+    navigate(`/user/${account}/`)
+  }
+
   return (
-    <Link to={`/user/${account}/post/${TweetId}`}>
-    <div className={styles.tweetCardContainer}>
+    <div className={styles.tweetCardContainer} onClick={handlePostClick}>
       {/* 頭像 */}
-      <div className={styles.avatarContainer}>
-        <Link to={`/user/${account}`}><img className="cursor-point"
+      <div className={styles.avatarContainer} onClick={handleAvatarClick}>
+        <img className="cursor-point"
           src={avatar ? avatar : defaultAvatar}
           alt="avatar"
-        /></Link>
+        />
       </div>
       <div className={styles.information}>
         {/* 使用者名字、帳號、時間 */}
@@ -213,7 +237,7 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
             <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
-            <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
+            <SecondReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
@@ -223,7 +247,6 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         </div>
       </div>
     </div>
-    </Link>
   )
 }
 
