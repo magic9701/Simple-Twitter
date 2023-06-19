@@ -50,29 +50,16 @@ export default function PostPage() {
           setUserAvatar(avatar)
           setTopTenUsers(users)
           setReplyInfo(data)
+          setNeedRerender(false)
         } else {
+          setNeedRerender(false)
           navigate('/error');
         }
       }
     }
     checkUserTokenIsValid();
-  }, [navigate]);
+  }, [navigate, needRerender]);
 
-  // useEffect(() => {
-  //   const rerenderPage = async () => {
-  //     if(needRerender) {
-  //       const token = localStorage.getItem('token');
-  //       const { users } = await getTopTenUser(token)
-  //       const response = await getAllTweets(token)
-  //       setTweetsList(response.data)
-  //       if (users) {
-  //         setTopTenUsers(users)
-  //       }
-  //       setNeedRerender(false)
-  //     } 
-  //   }
-  //   rerenderPage()
-  // }, [needRerender])
 
 
 
@@ -86,7 +73,7 @@ export default function PostPage() {
     <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
-          <MainNav />
+          <MainNav setNeedRerender={setNeedRerender}/>
         </div>
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>
@@ -99,18 +86,18 @@ export default function PostPage() {
           </div>
           {/* 推文內容 */}
           {tweetInfo &&
-            <SingleTweet key={tweetInfo.id} tweetInfo={tweetInfo} userAccount={userAccount} userAvatar={userAvatar}/>
+            <SingleTweet key={tweetInfo.id} tweetInfo={tweetInfo} userAccount={userAccount} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
           }
           {/* 回覆內容 */}
           <div className={styles.PostPageTweetContainer}>
             {replyInfo &&
               replyInfo.map((tweet) => (
-                <ReplyInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} />
+                <ReplyInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
               ))}
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

@@ -14,11 +14,10 @@ import { ReactComponent as LikeActiveIcon } from "assets/icons/like-active.svg";
 import { ReplyModal } from "components/Modal/ReplyModal.jsx"
 import defaultAvatar from "assets/icons/default-avatar.svg"
 
-export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
+export default function SingleTweet ({tweetInfo, userAccount, userAvatar, setNeedRerender}) {
   const { account, avatar, name } = tweetInfo.User
   const { description, createdAt, replyCount, id } = tweetInfo
   const [likeCount, setLikeCount] = useState(tweetInfo.likeCount)
-  const [ needRerender, setNeedRerender] = useState(false)
   const { likeATweet, unlikeATweet } = useContext(UserContext)
   const [ isLike, setIsLike ] = useState(tweetInfo.isLiked)
 
