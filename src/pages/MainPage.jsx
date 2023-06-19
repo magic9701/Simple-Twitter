@@ -87,7 +87,7 @@ export default function MainPage() {
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

@@ -291,7 +291,7 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
 }
 
 //使用者的追隨者
-export function FollowBlock({data}) {
+export function FollowBlock({data, setNeedRerender}) {
   const { id, name, account, avatar, introduction } = data.Follower
   const { isCurrentUserFollowed } = data
   const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
@@ -301,11 +301,13 @@ export function FollowBlock({data}) {
   const handleFollowClick = () => {
     follow(id)
     setisfollow(false)
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(id)
     setisfollow(true)
+    setNeedRerender(true)
   };
 
 
@@ -352,7 +354,7 @@ export function FollowBlock({data}) {
 
 
 //使用者追蹤中的人
-export function FollowingBlock({data}) {
+export function FollowingBlock({data, setNeedRerender}) {
   const { id, name, account, avatar, introduction } = data.Following
   const { isCurrentUserFollowed } = data
   const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
@@ -362,11 +364,13 @@ export function FollowingBlock({data}) {
   const handleFollowClick = () => {
     follow(id)
     setisfollow(false)
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(id)
     setisfollow(true)
+    setNeedRerender(true)
   };
 
 

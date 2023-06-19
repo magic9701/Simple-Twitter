@@ -96,6 +96,7 @@ export default function UserPage() {
       const tweetData = await getUserTweets(token, userData.id);
       const likeData = await getUserLike(token, userData.id);
       const replyData = await getUserReply(token, userData.id);
+      const { users } = await getTopTenUser(token)
       const filterTweetData = tweetData.data.filter(function(item) {
         return item.Tweet !== null;
       });
@@ -109,6 +110,7 @@ export default function UserPage() {
       setTweetList(filterTweetData);
       setLikeList(filterLikeData.reverse());
       setReplyList(filterReplyData);
+      setTopTenUsers(users)
       
       setNeedRerender(false)
     };
@@ -126,6 +128,7 @@ export default function UserPage() {
   const handleFollowClick = () => {
     follow(userId)
     setisfollow(false)
+    
   };
 
   const handleUnfollowClick = () => {
@@ -255,7 +258,7 @@ export default function UserPage() {
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

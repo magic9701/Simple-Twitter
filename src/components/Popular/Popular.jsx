@@ -7,7 +7,7 @@ import { useContext, useState } from 'react';
 
 
 
-function SuggestedFollow({user}) {
+function SuggestedFollow({user, setNeedRerender}) {
   const { id, avatar, account, name, isFollowed } = user
   const { follow, unfollow } = useContext(UserContext)
   const [ isfollow, setisfollow ] = useState(!isFollowed)
@@ -17,11 +17,13 @@ function SuggestedFollow({user}) {
   const handleFollowClick = () => {
     follow(id)
     setisfollow(false)
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(id)
     setisfollow(true)
+    setNeedRerender(true)
   };
 
 
@@ -64,7 +66,7 @@ function SuggestedFollow({user}) {
   );
 }
 
-export default function Popular({topTenUsers}) {
+export default function Popular({topTenUsers, setNeedRerender}) {
   return(
     <div className={styles.popularContainer}>
       <div className={styles.header}>
@@ -73,7 +75,7 @@ export default function Popular({topTenUsers}) {
       <div className={styles.suggestedFollowContainer}>
         <div className={styles.suggestedFollowContainer}>
           {Object.values(topTenUsers).map((user) => (
-            <SuggestedFollow key={user.id} user={user} />
+            <SuggestedFollow key={user.id} user={user} setNeedRerender={setNeedRerender}/>
           ))}
         </div>
       </div>
