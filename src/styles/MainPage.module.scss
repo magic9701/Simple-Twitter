@@ -1,4 +1,7 @@
 //整個頁面的架構
+.middleContainer {
+  height: 100vh;
+}
 .pageContainer {
   display: flex;
   
@@ -52,30 +55,40 @@
   display: flex;
 }
 
-.tweetContainer {
+.tweetContainer,
+.MainPageTweetContainer,
+.PostPageTweetContainer,
+.userPageTweetContainer,
+.FollowerPageTweetContainer {
   overflow-y: auto;
-  max-height: calc(100vh - 74px);
   display: flex;
   flex-wrap: wrap;
-
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #FAFAFA;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+      border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #acacac;
+  }
 }
-
-.tweetContainer::-webkit-scrollbar {
-  width: 8px;
+.MainPageTweetContainer {
+  max-height: calc(100vh - 268px);
 }
-
-.tweetContainer::-webkit-scrollbar-track {
-  background-color: #FAFAFA;
-  border-radius: 4px;
+.PostPageTweetContainer {
+  max-height: calc(100vh - 409px);
 }
-
-.tweetContainer::-webkit-scrollbar-thumb {
-  background-color: #C1C1C1;
-  border-radius: 4px;
+.userPageTweetContainer {
+  max-height: calc(100vh - 526px);
 }
-
-.tweetContainer::-webkit-scrollbar-thumb:hover {
-  background-color: #acacac;
+.FollowerPageTweetContainer {
+  max-height: calc(100vh - 127px);
 }
 
 
@@ -102,27 +115,6 @@
 
 
 // UserPage
-.userPageTweetContainer {
-  overflow-y: auto;
-  max-height: calc(100vh - 520px);
-  display: flex;
-  flex-wrap: wrap;
-  &::-webkit-scrollbar {
-      width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #FAFAFA;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #C1C1C1;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #acacac;
-  }
-}
-
 .personalInfo {
   min-height: 393px;
   position: relative;
@@ -221,63 +213,5 @@
 }
 
 .otherButton {
-  display: flex;
-}
-
-//PostPage
-.tweetInfoContainer {
-  padding: 16px 16px 0 16px;
-  border-bottom: 1px solid #E6ECF0;
-  .accountContainer {
-    margin-left: 8px;
-  }
-  .name {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 26px;
-  }
-  .userId,
-  .timeContainer {
-    color: var(--secondary-color);
-    font-size: 14px;
-  }
-  .timeContainer,
-  .replyAndLike {
-    border-bottom: 1px solid #E6ECF0;
-  }
-  .timeContainer {
-    padding-bottom: 8px;
-  }
-  .tweetContent {
-    margin-top: 8px;
-    font-size: 24px;
-    line-height: 36px;
-    min-height: 108px;
-  }
-  .replyAndLike {
-    font-family: 'Montserrat';
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 23px;
-    display: flex;
-    align-items: center;
-    height: 60px;
-    .words {
-      color: var(--secondary-color);
-    }
-    .likeCount {
-      margin-left: 24px;
-    }
-  }
-  .iconContainer {
-    display: flex;
-    align-items: center;
-    height: 68px;
-    .like {
-      margin-left: 133px;
-    }
-  }
-}
-.userInfo {
   display: flex;
 }

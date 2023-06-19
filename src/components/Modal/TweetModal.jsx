@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { SecondaryButton } from "components/Button/Button.jsx";
 import styles from "styles/TweetModal.module.scss";
 import notiFailIcon from "assets/icons/noti-fail.svg";
@@ -12,7 +12,7 @@ import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
 
-const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) => {
+const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount, setNeedRerender }) => {
   const [description, setDescription] = useState('');
 
 
@@ -64,6 +64,8 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
           popup: styles['my-custom-popup'],
         }
       })
+      setDescription("")
+      setNeedRerender(true)
       setModalOpen(false)
     }if (!success) {
       //顯示推文失敗
@@ -92,7 +94,7 @@ const TweetModal = ({ isOpen, onClose, setModalOpen,userAvatar ,userAccount }) =
 
   return (
       <div className={styles.modalOverlay} onClick={onClose} >
-        <div className={styles.modal}>
+        <div className={`${styles.modal} ${styles.tweetModal}`}>
           <div className={styles.modalHeader}>
             <div className={`${styles.IconContainer} cursor-point`} onClick={onClose}>
               <img className={styles.NotiFailIcon} onClick={onClose} src={notiFailIcon} alt="close"/>

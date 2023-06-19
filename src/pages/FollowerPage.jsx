@@ -5,14 +5,14 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import styles from "styles/MainPage.module.scss"
 
 //components
-import { FollowBlock } from 'components/TweetInfoCard/TweetInfoCard';
+import { FollowBlock, FollowingBlock } from 'components/TweetInfoCard/TweetInfoCard';
 import { MainNav } from 'components/Nav/Nav';
 import Popular from 'components/Popular/Popular';
 
 //API
 import { getTopTenUser, userFollower, userFollowing } from 'api/followship';
-import { checkUserPermission } from "api/auth.js"
-import { getUserDataByAccount } from "api/setting.js"
+import { checkUserPermission } from "api/auth"
+import { getUserDataByAccount } from "api/setting"
 
 //svg
 import arrow from "assets/icons/back-arrow-icon.svg"
@@ -27,62 +27,53 @@ export default function FollowerPage() {
     const [ renderList, setRenderList ] = useState(null)
     const [ renderFollowingList, setRenderFollowingList ] = useState(null)
     const [ isFollowerActive, setIsFollowerActive ] = useState(true);
+    const [ needRerender, setNeedRerender] = useState(false);
     
 
 
   //檢查有有效token
   useEffect (() => {
     //驗證使用者有有效token，若沒有，轉跳回login
-    const getPopular = async () => {
-      if(location.pathname.includes("follower")) {
-        setIsFollowerActive(true)
-      }else {
-        setIsFollowerActive(false)
-      }
-      const token = localStorage.getItem('token')
+    const getData = async () => {
+      try {
+        if(location.pathname.includes("follower")) {
+          setIsFollowerActive(true)
+        }else {
+          setIsFollowerActive(false)
+        }
+        const token = localStorage.getItem('token')
 
-      if (!token) {
-        navigate('/login')
-      }
-      const result = await checkUserPermission(token)
-      if (!result) {
-        navigate('/login')
-      }
-      const { users } = await getTopTenUser(token)
-      if (users) {
-        //call API取得前10名追蹤，放入popular
-        setTopTenUsers(users)
-      }
-    }
-    getPopular()
-  }, [navigate, renderList])
-
-  //取得目前頁面所要render的使用者帳號，位置(for panel)
-  //account去打API取得ID
-  useEffect(() => {
-  const getPathUserData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const { id, tweetCount, name } = await getUserDataByAccount(token, userAccount);
-      if (id) {
-        setPathUserName(name);
-        setPathUserTweetCount(tweetCount);
-        const { followerList } = await userFollower(token, id);
-        const { followingList } = await userFollowing(token, id);
-        setRenderList(followerList);
-        setRenderFollowingList(followingList);
-      } else {
-        // 使用者不存在，導向錯誤頁面
-        navigate('/error');
-      }
+        if (!token) {
+          navigate('/login')
+        }
+        const result = await checkUserPermission(token)
+        if (!result) {
+          navigate('/login')
+        }
+        const { users } = await getTopTenUser(token)
+        const { id, tweetCount, name } = await getUserDataByAccount(token, userAccount);
+          if (id) {
+            setTopTenUsers(users)
+            setPathUserName(name);
+            setPathUserTweetCount(tweetCount);
+            const { followerList } = await userFollower(token, id);
+            const { followingList } = await userFollowing(token, id);
+            setRenderList(followerList);
+            setRenderFollowingList(followingList);
+            setNeedRerender(false)
+          } else {
+            // 使用者不存在，導向錯誤頁面
+            setNeedRerender(false)
+            navigate('/error');
+          }
     } catch (error) {
       // 發生異常錯誤，導向錯誤頁面
+      setNeedRerender(false)
       navigate('/error');
     }
   };
-
-  getPathUserData();
-}, [navigate]);
+    getData()
+  }, [navigate, needRerender])
 
   //名字跟推文數放header
   //call API 取得特定使用者的追隨者
@@ -131,17 +122,17 @@ export default function FollowerPage() {
               正在追隨
             </div>
           </div>
-          <div className={styles.tweetContainer}>
+          <div className={styles.FollowerPageTweetContainer}>
             {isFollowerActive && renderList && renderList.map((data) => (
-              <FollowBlock key={data.followerId} data={data} />
+              <FollowBlock key={data.followerId} data={data} setNeedRerender={setNeedRerender}/>
             ))}
             {isFollowerActive === false && renderFollowingList && renderFollowingList.map((data) => (
-              <FollowBlock key={data.followerId} data={data} />
+              <FollowingBlock key={data.followerId} data={data} setNeedRerender={setNeedRerender}/>
             ))}
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

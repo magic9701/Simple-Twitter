@@ -1,15 +1,21 @@
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+
+//scss
 import styles from "styles/Nav.module.scss";
-//Icon引入
+
+//svg
 import { ReactComponent as Logo } from "assets/icons/logo-Icon.svg";
 import { ReactComponent as HomepageIcon } from "assets/icons/homepage-Icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile-Icon.svg";
 import { ReactComponent as SettingIcon } from "assets/icons/setting-Icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout-Icon.svg";
-//components或 其他
+
+//components
 import { PrimaryButton } from "components/Button/Button.jsx";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
 import TweetModal from "components/Modal/TweetModal.jsx"
+
+//api
 import { getUserData } from "api/setting.js"
 import { checkUserPermission } from "api/auth.js"
 
@@ -43,7 +49,7 @@ const NavItem = ({ icon: Icon, name, route }) => {
 
 
 //Main Navbar
-export function MainNav() {
+export function MainNav({setNeedRerender}) {
   const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserAccount'));
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +152,7 @@ export function MainNav() {
       </Link>
 
       <PrimaryButton onClick={handleTweetPost}>推文</PrimaryButton>
-      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount}/>
+      <TweetModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} setNeedRerender={setNeedRerender}/>
       <div className={styles.logoutContainer}>
         <Link to="/login">
           <div className={`${styles.navItem} ${styles.logout} cursor-point`} onClick={handleLogout}>

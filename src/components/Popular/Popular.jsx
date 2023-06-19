@@ -7,21 +7,23 @@ import { useContext, useState } from 'react';
 
 
 
-function SuggestedFollow({user}) {
+function SuggestedFollow({user, setNeedRerender}) {
   const { id, avatar, account, name, isFollowed } = user
   const { follow, unfollow } = useContext(UserContext)
   const [ isfollow, setisfollow ] = useState(!isFollowed)
-  
+  const currentUserId = localStorage.getItem('currentUserId')
 
 
   const handleFollowClick = () => {
     follow(id)
     setisfollow(false)
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(id)
     setisfollow(true)
+    setNeedRerender(true)
   };
 
 
@@ -43,26 +45,28 @@ function SuggestedFollow({user}) {
           @{name}
         </h6>
       </div>
-      <div className={styles.buttonContainer}>
-        {isfollow ? (
-          <div className={styles.notActiveButtonContainer}>
-            <NotActiveButton onClick={handleFollowClick} id={id}>
-              跟隨
-            </NotActiveButton>
-          </div>
-        ) : (
-          <div className={styles.secondaryButtonContainer}>
-            <SecondaryButton onClick={handleUnfollowClick} id={id}>
-              正在跟隨
-            </SecondaryButton>
-          </div>
-        )}
-      </div>
+      { currentUserId !== id.toString() &&
+        <div className={styles.buttonContainer}>
+          {isfollow ? (
+            <div className={styles.notActiveButtonContainer}>
+              <NotActiveButton onClick={handleFollowClick} id={id}>
+                跟隨
+              </NotActiveButton>
+            </div>
+          ) : (
+            <div className={styles.secondaryButtonContainer}>
+              <SecondaryButton onClick={handleUnfollowClick} id={id}>
+                正在跟隨
+              </SecondaryButton>
+            </div>
+          )}
+        </div>
+      }  
     </div>
   );
 }
 
-export default function Popular({topTenUsers}) {
+export default function Popular({topTenUsers, setNeedRerender}) {
   return(
     <div className={styles.popularContainer}>
       <div className={styles.header}>
@@ -71,7 +75,7 @@ export default function Popular({topTenUsers}) {
       <div className={styles.suggestedFollowContainer}>
         <div className={styles.suggestedFollowContainer}>
           {Object.values(topTenUsers).map((user) => (
-            <SuggestedFollow key={user.id} user={user} />
+            <SuggestedFollow key={user.id} user={user} setNeedRerender={setNeedRerender}/>
           ))}
         </div>
       </div>

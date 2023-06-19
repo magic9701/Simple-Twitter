@@ -12,7 +12,6 @@
     position: fixed;
     top: 56px;
     left: calc(50% - 317px);
-    height: 300px;
     width: 634px;
     background-color: #FFFFFF;
     border-radius:14px;
@@ -83,6 +82,10 @@
   right: 16px;
   bottom: 16px;
 }
+
+.tweetModal {
+  height: 300px;
+}
     
 //頁面提示框內容設定
 .my-custom-popup {
@@ -116,4 +119,72 @@
   position: absolute;
   right: -5px;
   top: 0;
+}
+
+//ReplyModal
+.replyModal {
+  height: 450px;
+}
+
+.tweetCardContainer {
+  padding: 16px 24px 0;
+  display: flex;
+}
+.information {
+  width: 550px;
+  padding-left: 8px;
+
+  .topInfo {
+    display: flex;
+    align-items: center;
+
+    .name {
+      font-weight: 700;
+    }
+
+    .userId {
+      margin-left: 8px;
+    }
+  }
+
+  .userId,
+  .reply,
+  .replyUserId {
+    color: var(--secondary-color);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .replyBy {
+    display: flex;
+    margin-top: 8px;
+    margin-bottom: 8px;
+
+    .replyUserId {
+      color: var(--active-color);
+      margin-left: 5px;
+    }
+  }
+
+  .botInfo {
+    width: 100%;
+    overflow-wrap: break-word;
+    color: var(--dark-100);
+    font-weight: 400;
+    font-size: 16px;
+    height: 64px;
+  }
+
+  .botInfo {
+    margin: 12px 0 16px;
+  }
+}
+
+.grayLine {
+  width: 2px;
+  height: 80px;
+  background: #CCD6DD;
+  position: absolute;
+  left: 48px;
+  top: 128px;
 }

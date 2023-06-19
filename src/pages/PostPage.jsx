@@ -1,22 +1,66 @@
 import styles from "styles/MainPage.module.scss"
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 
 //svg
 import arrow from "assets/icons/back-arrow-icon.svg"
-import ReplyIcon from "assets/icons/reply-icon.svg";
-import LikeIcon from "assets/icons/like-icon.svg";
-import defaultAvatar from "assets/icons/default-avatar.svg"
 
 //components
 import { MainNav } from "components/Nav/Nav";
+import Popular from 'components/Popular/Popular';
+import SingleTweet from "components/TweetInfoCard/SingleTweet";
+import { ReplyInfoCard } from 'components/TweetInfoCard/TweetInfoCard';
 
-export default function PoatPage() {
+//api
+import { getTopTenUser } from 'api/followship';
+import { getSingleTweet, getSingleReplyTweet } from 'api/PostTweet.js'
+import { checkUserPermission } from "api/auth.js"
+import { getUserData } from "api/setting.js"
+
+
+export default function PostPage() {
   const { userAccount } = useParams()
   const { postId } = useParams();
   const navigate = useNavigate()
-  const location = useLocation()
+
+  const [ topTenUsers, setTopTenUsers ] = useState(null)
+  const [ userAvatar, setUserAvatar ] = useState('')
+  const [ tweetInfo, setTweetInfo ] = useState(null)
+  const [ replyInfo, setReplyInfo ] = useState(null)
+  const [ needRerender, setNeedRerender ] = useState(false);
+
+
+  useEffect(() => {
+    const checkUserTokenIsValid = async () => {
+      const token = localStorage.getItem('token');
+      const id = localStorage.getItem('currentUserId')
+      if (!token) {
+        navigate('/login')
+      }
+      const result = await checkUserPermission(token);
+      if (!result) {
+        navigate('/login')
+      } else {
+        const response = await getSingleTweet(token, postId)
+        const { avatar } = await getUserData(token, id);
+        const { users } = await getTopTenUser(token)
+        const { data } = await getSingleReplyTweet(token, postId)
+        if(response && response.data.User.account === userAccount) {
+          setTweetInfo(response.data)
+          setUserAvatar(avatar)
+          setTopTenUsers(users)
+          setReplyInfo(data)
+          setNeedRerender(false)
+        } else {
+          setNeedRerender(false)
+          navigate('/error');
+        }
+      }
+    }
+    checkUserTokenIsValid();
+  }, [navigate, needRerender]);
+
+
 
 
 
@@ -26,10 +70,10 @@ export default function PoatPage() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
-          <MainNav />
+          <MainNav setNeedRerender={setNeedRerender}/>
         </div>
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>
@@ -40,54 +84,20 @@ export default function PoatPage() {
               <h4>推文</h4>
             </div>
           </div>
-          <div className={styles.tweetInfoContainer}>
-            {/* 頭像 */}
-            <div className={styles.userInfo}>
-              <div className={styles.avatarContainer}>
-                {/* <Link to={`/user/${account}`}><img className="cursor-point"
-                  src={avatar ? avatar : defaultAvatar}
-                  alt="avatar"
-                /></Link> */}
-                <img src={defaultAvatar}></img>
-              </div>
-              <div className={styles.accountContainer}>
-                {/* 使用者名字、帳號 */}
-                  <h6 className={styles.name}>name</h6>
-                  <h6 className={styles.userId}>@account</h6>
-              </div>
-            </div>
-              {/* 內容 */}
-            <div className={styles.tweetContent}>
-              description
-            </div>
-            <div className={styles.timeContainer}>
-              上午 10:05・2021年11月10日
-            </div>
-            {/* 回覆及喜歡次數 */}
-            <div className={styles.replyAndLike}>
-              <div>
-                <span className={styles.replyCount}>replyCount</span>
-                <span className={styles.words}>回覆</span>
-              </div>
-              <div>
-                <span className={styles.likeCount}>likeCount</span>
-                <span className={styles.words}>喜歡次數</span>
-              </div>
-            </div>
-            {/* Icon */}
-            <div className={styles.iconContainer}>
-              <img src={ReplyIcon} alt="ReplyIcon" />
-              <img className={styles.like}src={LikeIcon} alt="LikeIcon" />
-            </div>
-          </div>
-
+          {/* 推文內容 */}
+          {tweetInfo &&
+            <SingleTweet key={tweetInfo.id} tweetInfo={tweetInfo} userAccount={userAccount} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
+          }
           {/* 回覆內容 */}
-          <div className={styles.tweetContainer}>
-
+          <div className={styles.PostPageTweetContainer}>
+            {replyInfo &&
+              replyInfo.map((tweet) => (
+                <ReplyInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
+              ))}
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {/* {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />} */}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

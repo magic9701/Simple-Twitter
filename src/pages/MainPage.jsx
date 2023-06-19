@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+//scss
 import styles from "styles/MainPage.module.scss"
 
 //components
@@ -37,7 +38,7 @@ export default function MainPage() {
         const { users } = await getTopTenUser(token)
         const response = await getAllTweets(token)
         const { avatar } = await getUserData(token, id)
-          setTweetsList(response.data.reverse())
+          setTweetsList(response.data)
           setUserAvatar(avatar);
         if (users) {
         //call API取得前10名追蹤，放入popular
@@ -52,12 +53,9 @@ export default function MainPage() {
     const rerenderPage = async () => {
       if(needRerender) {
         const token = localStorage.getItem('token');
-        const id = localStorage.getItem('currentUserId');
         const { users } = await getTopTenUser(token)
         const response = await getAllTweets(token)
-        const { avatar } = await getUserData(token, id)
-        setTweetsList(response.data.reverse())
-        setUserAvatar(avatar);
+        setTweetsList(response.data)
         if (users) {
           setTopTenUsers(users)
         }
@@ -69,10 +67,10 @@ export default function MainPage() {
 
 
   return(
-    <div className="container mx-auto">
+    <div className={`${styles.container} container mx-auto`}>
       <div className={styles.pageContainer}>
         <div className={styles.navContainer}>
-          <MainNav />
+          <MainNav setNeedRerender={setNeedRerender}/>
         </div>
         <div className={styles.MiddlePartContainer}>
           <div className={styles.headerContainer}>
@@ -81,15 +79,15 @@ export default function MainPage() {
           <div className={styles.postPanel}>
             <TweetPanel userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
           </div>
-          <div className={styles.tweetContainer}>
+          <div className={styles.MainPageTweetContainer}>
             {tweetsList &&
               tweetsList.map((tweet) => (
-                <TweetInfoCard key={tweet.id} tweet={tweet} />
+                <TweetInfoCard key={tweet.id} tweet={tweet} userAvatar={userAvatar} setNeedRerender={setNeedRerender}/>
               ))}
           </div>
         </div>
         <div className={styles.popularContainer}>
-          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} />}
+          {topTenUsers !== null && <Popular topTenUsers={topTenUsers} setNeedRerender={setNeedRerender}/>}
         </div>
       </div>
     </div>

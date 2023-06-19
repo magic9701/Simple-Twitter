@@ -65,6 +65,25 @@ export default function SettigPage() {
       })
       return;
     }
+    if (password.length < 8) {
+      Swal.fire({
+        position: 'top',
+        title: `
+          <div class="${styles["my-custom-title"]}">
+            <div class="${styles["my-custom-title-text"]}">密碼最少須8個字!</div>
+            <div class="${styles["my-custom-title-icon"]}">
+              <img src="${redIcon}" alt="cross" class="${styles["my-custom-image"]}" />
+            </div>
+          </div>
+        `,
+        timer: 3000,
+        showConfirmButton: false,
+        customClass: {
+          popup: styles['my-custom-popup'],
+        }
+      })
+      return;
+    }
     const token = await localStorage.getItem('token')
     const id = await localStorage.getItem('currentUserId')
     const { success, message } = await resetUserAccount(

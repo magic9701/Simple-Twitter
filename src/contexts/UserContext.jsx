@@ -1,5 +1,6 @@
-import { createContext, useState } from 'react';
-import { followUser, unfollowUser } from 'api/followship';
+import { createContext } from 'react'
+import { followUser, unfollowUser } from 'api/followship'
+import { likeTweet, unlikeTweet } from 'api/PostTweet'
 
 export const UserContext = createContext(null);
 
@@ -10,9 +11,8 @@ export function UserProvider({ children }) {
     try {
       const token = localStorage.getItem("token")
       const { success } = await followUser(token,id)
-      console.log(success)
       if (success) {
-        console.log("追蹤成功")
+        return
       } 
     } catch (error) {
       console.log("追蹤使用者時發生錯誤:", error)
@@ -26,7 +26,7 @@ export function UserProvider({ children }) {
       const token = localStorage.getItem("token")
       const { success } =  await unfollowUser(token,id)
       if (success) {
-        console.log("退追蹤成功")
+        return
       } 
     } catch (error) {
       console.log("退追蹤使用者時發生錯誤:", error)
@@ -34,9 +34,39 @@ export function UserProvider({ children }) {
     }
   }
 
+  // 喜歡貼文
+  const likeATweet = async (tweetId) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { success } =  await likeTweet(token, tweetId)
+      if (success) {
+        console.log("喜歡貼文")
+      } 
+    } catch (error) {
+      console.log("喜歡貼文時發生錯誤:", error)
+      return {error}
+    }
+  }
+
+  // 收回喜歡
+  const unlikeATweet = async (tweetId) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { success } =  await unlikeTweet(token, tweetId)
+      if (success) {
+        console.log("收回喜歡貼文")
+      } 
+    } catch (error) {
+      console.log("收回喜歡貼文時發生錯誤:", error)
+      return {error}
+    }
+  }
+
   const contextValue = {
     follow,
-    unfollow
+    unfollow,
+    likeATweet,
+    unlikeATweet
   };
 
   return (
@@ -45,3 +75,4 @@ export function UserProvider({ children }) {
     </UserContext.Provider>
   );
 }
+

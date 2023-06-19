@@ -17,7 +17,30 @@ export const postTweet = async (token, description) => {
       return { success: true };
     }
   } catch (error) {
-    console.error("[Post Failed]: ", error);
+    console.error("[Post Tweet Failed]: ", error);
+  }
+};
+
+//新增回覆
+export const postReply = async (token, comment, tweetId) => {
+  try {
+    const bodyData = {
+      comment: comment,
+    };
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/replies`,
+      bodyData,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("[Post Reply Failed]: ", error);
   }
 };
 
@@ -81,11 +104,82 @@ export const getUserLike = async (token, id) => {
         Authorization: "Bearer " + token,
       },
     });
-    console.log(response);
     if (response) {
       return response;
     }
   } catch (error) {
     console.error("[Get User Likes tweets Failed]: ", error);
+  }
+};
+
+//取得單一推文的回應
+export const getSingleReplyTweet = async (token, postId) => {
+  try {
+    const response = await axios.get(`${authURL}/tweets/${postId}/replies`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.error("[Get User Single Tweet Replies Failed]: ", error);
+  }
+};
+
+//取得指定推文
+export const getSingleTweet = async (token, postId) => {
+  try {
+    const response = await axios.get(`${authURL}/tweets/${postId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    if (response) {
+      return response;
+    }
+  } catch (error) {
+    console.error("[Get User Single Tweet Failed]: ", error);
+  }
+};
+
+//喜歡一則貼文
+export const likeTweet = async (token, tweetId) => {
+  try {
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/like`,
+      null,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("[User Like Tweet Failed]: ", error);
+  }
+};
+
+//取消喜歡一則貼文
+export const unlikeTweet = async (token, tweetId) => {
+  try {
+    const response = await axios.post(
+      `${authURL}/tweets/${tweetId}/unlike`,
+      null,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response) {
+      return { success: true };
+    }
+  } catch (error) {
+    console.error("[User unLike Tweet Failed]: ", error);
   }
 };
