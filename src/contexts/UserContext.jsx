@@ -1,6 +1,6 @@
-import { createContext, useState } from 'react';
-import { followUser, unfollowUser } from 'api/followship';
-import { postReply } from 'api/PostTweet';
+import { createContext, useState } from 'react'
+import { followUser, unfollowUser } from 'api/followship'
+import { likeTweet, unlikeTweet } from 'api/PostTweet'
 
 export const UserContext = createContext(null);
 
@@ -13,7 +13,7 @@ export function UserProvider({ children }) {
       const { success } = await followUser(token,id)
       console.log(success)
       if (success) {
-        console.log("追蹤成功")
+        return
       } 
     } catch (error) {
       console.log("追蹤使用者時發生錯誤:", error)
@@ -27,7 +27,7 @@ export function UserProvider({ children }) {
       const token = localStorage.getItem("token")
       const { success } =  await unfollowUser(token,id)
       if (success) {
-        console.log("退追蹤成功")
+        return
       } 
     } catch (error) {
       console.log("退追蹤使用者時發生錯誤:", error)
@@ -35,22 +35,39 @@ export function UserProvider({ children }) {
     }
   }
 
-  //回覆推文
-  const replyATweet = async (comment, tweetId) => {
+  // 喜歡貼文
+  const likeATweet = async (tweetId) => {
     try {
       const token = localStorage.getItem("token")
-      const { success } = await postReply(token, comment, tweetId)
+      const { success } =  await likeTweet(token,tweetId)
       if (success) {
-        console.log("回文成功")
-      }
+        return
+      } 
     } catch (error) {
-      console.error("回文時發生錯誤: ", error);
+      console.log("喜歡貼文時發生錯誤:", error)
+      return {error}
+    }
+  }
+
+  // 收回喜歡
+  const unlikeATweet = async (tweetId) => {
+    try {
+      const token = localStorage.getItem("token")
+      const { success } =  await unlikeTweet(token,tweetId)
+      if (success) {
+        return
+      } 
+    } catch (error) {
+      console.log("收回喜歡貼文時發生錯誤:", error)
+      return {error}
     }
   }
 
   const contextValue = {
     follow,
-    unfollow
+    unfollow,
+    likeATweet,
+    unlikeATweet
   };
 
   return (

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { UserContext } from "contexts/UserContext.jsx"
+import { useContext, useState } from 'react';
 
 //scss
 import styles from "styles/SingleTweet.module.scss"
@@ -7,6 +8,7 @@ import styles from "styles/SingleTweet.module.scss"
 //svg
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/like-icon.svg";
+import { ReactComponent as LikeActiveIcon } from "assets/icons/like-active.svg";
 
 //component
 import { ReplyModal } from "components/Modal/ReplyModal.jsx"
@@ -14,8 +16,10 @@ import defaultAvatar from "assets/icons/default-avatar.svg"
 
 export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
   const { account, avatar, name } = tweetInfo.User
-  const { description, createdAt, likeCount, replyCount } = tweetInfo
+  const { description, createdAt, likeCount, replyCount, id } = tweetInfo
   const [ needRerender, setNeedRerender] = useState(false)
+  const { likeATweet, unlikeATweet } = useContext(UserContext)
+  const [ isLike, setIsLike ] = useState(tweetInfo.isLiked)
 
   //時間轉換
   const date = new Date(createdAt)
@@ -51,6 +55,17 @@ export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
   };
   const handleReply = () => {
     openModal();
+  };
+
+  //like/unlike貼文
+  const handleLikeClick = (id) => {
+    likeATweet(id)
+    setIsLike(true)
+  };
+
+  const handleUnLikeClick = (id) => {
+    unlikeATweet(id)
+    setIsLike(false)
   };
 
 
@@ -92,7 +107,7 @@ export default function SingleTweet ({tweetInfo, userAccount, userAvatar}) {
       <div className={styles.iconContainer}>
         <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
         <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweetInfo} setNeedRerender={setNeedRerender}/>
-        <LikeIcon className={styles.like} />
+        { isLike ? <LikeActiveIcon className={styles.likeBig} onClick={handleUnLikeClick}/> : <LikeIcon className={styles.like} onClick={handleLikeClick}/>}
       </div>
     </div>
   )

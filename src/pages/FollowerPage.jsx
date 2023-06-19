@@ -11,8 +11,8 @@ import Popular from 'components/Popular/Popular';
 
 //API
 import { getTopTenUser, userFollower, userFollowing } from 'api/followship';
-import { checkUserPermission } from "api/auth.js"
-import { getUserDataByAccount } from "api/setting.js"
+import { checkUserPermission } from "api/auth"
+import { getUserDataByAccount } from "api/setting"
 
 //svg
 import arrow from "assets/icons/back-arrow-icon.svg"

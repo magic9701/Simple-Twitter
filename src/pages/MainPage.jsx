@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+//scss
 import styles from "styles/MainPage.module.scss"
 
 //components
