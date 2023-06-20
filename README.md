@@ -1,8 +1,8 @@
 # Simple Twitter
 
-這是一個使用 React 製作的簡易版推特，使用者可以註冊帳號，登入進行推文、案讚、追蹤等功能。
-[gh-page 連結](https://magic9701.github.io/Simple-Twitter/)
-[後端 repo 連結](https://github.com/av124773/twitter-api-2020)
+這是一個使用 React 製作的簡易版推特，使用者可以註冊帳號，登入進行推文、案讚、追蹤等功能。<br>
+[gh-page 連結](https://magic9701.github.io/Simple-Twitter/)  <br>
+[後端 repo 連結](https://github.com/av124773/twitter-api-2020)  <br>
 
 ## 畫面截圖
 
