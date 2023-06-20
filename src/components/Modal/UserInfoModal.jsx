@@ -1,6 +1,5 @@
 import styles from "../../styles/UserModal.module.scss";
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ReactComponent as NotiFailIcon } from "../../assets/icons/noti-fail.svg";
 import { SecondaryButton } from "../Button/Button";
 import UserInput from "components/InputBlock/userInput";
@@ -14,22 +13,13 @@ import defaultAvatar from "assets/icons/default-avatar.svg";
 import defaultBanner from "assets/icons/default-banner.svg";
 const UserInfoModal = ({
   userData,
-  setName,
-  setIntroduction,
-  setAvatarImg,
-  setBannerImg,
-  token,
-  id,
   closeModal,
   setNeedRerender,
 }) => {
-  const {
-    name: initialName,
-    introduction: initialIntroduction,
-    banner: initialBanner,
-    avatar: initialAvatar,
-  } = userData || [];
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const initialName = userData.name
+  const initialBanner = userData.banner
+  const initialAvatar = userData.avatar
+  const initialIntroduction = userData.introduction === null ? "" : userData.introduction
 
   const [isError, setIsError] = useState(false);
   const [name, setNewName] = useState(initialName);
@@ -38,15 +28,11 @@ const UserInfoModal = ({
   const [newBanner, setNewBanner] = useState("");
   const [avatar, setAvatar] = useState(initialAvatar);
   const [newAvatar, setNewAvatar] = useState("");
-  const navigate = useNavigate();
   const avatarFileInputRef = useRef(null);
   const bannerFileInputRef = useRef(null);
-  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
-  const [isEditingBanner, setIsEditingBanner] = useState(false);
 
   const handleBannerChange = () => {
     console.log("Banner file input clicked");
-    setIsEditingBanner(true);
     try {
       bannerFileInputRef.current?.click();
     } catch (error) {
@@ -62,14 +48,12 @@ const UserInfoModal = ({
       }
       console.log("Selected file:", file);
       setNewBanner(file);
-      const bannerURL = URL.createObjectURL(file); // 添加此行
-      setBanner(bannerURL); // 添加此行
-      setIsEditingBanner(false);
+      const bannerURL = URL.createObjectURL(file);
+      setBanner(bannerURL);
     }
   };
 
   const handleAvatarChange = () => {
-    setIsEditingAvatar(true);
     avatarFileInputRef.current?.click();
   };
   const handleAvatarUpload = async (event) => {
@@ -83,7 +67,6 @@ const UserInfoModal = ({
       setNewAvatar(file);
       const avatarURL = URL.createObjectURL(file);
       setAvatar(avatarURL);
-      setIsEditingAvatar(false);
     }
   };
   const handleNotiFailClick = () => {
@@ -137,6 +120,8 @@ const UserInfoModal = ({
         banner: newBanner || banner,
         avatar: newAvatar || avatar,
       };
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("currentUserId");
       const result = await changeUserProfile(token, id, updatedProfile);
       if (result.success) {
         closeModal();
@@ -246,11 +231,6 @@ const UserInfoModal = ({
                   key={newAvatar ? "newAvatar" : "defaultAvatar"}
                 />
               )}
-              {/* <img
-                src={newAvatar ? URL.createObjectURL(newAvatar) : avatar}
-                alt="Avatar"
-                key={newAvatar ? "newAvatar" : "avatar"} // 添加 key 属性
-              /> */}
               <div className={styles.changeAvatar}>
                 <CameraIcon
                   as="label"

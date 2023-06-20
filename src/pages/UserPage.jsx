@@ -144,43 +144,9 @@ export default function UserPage() {
     unfollow(userId);
     setisfollow(true);
   };
+
   //開啟MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //取得TOKEN及ID
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("currentUserId");
-  //儲存更新資料
-  const [name, setName] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [banner, setBanner] = useState("");
-  const handleAvatarChange = (event) => {
-    const newAvatarValue = event.target.value;
-    setAvatar(newAvatarValue);
-  };
-  const handleAvatarUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = async () => {
-      const imageDataURL = reader.result;
-      // 将头像上传至服务器并获取新的头像路径
-      const newAvatarPath = await changeUserProfile(imageDataURL); // 使用适当的上传文件的方法
-
-      // 更新userData.avatar的值为新的头像路径
-      setUserData.avatar((prevUserData) => ({
-        ...prevUserData,
-        avatar: newAvatarPath,
-      }));
-    };
-
-    reader.readAsDataURL(file);
-    setIsEditingAvatar(false);
-  };
-  const handleBannerChange = (event) => {
-    const newBannerValue = event.target.value;
-    setBanner(newBannerValue);
-  };
 
   //開啟MODAL
   const openModal = () => {
@@ -190,18 +156,7 @@ export default function UserPage() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleModalSave = (
-    updatedName,
-    updatedIntroduction,
-    updatedAvatar,
-    updatedBanner
-  ) => {
-    // 在這裡更新狀態值
-    setName(updatedName);
-    setIntroduction(updatedIntroduction);
-    setAvatar(updatedAvatar);
-    setBanner(updatedBanner);
-  };
+
 
   return (
     <div className={`${styles.container} container mx-auto`}>
@@ -285,17 +240,17 @@ export default function UserPage() {
                   {isModalOpen && (
                     <UserInfoModal
                       userData={userData}
-                      setName={setName}
-                      setIntroduction={setIntroduction}
-                      setAvatar={handleAvatarChange}
-                      setBanner={handleBannerChange}
-                      isModalOpen={openModal}
+                      // setName={setName}
+                      // setIntroduction={setIntroduction}
+                      // setAvatar={handleAvatarChange}
+                      // setBanner={handleBannerChange}
+                      // isModalOpen={openModal}
                       closeModal={closeModal}
-                      onSave={handleModalSave}
-                      id={id}
-                      token={token}
-                      modalFileInputRef={fileInputRef}
-                      handleAvatarUpload={handleAvatarUpload}
+                      // onSave={handleModalSave}
+                      // id={id}
+                      // token={token}
+                      // modalFileInputRef={fileInputRef}
+                      // handleAvatarUpload={handleAvatarUpload}
                       setNeedRerender={setNeedRerender}
                     />
                   )}
