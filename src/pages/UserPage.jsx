@@ -1,6 +1,6 @@
 import styles from "styles/MainPage.module.scss";
 import { useLocation, useParams } from "react-router-dom";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "contexts/UserContext.jsx";
 
@@ -26,7 +26,6 @@ import { getTopTenUser } from "api/followship";
 import { getUserDataByAccount, getUserData } from "api/setting.js";
 import { checkUserPermission } from "api/auth.js";
 import { getUserTweets, getUserReply, getUserLike } from "api/PostTweet";
-import { changeUserProfile } from "api/user";
 export default function UserPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,9 +44,6 @@ export default function UserPage() {
   const [needRerender, setNeedRerender] = useState(false);
   const [isPageActive, setIsPageActive] = useState(null);
   const { follow, unfollow } = useContext(UserContext);
-  const modalFileInputRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
   //先call API 確認使用者輸入的帳號是否存在
   useEffect(() => {
     const checkUserTokenIsValid = async () => {
@@ -240,17 +236,7 @@ export default function UserPage() {
                   {isModalOpen && (
                     <UserInfoModal
                       userData={userData}
-                      // setName={setName}
-                      // setIntroduction={setIntroduction}
-                      // setAvatar={handleAvatarChange}
-                      // setBanner={handleBannerChange}
-                      // isModalOpen={openModal}
                       closeModal={closeModal}
-                      // onSave={handleModalSave}
-                      // id={id}
-                      // token={token}
-                      // modalFileInputRef={fileInputRef}
-                      // handleAvatarUpload={handleAvatarUpload}
                       setNeedRerender={setNeedRerender}
                     />
                   )}
