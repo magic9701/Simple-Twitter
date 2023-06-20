@@ -10,17 +10,11 @@ import { adminLogin, checkAdminPermission } from "api/auth.js"
 import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
 
-
-
 export default function AdminPage() {
   const [ account, setAccount ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ isError, setIsError ] = useState(false)
   const navigate = useNavigate()
-  
-  useEffect (() => {
-    console.log(isError)
-  },[isError])
 
   useEffect(() => {
     const checkTokenIsValid = async () => {

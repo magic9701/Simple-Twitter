@@ -1,0 +1,95 @@
+.panelContainer {
+  position: relative;
+}
+
+.tweetContainer {
+  display: flex;
+  width: 100%;
+  padding: 16px 24px 0 24px;
+}
+
+.textAreaContainer {
+  margin-left: 8px;
+  margin-top: 12px;
+  width: 100%;
+  height: 156px;
+
+  textarea {
+    width: 528px;
+    min-height: 110px;
+    border: none;
+    resize: none;
+    font-size: 16px;
+    color: var(--dark-100);
+
+    &::placeholder {
+      font-family: var(--main-font-family);
+      font-size: 16px;
+      color: var(--secondary-color);
+    }
+
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.avatarContainer {
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.alertMessage {
+  color: var(--danger);
+  font-weight: 500;
+  font-size: 15px;
+  position: absolute;
+  right: 101px;
+  bottom: 28px;
+}
+
+.tweetButton {
+  width: 64px;
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+}
+
+//頁面提示框內容設定
+.my-custom-popup {
+  width: 394px !important;
+  height: 96px !important;
+  position: relative;
+}
+
+.my-custom-title {
+  font-weight: 700;
+  width: 330px;
+  font-family: 'Roboto';
+  font-size: 20px;
+  line-height: 28px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 18px;
+}
+
+.my-custom-title-icon {
+  width: 56px;
+  height: 56px;
+}
+
+.my-custom-image {
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  right: -5px;
+  top: 0;
+}

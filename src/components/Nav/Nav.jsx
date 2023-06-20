@@ -1,22 +1,23 @@
-import styles from "../../styles/Nav.module.scss";
-//Icon引入
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+//scss
+import styles from "styles/Nav.module.scss";
+
+//svg
 import { ReactComponent as Logo } from "assets/icons/logo-Icon.svg";
 import { ReactComponent as HomepageIcon } from "assets/icons/homepage-Icon.svg";
 import { ReactComponent as ProfileIcon } from "assets/icons/profile-Icon.svg";
 import { ReactComponent as SettingIcon } from "assets/icons/setting-Icon.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout-Icon.svg";
-//components或 其他
-import { PrimaryButton } from "components/Button/Button.jsx";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import TweetModal from "../Modal/TweetModal";
 
-//main navbar選項的內容
-const mainNavItems = [
-  { icon: HomepageIcon, name: "首頁", route: "/main" },
-  { icon: ProfileIcon, name: "個人資料", route: "user/:userAccount" },
-  { icon: SettingIcon, name: "設定", route: "/setting" },
-];
+//components
+import { PrimaryButton } from "components/Button/Button.jsx";
+import TweetModal from "components/Modal/TweetModal.jsx";
+
+//api
+import { getUserData } from "api/setting.js";
+import { checkUserPermission } from "api/auth.js";
 
 //admin navbar選項的內容
 const adminNavItems = [
@@ -47,25 +48,71 @@ const NavItem = ({ icon: Icon, name, route }) => {
 };
 
 //Main Navbar
-export function MainNav() {
+export function MainNav({ setNeedRerender }) {
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem("currentUserAccount")
+  );
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isActiveHome, setIsActiveHome] = useState(
+    location.pathname === "/main"
+  );
+  const [isActiveUser, setIsActiveUser] = useState(
+    location.pathname === `/user/${currentUser}`
+  );
+  const [isActiveSetting, setIsActiveSetting] = useState(
+    location.pathname === "/setting"
+  );
+  const [userAvatar, setUserAvatar] = useState("");
+  const [userAccount, setUserAccount] = useState("");
 
-  //登出功能
+  useEffect(() => {
+    setCurrentUser(localStorage.getItem("currentUserAccount"));
+  }, [navigate]);
+
+  // 登出功能
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("currentUserAccount");
     navigate("/login");
   };
-  //推文Modal
+
+  //點擊推文按鈕，獲得使用者頭貼
+  const getAvatar = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("currentUserId");
+      const Account = localStorage.getItem("currentUserAccount");
+      setUserAccount(Account);
+      if (!token) {
+        navigate("/login");
+      }
+      const result = await checkUserPermission(token);
+      if (result) {
+        const { avatar } = await getUserData(token, id);
+        if (avatar) {
+          setUserAvatar(avatar);
+        }
+      }
+    } catch (error) {
+      console.error("Error occurred while getting avatar:", error);
+    }
+  };
+
+  //推文功能
   const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
-  const closeModal = () => {
-    setModalOpen(false);
+  const closeModal = (event) => {
+    if (event.target === event.currentTarget) {
+      setModalOpen(false);
+    }
   };
-  const handleClick = () => {
-    console.log("按钮被點擊了！");
+  const handleTweetPost = () => {
     openModal();
+    getAvatar();
   };
 
   return (
@@ -73,16 +120,67 @@ export function MainNav() {
       <Link to="/main">
         <Logo className={styles.logo} />
       </Link>
-      {mainNavItems.map((item, index) => (
-        <NavItem
-          key={index}
-          icon={item.icon}
-          name={item.name}
-          route={item.route}
-        />
-      ))}
-      <PrimaryButton onClick={handleClick}>推文</PrimaryButton>
-      <TweetModal isOpen={modalOpen} onClose={closeModal} />
+
+      {/* 首頁 */}
+      <Link to="/main">
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveHome ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveHome(true)}
+        >
+          <HomepageIcon
+            className={`${styles.icon} ${
+              isActiveHome ? styles.activeIcon : ""
+            }`}
+          />
+          <h5 className={styles.itemName}>首頁</h5>
+        </div>
+      </Link>
+
+      {/* 個人頁面 */}
+      <Link to={`/user/${currentUser}`}>
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveUser ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveUser(true)}
+        >
+          <ProfileIcon
+            className={`${styles.icon} ${
+              isActiveUser ? styles.activeIcon : ""
+            }`}
+          />
+          <h5 className={styles.itemName}>個人資料</h5>
+        </div>
+      </Link>
+
+      {/* 設定頁面 */}
+      <Link to="/setting">
+        <div
+          className={`${styles.navItem} cursor-point ${
+            isActiveSetting ? styles.activeNavItem : ""
+          }`}
+          onClick={() => setIsActiveSetting(true)}
+        >
+          <SettingIcon
+            className={`${styles.icon} ${
+              isActiveSetting ? styles.activeIcon : ""
+            }`}
+          />
+          <h5 className={styles.itemName}>設定</h5>
+        </div>
+      </Link>
+
+      <PrimaryButton onClick={handleTweetPost}>推文</PrimaryButton>
+      <TweetModal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        setModalOpen={setModalOpen}
+        userAvatar={userAvatar}
+        userAccount={userAccount}
+        setNeedRerender={setNeedRerender}
+      />
       <div className={styles.logoutContainer}>
         <Link to="/login">
           <div
@@ -104,8 +202,8 @@ export function AdminNav() {
 
   //登出功能
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
+    localStorage.removeItem("adminToken");
+    navigate("/admin");
   };
 
   return (
@@ -122,7 +220,7 @@ export function AdminNav() {
         />
       ))}
       <div className={styles.logoutContainer}>
-        <Link to="/login">
+        <Link to="/admin">
           <div
             className={`${styles.navItem} ${styles.logout} cursor-point`}
             onClick={handleLogout}

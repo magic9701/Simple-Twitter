@@ -1,0 +1,124 @@
+.tweetCardContainer {
+  min-height: 118px
+}
+
+.tweetCardContainer,
+.followCardContainer {
+  display: flex;
+  width: 637px;
+  padding: 16px 0 0 23px;
+  border-bottom: 1px solid #E6ECF0;
+
+  .avatarContainer {
+    img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .information {
+    width: 550px;
+    padding-left: 8px;
+
+    .topInfo {
+      display: flex;
+      align-items: center;
+
+      .name {
+        font-weight: 700;
+      }
+      .userId {
+        margin-left: 8px;
+      }
+    }
+    .userId,
+    .reply,
+    .replyUserId {
+      color: var(--secondary-color);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .replyBy {
+      display: flex;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      .replyUserId {
+        color: var(--active-color);
+        margin-left: 5px;
+      }
+    }
+
+    .botInfo,
+    .tweetContent {
+      width: 100%;
+      overflow-wrap: break-word;
+      color: var(--dark-100);
+      font-weight: 400;
+      font-size: 16px;
+      min-height: 55px;
+    }
+    .botInfo {
+      margin: 12px 0 16px;
+    }
+    .tweetContent {
+      margin: 12px 0 9px;
+    }
+  }
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    height: 14px;
+    .replyContainer,
+    .likeContainer {
+      display: flex;
+      align-items: center;
+    }
+    .likeContainer {
+      margin-left: 40px;
+    }
+    h6 {
+      font-family: var(--numeric-font-family);
+      font-weight: 600;
+      font-size: 14px;
+      color: #6C757D;
+    }
+    .replyIcon,
+    .likeIcon {
+      width: 16px;
+      margin-right: 8px;
+    }
+  }
+}
+
+//FollowBlock 
+.nameAndButton {
+  display: flex;
+}
+
+.topInfoFollowBlock {
+  width: 450px;
+  overflow: hidden;
+}
+
+.buttonContainer {
+  width: 98px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.introduction {
+  max-height: 100px;
+}
+
+.followCardContainer {
+  max-height: 160px;
+  padding: 16px 30px 16px 23px;
+  overflow-x: hidden;
+}
+
+.introduction {
+  padding: 8px 0;
+}

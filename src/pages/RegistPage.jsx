@@ -19,10 +19,6 @@ export default function RegistPage() {
   const [checkPassword, setCheckPassword] = useState('');
   const [isError, setIsError] = useState(false)
   const navigate = useNavigate()
-  
-  useEffect (() => {
-    console.log(isError)
-  },[isError])
 
   useEffect(() => {
     const checkUserTokenIsValid = async () => {
@@ -40,16 +36,42 @@ export default function RegistPage() {
   }, [navigate]);
 
   const handleClick = async () => {
-      if (account.length === 0 || isError === true) {
+      if (isError === true) {
+        Swal.fire({
+          position: 'top',
+          title: `
+            <div class="${styles["my-custom-title"]}">
+              <div class="${styles["my-custom-title-text"]}">請檢查輸入內容！</div>
+              <div class="${styles["my-custom-title-icon"]}">
+                <img src="${redIcon}" alt="cross" class="${styles["my-custom-image"]}" />
+              </div>
+            </div>
+          `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles['my-custom-popup'],
+          }
+        })
         return;
       }
-      if (name.length === 0) {
-        return;
-      }
-      if (password.length === 0) {
-        return;
-      }
-      if (email.length === 0) {
+      if (account.length === 0 || name.length === 0 || password.length === 0 || email.length === 0 ) {
+        Swal.fire({
+          position: 'top',
+          title: `
+            <div class="${styles["my-custom-title"]}">
+              <div class="${styles["my-custom-title-text"]}">所有欄位都是必填！</div>
+              <div class="${styles["my-custom-title-icon"]}">
+                <img src="${redIcon}" alt="cross" class="${styles["my-custom-image"]}" />
+              </div>
+            </div>
+          `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles['my-custom-popup'],
+          }
+        })
         return;
       }
       if (password !== checkPassword) {
@@ -58,6 +80,24 @@ export default function RegistPage() {
           title: `
             <div class="${styles["my-custom-title"]}">
               <div class="${styles["my-custom-title-text"]}">密碼與確認密碼不相符！</div>
+              <div class="${styles["my-custom-title-icon"]}">
+                <img src="${redIcon}" alt="cross" class="${styles["my-custom-image"]}" />
+              </div>
+            </div>
+          `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles['my-custom-popup'],
+          }
+        })
+        return;
+      }if (password.length < 8) {
+        Swal.fire({
+          position: 'top',
+          title: `
+            <div class="${styles["my-custom-title"]}">
+              <div class="${styles["my-custom-title-text"]}">密碼最少須8個字!</div>
               <div class="${styles["my-custom-title-icon"]}">
                 <img src="${redIcon}" alt="cross" class="${styles["my-custom-image"]}" />
               </div>
