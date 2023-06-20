@@ -1,34 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "contexts/UserContext.jsx"
-import { useContext, useState } from 'react';
+import { UserContext } from "contexts/UserContext.jsx";
+import { useContext, useState } from "react";
 
 //scss
-import styles from "styles/TweetInfoCard.module.scss"
+import styles from "styles/TweetInfoCard.module.scss";
 
 //components
-import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
-import { ReplyModal, SecondReplyModal } from "components/Modal/ReplyModal.jsx"
+import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx";
+import { ReplyModal, SecondReplyModal } from "components/Modal/ReplyModal.jsx";
 
 //ICON
 import { ReactComponent as ReplyIcon } from "assets/icons/reply-icon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/like-icon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/like-active.svg";
-import defaultAvatar from "assets/icons/default-avatar.svg"
-
+import defaultAvatar from "assets/icons/default-avatar.svg";
 
 //回覆推文的內容框框
-export function ReplyInfoCard({tweet}) {
-  const { account, avatar, name} = tweet.User
-  const { comment, createdAt } = tweet
-  const postUser = tweet.Tweet.User.account
-  
+export function ReplyInfoCard({ tweet }) {
+  const { account, avatar, name } = tweet.User;
+  const { comment, createdAt } = tweet;
+  const postUser = tweet.Tweet.User.account;
+
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
   const currentTime = new Date();
   const timeDiff = currentTime.getTime() - createdAtTime.getTime();
   const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
   const secondsDiff = Math.floor(timeDiff / 1000);
-  let timeAgo = ""
+  let timeAgo = "";
 
   if (secondsDiff < 60) {
     timeAgo = `${secondsDiff} 秒前`;
@@ -46,17 +45,22 @@ export function ReplyInfoCard({tweet}) {
       {/* 頭像 */}
       <div className={styles.avatarContainer}>
         <div className={styles.avatarContainer}>
-          <Link to={`/user/${account}`}><img className="cursor-point"
-            src={avatar ? avatar : defaultAvatar}
-            alt="avatar"
-          /></Link>
+          <Link to={`/user/${account}`}>
+            <img
+              className="cursor-point"
+              src={avatar ? avatar : defaultAvatar}
+              alt="avatar"
+            />
+          </Link>
         </div>
       </div>
       <div className={styles.information}>
         {/* 使用者名字、帳號、時間 */}
         <div className={styles.topInfo}>
           <h6 className={styles.name}>{name}</h6>
-          <h6 className={styles.userId}>@{account}・{timeAgo}</h6>
+          <h6 className={styles.userId}>
+            @{account}・{timeAgo}
+          </h6>
         </div>
         {/* 回覆 */}
         <div className={styles.replyBy}>
@@ -64,31 +68,29 @@ export function ReplyInfoCard({tweet}) {
           <h6 className={styles.replyUserId}>@{postUser}</h6>
         </div>
         {/* 內容 */}
-        <div className={styles.botInfo}>
-          {comment}
-        </div>
+        <div className={styles.botInfo}>{comment}</div>
       </div>
     </div>
-  )
+  );
 }
 
 //mainPage userPage所有貼文
-export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
-  const navigate = useNavigate()
-  const { createdAt, description, replyCount, id } = tweet
-  const { account, avatar, name} = tweet.User
-  const [ likeCount, setLikeCount ] = useState(tweet.likeCount)
-  const [ isLike, setIsLike ] = useState(tweet.isLiked)
-  const { likeATweet, unlikeATweet } = useContext(UserContext)
-  const userAccount = localStorage.getItem('currentUserAccount')
-  
+export function TweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
+  const navigate = useNavigate();
+  const { createdAt, description, replyCount, id } = tweet;
+  const { account, avatar, name } = tweet.User;
+  const [likeCount, setLikeCount] = useState(tweet.likeCount);
+  const [isLike, setIsLike] = useState(tweet.isLiked);
+  const { likeATweet, unlikeATweet } = useContext(UserContext);
+  const userAccount = localStorage.getItem("currentUserAccount");
+
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
   const currentTime = new Date();
   const timeDiff = currentTime.getTime() - createdAtTime.getTime();
   const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
   const secondsDiff = Math.floor(timeDiff / 1000);
-  let timeAgo = ""
+  let timeAgo = "";
 
   if (secondsDiff < 60) {
     timeAgo = `${secondsDiff} 秒前`;
@@ -108,48 +110,49 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
   const closeModal = (event) => {
     if (event.target === event.currentTarget) {
-      event.stopPropagation()
+      event.stopPropagation();
       setModalOpen(false);
     }
   };
   const handleReply = (event) => {
-    event.stopPropagation()
+    event.stopPropagation();
     openModal(event);
   };
 
   //like/unlike貼文
   const handleLikeClick = (event) => {
-    event.stopPropagation()
-    likeATweet(id)
-    setIsLike(true)
-    setLikeCount(likeCount + 1)
-    setNeedRerender(true)
+    event.stopPropagation();
+    likeATweet(id);
+    setIsLike(true);
+    setLikeCount(likeCount + 1);
+    setNeedRerender(true);
   };
 
   const handleUnLikeClick = (event) => {
-    event.stopPropagation()
-    unlikeATweet(id)
-    setIsLike(false)
-    setLikeCount(likeCount - 1)
-    setNeedRerender(true)
+    event.stopPropagation();
+    unlikeATweet(id);
+    setIsLike(false);
+    setLikeCount(likeCount - 1);
+    setNeedRerender(true);
   };
 
   //導向貼文頁面
   const handlePostClick = () => {
-    navigate(`/user/${account}/post/${id}`)
-  }
+    navigate(`/user/${account}/post/${id}`);
+  };
 
   //導向使用者頁面
   const handleAvatarClick = (event) => {
-    event.stopPropagation()
-    navigate(`/user/${account}/`)
-  }
+    event.stopPropagation();
+    navigate(`/user/${account}/`);
+  };
 
   return (
     <div className={styles.tweetCardContainer} onClick={handlePostClick}>
       {/* 頭像 */}
       <div className={styles.avatarContainer} onClick={handleAvatarClick}>
-        <img className="cursor-point"
+        <img
+          className="cursor-point"
           src={avatar ? avatar : defaultAvatar}
           alt="avatar"
         />
@@ -158,47 +161,70 @@ export function TweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         {/* 使用者名字、帳號、時間 */}
         <div className={styles.topInfo}>
           <h6 className={styles.name}>{name}</h6>
-          <h6 className={styles.userId}>@{account}・{timeAgo}</h6>
+          <h6 className={styles.userId}>
+            @{account}・{timeAgo}
+          </h6>
         </div>
         {/* 內容 */}
-        <div className={styles.tweetContent}>
-          {description}
-        </div>
+        <div className={styles.tweetContent}>{description}</div>
         {/* 回覆及愛心 */}
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
-            <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
-            <ReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
+            <ReplyIcon
+              className={`${styles.replyIcon} cursor-point`}
+              onClick={handleReply}
+            />
+            <ReplyModal
+              isOpen={modalOpen}
+              onClose={closeModal}
+              setModalOpen={setModalOpen}
+              userAvatar={userAvatar}
+              userAccount={userAccount}
+              tweet={tweet}
+              setNeedRerender={setNeedRerender}
+            />
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
-            { isLike ? <LikeActiveIcon className={`${styles.likeIcon} cursor-point`} onClick={handleUnLikeClick} id={id}/> : <LikeIcon className={`${styles.likeIcon} cursor-point`} onClick={handleLikeClick} id={id}/>}
+            {isLike ? (
+              <LikeActiveIcon
+                className={`${styles.likeIcon} cursor-point`}
+                onClick={handleUnLikeClick}
+                id={id}
+              />
+            ) : (
+              <LikeIcon
+                className={`${styles.likeIcon} cursor-point`}
+                onClick={handleLikeClick}
+                id={id}
+              />
+            )}
             <h6 className={styles.LikeCount}>{likeCount}</h6>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 //User喜歡的貼文
-export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
-  const navigate = useNavigate()
-  const { replyCount, TweetId } = tweet
-  const { account, avatar, name} = tweet.User
-  const { createdAt, description } = tweet.Tweet
-  const [ likeCount, setLikeCount ] = useState(tweet.likeCount)
-  const [ isLike, setIsLike ] = useState(tweet.isLiked)
-  const { likeATweet, unlikeATweet } = useContext(UserContext)
-  const userAccount = localStorage.getItem('currentUserAccount')
-  
+export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
+  const navigate = useNavigate();
+  const { replyCount, TweetId } = tweet;
+  const { account, avatar, name } = tweet.User;
+  const { createdAt, description } = tweet.Tweet;
+  const [likeCount, setLikeCount] = useState(tweet.likeCount);
+  const [isLike, setIsLike] = useState(tweet.isLiked);
+  const { likeATweet, unlikeATweet } = useContext(UserContext);
+  const userAccount = localStorage.getItem("currentUserAccount");
+
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
   const currentTime = new Date();
   const timeDiff = currentTime.getTime() - createdAtTime.getTime();
   const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
   const secondsDiff = Math.floor(timeDiff / 1000);
-  let timeAgo = ""
+  let timeAgo = "";
 
   if (secondsDiff < 60) {
     timeAgo = `${secondsDiff} 秒前`;
@@ -218,47 +244,48 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
   };
   const closeModal = (event) => {
     if (event.target === event.currentTarget) {
-      event.stopPropagation()
+      event.stopPropagation();
       setModalOpen(false);
     }
   };
   const handleReply = (event) => {
-    event.stopPropagation()
+    event.stopPropagation();
     openModal();
   };
 
   //like/unlike貼文
   const handleLikeClick = (event) => {
-    event.stopPropagation()
-    likeATweet(TweetId)
-    setIsLike(true)
-    setLikeCount(likeCount + 1)
+    event.stopPropagation();
+    likeATweet(TweetId);
+    setIsLike(true);
+    setLikeCount(likeCount + 1);
   };
 
   const handleUnLikeClick = (event) => {
-    event.stopPropagation()
-    unlikeATweet(TweetId)
-    setIsLike(false)
-    setLikeCount(likeCount - 1)
+    event.stopPropagation();
+    unlikeATweet(TweetId);
+    setIsLike(false);
+    setLikeCount(likeCount - 1);
   };
 
   //導向貼文頁面
   const handlePostClick = (event) => {
-    console.log(event)
-    navigate(`/user/${account}/post/${TweetId}`)
-  }
+    console.log(event);
+    navigate(`/user/${account}/post/${TweetId}`);
+  };
 
   //導向使用者頁面
   const handleAvatarClick = (event) => {
-    event.stopPropagation()
-    navigate(`/user/${account}/`)
-  }
+    event.stopPropagation();
+    navigate(`/user/${account}/`);
+  };
 
   return (
     <div className={styles.tweetCardContainer} onClick={handlePostClick}>
       {/* 頭像 */}
       <div className={styles.avatarContainer} onClick={handleAvatarClick}>
-        <img className="cursor-point"
+        <img
+          className="cursor-point"
           src={avatar ? avatar : defaultAvatar}
           alt="avatar"
         />
@@ -267,57 +294,82 @@ export function LikeTweetInfoCard( {tweet, userAvatar, setNeedRerender} ) {
         {/* 使用者名字、帳號、時間 */}
         <div className={styles.topInfo}>
           <h6 className={styles.name}>{name}</h6>
-          <h6 className={styles.userId}>@{account}・{timeAgo}</h6>
+          <h6 className={styles.userId}>
+            @{account}・{timeAgo}
+          </h6>
         </div>
         {/* 內容 */}
-        <div className={styles.tweetContent}>
-          {description}
-        </div>
+        <div className={styles.tweetContent}>{description}</div>
         {/* 回覆及愛心 */}
         <div className={styles.iconContainer}>
           <div className={styles.replyContainer}>
-            <ReplyIcon className={`${styles.replyIcon} cursor-point`} onClick={handleReply}/>
-            <SecondReplyModal isOpen={modalOpen} onClose={closeModal} setModalOpen={setModalOpen} userAvatar={userAvatar} userAccount={userAccount} tweet={tweet} setNeedRerender={setNeedRerender}/>
+            <ReplyIcon
+              className={`${styles.replyIcon} cursor-point`}
+              onClick={handleReply}
+            />
+            <SecondReplyModal
+              isOpen={modalOpen}
+              onClose={closeModal}
+              setModalOpen={setModalOpen}
+              userAvatar={userAvatar}
+              userAccount={userAccount}
+              tweet={tweet}
+              setNeedRerender={setNeedRerender}
+            />
             <h6 className={styles.replyCount}>{replyCount}</h6>
           </div>
           <div className={styles.likeContainer}>
-            { isLike ? <LikeActiveIcon className={`${styles.likeIcon} cursor-point`} onClick={handleUnLikeClick} id={TweetId}/> : <LikeIcon className={`${styles.likeIcon} cursor-point`} onClick={handleLikeClick} id={TweetId}/>}
+            {isLike ? (
+              <LikeActiveIcon
+                className={`${styles.likeIcon} cursor-point`}
+                onClick={handleUnLikeClick}
+                id={TweetId}
+              />
+            ) : (
+              <LikeIcon
+                className={`${styles.likeIcon} cursor-point`}
+                onClick={handleLikeClick}
+                id={TweetId}
+              />
+            )}
             <h6 className={styles.LikeCount}>{likeCount}</h6>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 //使用者的追隨者
-export function FollowBlock({data, setNeedRerender}) {
-  const { id, name, account, avatar, introduction } = data.Follower
-  const { isCurrentUserFollowed } = data
-  const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
-  const { follow, unfollow } = useContext(UserContext)
-  const currentUserAccount = localStorage.getItem("currentUserAccount")
+export function FollowBlock({ data, setNeedRerender }) {
+  const { id, name, account, avatar, introduction } = data.Follower;
+  const { isCurrentUserFollowed } = data;
+  const [isfollow, setisfollow] = useState(!isCurrentUserFollowed);
+  const { follow, unfollow } = useContext(UserContext);
+  const currentUserAccount = localStorage.getItem("currentUserAccount");
 
   const handleFollowClick = () => {
-    follow(id)
-    setisfollow(false)
-    setNeedRerender(true)
+    follow(id);
+    setisfollow(false);
+    setNeedRerender(true);
   };
 
   const handleUnfollowClick = () => {
-    unfollow(id)
-    setisfollow(true)
-    setNeedRerender(true)
+    unfollow(id);
+    setisfollow(true);
+    setNeedRerender(true);
   };
 
-
-  return(
+  return (
     <div className={styles.followCardContainer}>
       <div className={styles.avatarContainer}>
-        <Link to={`/user/${account}`}><img className="cursor-point"
-          src={avatar ? avatar : defaultAvatar}
-          alt="avatar"
-        /></Link>
+        <Link to={`/user/${account}`}>
+          <img
+            className="cursor-point"
+            src={avatar ? avatar : defaultAvatar}
+            alt="avatar"
+          />
+        </Link>
       </div>
       <div className={styles.information}>
         {/* 使用者名字、追蹤按鈕 */}
@@ -325,7 +377,7 @@ export function FollowBlock({data, setNeedRerender}) {
           <div className={`${styles.topInfo} ${styles.topInfoFollowBlock}`}>
             <h6 className={styles.name}>{name}</h6>
           </div>
-          {currentUserAccount !== account &&
+          {currentUserAccount !== account && (
             <div className={styles.buttonContainer}>
               {isfollow ? (
                 <div className={styles.notActiveButtonContainer}>
@@ -341,46 +393,45 @@ export function FollowBlock({data, setNeedRerender}) {
                 </div>
               )}
             </div>
-          }
+          )}
         </div>
         {/* 自我介紹 */}
-        <div className={styles.introduction}>
-          {introduction}
-        </div>
+        <div className={styles.introduction}>{introduction}</div>
       </div>
     </div>
-  )
+  );
 }
 
-
 //使用者追蹤中的人
-export function FollowingBlock({data, setNeedRerender}) {
-  const { id, name, account, avatar, introduction } = data.Following
-  const { isCurrentUserFollowed } = data
-  const [ isfollow, setisfollow ] = useState(!isCurrentUserFollowed)
-  const { follow, unfollow } = useContext(UserContext)
-  const currentUserAccount = localStorage.getItem("currentUserAccount")
+export function FollowingBlock({ data, setNeedRerender }) {
+  const { id, name, account, avatar, introduction } = data.Following;
+  const { isCurrentUserFollowed } = data;
+  const [isfollow, setisfollow] = useState(!isCurrentUserFollowed);
+  const { follow, unfollow } = useContext(UserContext);
+  const currentUserAccount = localStorage.getItem("currentUserAccount");
 
   const handleFollowClick = () => {
-    follow(id)
-    setisfollow(false)
-    setNeedRerender(true)
+    follow(id);
+    setisfollow(false);
+    setNeedRerender(true);
   };
 
   const handleUnfollowClick = () => {
-    unfollow(id)
-    setisfollow(true)
-    setNeedRerender(true)
+    unfollow(id);
+    setisfollow(true);
+    setNeedRerender(true);
   };
 
-
-  return(
+  return (
     <div className={styles.followCardContainer}>
       <div className={styles.avatarContainer}>
-        <Link to={`/user/${account}`}><img className="cursor-point"
-          src={avatar ? avatar : defaultAvatar}
-          alt="avatar"
-        /></Link>
+        <Link to={`/user/${account}`}>
+          <img
+            className="cursor-point"
+            src={avatar ? avatar : defaultAvatar}
+            alt="avatar"
+          />
+        </Link>
       </div>
       <div className={styles.information}>
         {/* 使用者名字、追蹤按鈕 */}
@@ -388,7 +439,7 @@ export function FollowingBlock({data, setNeedRerender}) {
           <div className={`${styles.topInfo} ${styles.topInfoFollowBlock}`}>
             <h6 className={styles.name}>{name}</h6>
           </div>
-          {currentUserAccount !== account &&
+          {currentUserAccount !== account && (
             <div className={styles.buttonContainer}>
               {isfollow ? (
                 <div className={styles.notActiveButtonContainer}>
@@ -404,13 +455,11 @@ export function FollowingBlock({data, setNeedRerender}) {
                 </div>
               )}
             </div>
-          }
+          )}
         </div>
         {/* 自我介紹 */}
-        <div className={styles.introduction}>
-          {introduction}
-        </div>
+        <div className={styles.introduction}>{introduction}</div>
       </div>
     </div>
-  )
+  );
 }
