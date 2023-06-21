@@ -63,10 +63,12 @@ export default function UserPage() {
         navigate("/login");
       } else {
         const id = localStorage.getItem("currentUserId");
-        const { users } = await getTopTenUser(token);
-        const { avatar } = await getUserData(token, id);
-        const data = await getUserDataByAccount(token, userAccount);
         const currentUserAccount = localStorage.getItem("currentUserAccount");
+        const [{ users }, { avatar }, data] = await Promise.all([
+          getTopTenUser(token),
+          getUserData(token, id),
+          getUserDataByAccount(token, userAccount)
+        ])
         if (users) {
           //call API取得前10名追蹤，放入popular
           setTopTenUsers(users);
@@ -95,11 +97,13 @@ export default function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-      const tweetData = await getUserTweets(token, userData.id);
-      const likeData = await getUserLike(token, userData.id);
-      const replyData = await getUserReply(token, userData.id);
-      const { users } = await getTopTenUser(token);
-      const data = await getUserDataByAccount(token, userAccount);
+      const [tweetData, likeData, replyData, { users }, data] = await Promise.all([
+          getUserTweets(token, userData.id),
+          getUserLike(token, userData.id),
+          getUserReply(token, userData.id),
+          getTopTenUser(token),
+          getUserDataByAccount(token, userAccount)
+        ])
       const filterTweetData = tweetData.data.filter(function (item) {
         return item.Tweet !== null;
       });

@@ -35,9 +35,11 @@ export default function MainPage() {
       if (!result) {
         navigate('/login');
       } else {
-        const { users } = await getTopTenUser(token)
-        const response = await getAllTweets(token)
-        const { avatar } = await getUserData(token, id)
+        const [{ users }, response, { avatar }] = await Promise.all([
+          getTopTenUser(token),
+          getAllTweets(token),
+          getUserData(token, id)
+        ])
           setTweetsList(response.data)
           setUserAvatar(avatar);
         if (users) {
@@ -53,8 +55,10 @@ export default function MainPage() {
     const rerenderPage = async () => {
       if(needRerender) {
         const token = localStorage.getItem('token');
-        const { users } = await getTopTenUser(token)
-        const response = await getAllTweets(token)
+        const [{ users }, response ] = await Promise.all([
+          getTopTenUser(token),
+          getAllTweets(token),
+        ])
         setTweetsList(response.data)
         if (users) {
           setTopTenUsers(users)

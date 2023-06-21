@@ -26,8 +26,8 @@ export default function SettigPage() {
     //驗證使用者有有效token，若沒有，轉跳回login
     //驗證通過，自動填入使用者現在的資料到輸入框
     const fillInUserData = async () => {
-      const token = await localStorage.getItem('token')
-      const id = await localStorage.getItem('currentUserId')
+      const token = localStorage.getItem('token')
+      const id = localStorage.getItem('currentUserId')
       if (!token) {
         navigate('/login')
       }
