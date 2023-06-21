@@ -134,11 +134,13 @@ export default function UserPage() {
   const handleFollowClick = () => {
     follow(userId);
     setisfollow(false);
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(userId);
     setisfollow(true);
+    setNeedRerender(true)
   };
 
   //開啟MODAL

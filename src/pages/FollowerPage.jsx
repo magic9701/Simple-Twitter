@@ -75,6 +75,8 @@ export default function FollowerPage() {
     getData()
   }, [navigate, needRerender])
 
+  
+
   //名字跟推文數放header
   //call API 取得特定使用者的追隨者
   //資料丟給FollowBlock，render頁面
@@ -127,7 +129,7 @@ export default function FollowerPage() {
               <FollowBlock key={data.followerId} data={data} setNeedRerender={setNeedRerender}/>
             ))}
             {isFollowerActive === false && renderFollowingList && renderFollowingList.map((data) => (
-              <FollowingBlock key={data.followerId} data={data} setNeedRerender={setNeedRerender}/>
+              <FollowingBlock key={data.followingId} data={data} setNeedRerender={setNeedRerender}/>
             ))}
           </div>
         </div>

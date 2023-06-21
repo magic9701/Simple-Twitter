@@ -217,6 +217,7 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
   const [isLike, setIsLike] = useState(tweet.isLiked);
   const { likeATweet, unlikeATweet } = useContext(UserContext);
   const userAccount = localStorage.getItem("currentUserAccount");
+  console.log(tweet.User)
 
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
@@ -259,6 +260,7 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
     likeATweet(TweetId);
     setIsLike(true);
     setLikeCount(likeCount + 1);
+    setNeedRerender(true)
   };
 
   const handleUnLikeClick = (event) => {
@@ -266,6 +268,7 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
     unlikeATweet(TweetId);
     setIsLike(false);
     setLikeCount(likeCount - 1);
+    setNeedRerender(true)
   };
 
   //導向貼文頁面
@@ -414,13 +417,13 @@ export function FollowingBlock({ data, setNeedRerender }) {
     follow(id);
     setisfollow(false);
     setNeedRerender(true);
-  };
+  }
 
   const handleUnfollowClick = () => {
     unfollow(id);
     setisfollow(true);
     setNeedRerender(true);
-  };
+  }
 
   return (
     <div className={styles.followCardContainer}>
