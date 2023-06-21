@@ -210,14 +210,13 @@ export function TweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
 //User喜歡的貼文
 export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
   const navigate = useNavigate();
-  const { replyCount, TweetId } = tweet;
-  const { account, avatar, name } = tweet.User;
-  const { createdAt, description } = tweet.Tweet;
-  const [likeCount, setLikeCount] = useState(tweet.likeCount);
-  const [isLike, setIsLike] = useState(tweet.isLiked);
+  const { TweetId } = tweet
+  const { account, avatar, name } = tweet.Tweet.User;
+  const { createdAt, description, repliesCount } = tweet.Tweet;
+  const [likeCount, setLikeCount] = useState(tweet.Tweet.likesCount);
+  const [isLike, setIsLike] = useState(tweet.isCurrentUserLiked);
   const { likeATweet, unlikeATweet } = useContext(UserContext);
   const userAccount = localStorage.getItem("currentUserAccount");
-
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
   const currentTime = new Date();
@@ -259,6 +258,7 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
     likeATweet(TweetId);
     setIsLike(true);
     setLikeCount(likeCount + 1);
+    setNeedRerender(true)
   };
 
   const handleUnLikeClick = (event) => {
@@ -266,11 +266,11 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
     unlikeATweet(TweetId);
     setIsLike(false);
     setLikeCount(likeCount - 1);
+    setNeedRerender(true)
   };
 
   //導向貼文頁面
   const handlePostClick = (event) => {
-    console.log(event);
     navigate(`/user/${account}/post/${TweetId}`);
   };
 
@@ -316,7 +316,7 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
               tweet={tweet}
               setNeedRerender={setNeedRerender}
             />
-            <h6 className={styles.replyCount}>{replyCount}</h6>
+            <h6 className={styles.replyCount}>{repliesCount}</h6>
           </div>
           <div className={styles.likeContainer}>
             {isLike ? (
@@ -414,13 +414,13 @@ export function FollowingBlock({ data, setNeedRerender }) {
     follow(id);
     setisfollow(false);
     setNeedRerender(true);
-  };
+  }
 
   const handleUnfollowClick = () => {
     unfollow(id);
     setisfollow(true);
     setNeedRerender(true);
-  };
+  }
 
   return (
     <div className={styles.followCardContainer}>

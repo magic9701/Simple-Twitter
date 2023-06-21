@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "../../styles/UserInputModal.module.scss";
+import styles from "styles/UserInputModal.module.scss";
 
 export default function InputBlock({
   label,
@@ -15,7 +15,7 @@ export default function InputBlock({
   // 檢查 name 輸入內容是否符合要求，若不符合顯示 errorMessage
   const checkName = () => {
     if (value.length > maxLength) {
-      setErrorMessage(`姓名不能超过${maxLength}个字符！`);
+      setErrorMessage(`姓名不可超過${maxLength}字！`);
     } else {
       setErrorMessage("");
     }
@@ -24,9 +24,9 @@ export default function InputBlock({
   // 檢查 description 輸入內容是否符合要求
   const checkDescription = () => {
     if (value.length > maxLength) {
-      setErrorMessage(`自我介绍不能超过${maxLength}个字符！`);
+      setErrorMessage(`自我介紹不可超過${maxLength}字！`);
     } else if (value.trim() === " ") {
-      setErrorMessage("请输入自我介绍内容！");
+      setErrorMessage("請輸入自我介紹內容！");
     } else {
       setErrorMessage("");
     }

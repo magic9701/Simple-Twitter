@@ -9,6 +9,7 @@ import AdminTweetCard from "components/AdminTweetCard/AdminTweetCard.jsx"
 export default function AdminMainPage() {
   const navigate = useNavigate();
   const [listOfTweets, setListOfTweets] = useState(null)
+  const [ needRender , setNeedRender ] = useState(false)
 
   useEffect(() => {
     //確認管理者登入、token合法
@@ -25,14 +26,16 @@ export default function AdminMainPage() {
         // 取得用戶資料清單
         const {tweetList} = await adminGetTweet(adminToken)
         if (tweetList) {
-          setListOfTweets(tweetList);    
+          setListOfTweets(tweetList);
+          setNeedRender(false)    
         } else {
           console.log("No tweets data available");
+          setNeedRender(false)
         }
       }
     };
     checkTokenIsValid();
-  }, [navigate] );
+  }, [navigate, needRender] );
 
 
   return(
@@ -47,7 +50,7 @@ export default function AdminMainPage() {
         <div className={styles.CardContainer}>
           {listOfTweets &&
             listOfTweets.map((tweetInfo) => (
-              <AdminTweetCard key={tweetInfo.id} tweetInfo={tweetInfo} />
+              <AdminTweetCard key={tweetInfo.id} tweetInfo={tweetInfo} setNeedRender={setNeedRender}/>
             ))}
         </div>
       </div>

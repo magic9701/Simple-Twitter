@@ -1,6 +1,6 @@
 import styles from "styles/MainPage.module.scss";
 import { useLocation, useParams } from "react-router-dom";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "contexts/UserContext.jsx";
 
@@ -26,7 +26,6 @@ import { getTopTenUser } from "api/followship";
 import { getUserDataByAccount, getUserData } from "api/setting.js";
 import { checkUserPermission } from "api/auth.js";
 import { getUserTweets, getUserReply, getUserLike } from "api/PostTweet";
-import { changeUserProfile } from "api/user";
 export default function UserPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,9 +44,6 @@ export default function UserPage() {
   const [needRerender, setNeedRerender] = useState(false);
   const [isPageActive, setIsPageActive] = useState(null);
   const { follow, unfollow } = useContext(UserContext);
-  const modalFileInputRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
   //先call API 確認使用者輸入的帳號是否存在
   useEffect(() => {
     const checkUserTokenIsValid = async () => {
@@ -67,10 +63,12 @@ export default function UserPage() {
         navigate("/login");
       } else {
         const id = localStorage.getItem("currentUserId");
-        const { users } = await getTopTenUser(token);
-        const { avatar } = await getUserData(token, id);
-        const data = await getUserDataByAccount(token, userAccount);
         const currentUserAccount = localStorage.getItem("currentUserAccount");
+        const [{ users }, { avatar }, data] = await Promise.all([
+          getTopTenUser(token),
+          getUserData(token, id),
+          getUserDataByAccount(token, userAccount)
+        ])
         if (users) {
           //call API取得前10名追蹤，放入popular
           setTopTenUsers(users);
@@ -99,11 +97,13 @@ export default function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-      const tweetData = await getUserTweets(token, userData.id);
-      const likeData = await getUserLike(token, userData.id);
-      const replyData = await getUserReply(token, userData.id);
-      const { users } = await getTopTenUser(token);
-      const data = await getUserDataByAccount(token, userAccount);
+      const [tweetData, likeData, replyData, { users }, data] = await Promise.all([
+          getUserTweets(token, userData.id),
+          getUserLike(token, userData.id),
+          getUserReply(token, userData.id),
+          getTopTenUser(token),
+          getUserDataByAccount(token, userAccount)
+        ])
       const filterTweetData = tweetData.data.filter(function (item) {
         return item.Tweet !== null;
       });
@@ -114,8 +114,9 @@ export default function UserPage() {
         return item.Tweet !== null;
       });
 
+      setisfollow(!data.isCurrentUserFollowed)
       setTweetList(filterTweetData);
-      setLikeList(filterLikeData.reverse());
+      setLikeList(filterLikeData);
       setReplyList(filterReplyData);
       setTopTenUsers(users);
 
@@ -129,6 +130,8 @@ export default function UserPage() {
     }
   }, [userId, needRerender]);
 
+  
+
   //回到上一頁
   const handleBack = () => {
     navigate(-1);
@@ -137,50 +140,16 @@ export default function UserPage() {
   //追蹤功能
   const handleFollowClick = () => {
     follow(userId);
-    setisfollow(false);
+    setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(userId);
-    setisfollow(true);
+    setNeedRerender(true)
   };
+
   //開啟MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //取得TOKEN及ID
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("currentUserId");
-  //儲存更新資料
-  const [name, setName] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [banner, setBanner] = useState("");
-  const handleAvatarChange = (event) => {
-    const newAvatarValue = event.target.value;
-    setAvatar(newAvatarValue);
-  };
-  const handleAvatarUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = async () => {
-      const imageDataURL = reader.result;
-      // 将头像上传至服务器并获取新的头像路径
-      const newAvatarPath = await changeUserProfile(imageDataURL); // 使用适当的上传文件的方法
-
-      // 更新userData.avatar的值为新的头像路径
-      setUserData.avatar((prevUserData) => ({
-        ...prevUserData,
-        avatar: newAvatarPath,
-      }));
-    };
-
-    reader.readAsDataURL(file);
-    setIsEditingAvatar(false);
-  };
-  const handleBannerChange = (event) => {
-    const newBannerValue = event.target.value;
-    setBanner(newBannerValue);
-  };
 
   //開啟MODAL
   const openModal = () => {
@@ -190,18 +159,7 @@ export default function UserPage() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleModalSave = (
-    updatedName,
-    updatedIntroduction,
-    updatedAvatar,
-    updatedBanner
-  ) => {
-    // 在這裡更新狀態值
-    setName(updatedName);
-    setIntroduction(updatedIntroduction);
-    setAvatar(updatedAvatar);
-    setBanner(updatedBanner);
-  };
+
 
   return (
     <div className={`${styles.container} container mx-auto`}>
@@ -258,7 +216,7 @@ export default function UserPage() {
                 <span>{userData.introduction}</span>
               </div>
               <div className={styles.infoTwo}>
-                <Link to={`/user/${userAccount}/follower`}>
+                <Link to={`/user/${userAccount}/following`}>
                   <div className="cursor-point">
                     <span className={styles.followingCount}>
                       {userData.FollowingsCount}個
@@ -266,7 +224,7 @@ export default function UserPage() {
                     <span className={styles.words}>跟隨中</span>
                   </div>
                 </Link>
-                <Link to={`/user/${userAccount}/following`}>
+                <Link to={`/user/${userAccount}/follower`}>
                   <div className="cursor-point">
                     <span className={styles.followerCount}>
                       {userData.FollowersCount}個
@@ -285,17 +243,7 @@ export default function UserPage() {
                   {isModalOpen && (
                     <UserInfoModal
                       userData={userData}
-                      setName={setName}
-                      setIntroduction={setIntroduction}
-                      setAvatar={handleAvatarChange}
-                      setBanner={handleBannerChange}
-                      isModalOpen={openModal}
                       closeModal={closeModal}
-                      onSave={handleModalSave}
-                      id={id}
-                      token={token}
-                      modalFileInputRef={fileInputRef}
-                      handleAvatarUpload={handleAvatarUpload}
                       setNeedRerender={setNeedRerender}
                     />
                   )}

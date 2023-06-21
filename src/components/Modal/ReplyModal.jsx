@@ -73,7 +73,7 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
       return;
     }
     
-    const { success } = await postReply(token, comment, tweetId)
+    const success = await postReply(token, comment, tweetId)
     if (success) {
       //顯示推文成功
       Swal.fire({
@@ -193,9 +193,8 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
   const [ inputNone , setInputNone ] = useState(false)
   //要回覆的推文的資訊
   const { createdAt, description } = tweet.Tweet
-  const { account, avatar, name} = tweet.User
-  const tweetId = tweet.id
-
+  const { account, avatar, name} = tweet.Tweet.User
+  const tweetId = tweet.TweetId
 
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);
@@ -229,7 +228,7 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
   const handleReply = async () => {
     const token = localStorage.getItem('token');
     //前端檢查輸入內容
-    if(comment.trim().length === 0) {
+    if(comment.trim().length === 0 && comment.length !== 140) {
       //有異常跳提示框
       setInputNone(true)
       return;

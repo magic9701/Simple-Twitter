@@ -1,19 +1,24 @@
-import styles from "styles/TweetPanel.module.scss"
 import { useState } from "react";
-import { SecondaryButton } from "components/Button/Button.jsx";
-import { postTweet } from "api/PostTweet";
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from "react-router-dom";
-import defaultAvatar from "assets/icons/default-avatar.svg"
+import { Link } from "react-router-dom";
+
+//component
+import { SecondaryButton } from "components/Button/Button.jsx";
+
+//scss
+import styles from "styles/TweetPanel.module.scss"
+
+//api
+import { postTweet } from "api/PostTweet";
 
 //icon引入
 import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"
+import defaultAvatar from "assets/icons/default-avatar.svg"
 
 export default function TweetPanel ({userAvatar, setNeedRerender}) {
   const userAccount = localStorage.getItem('currentUserAccount');
   const [description, setDescription] = useState('');
-  const navigate = useNavigate();
 
   //輸入內容
   const handleDescriptionChange = event => {

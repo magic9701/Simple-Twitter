@@ -3,7 +3,7 @@ import { SecondaryButton, NotActiveButton } from "components/Button/Button.jsx"
 import defaultAvatar from "assets/icons/default-avatar.svg"
 import { Link } from "react-router-dom";
 import { UserContext } from "contexts/UserContext.jsx"
-import { useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 
 
 
@@ -13,6 +13,9 @@ function SuggestedFollow({user, setNeedRerender}) {
   const [ isfollow, setisfollow ] = useState(!isFollowed)
   const currentUserId = localStorage.getItem('currentUserId')
 
+  useEffect(() => {
+    setisfollow(!isFollowed);
+  }, [isFollowed]);
 
   const handleFollowClick = () => {
     follow(id)
