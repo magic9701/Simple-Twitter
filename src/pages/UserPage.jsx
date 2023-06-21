@@ -215,7 +215,7 @@ export default function UserPage() {
                 <span>{userData.introduction}</span>
               </div>
               <div className={styles.infoTwo}>
-                <Link to={`/user/${userAccount}/follower`}>
+                <Link to={`/user/${userAccount}/following`}>
                   <div className="cursor-point">
                     <span className={styles.followingCount}>
                       {userData.FollowingsCount}個
@@ -223,7 +223,7 @@ export default function UserPage() {
                     <span className={styles.words}>跟隨中</span>
                   </div>
                 </Link>
-                <Link to={`/user/${userAccount}/following`}>
+                <Link to={`/user/${userAccount}/follower`}>
                   <div className="cursor-point">
                     <span className={styles.followerCount}>
                       {userData.FollowersCount}個
