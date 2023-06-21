@@ -228,7 +228,7 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
   const handleReply = async () => {
     const token = localStorage.getItem('token');
     //前端檢查輸入內容
-    if(comment.trim().length === 0) {
+    if(comment.trim().length === 0 && comment.length !== 140) {
       //有異常跳提示框
       setInputNone(true)
       return;
