@@ -45,7 +45,7 @@ export default function SettigPage() {
   //點擊儲存按鈕
   const handleClick = async () => {
     //前端檢查輸入內容，確定沒有指輸入空格或未輸入內容，isError代表輸入框內容有異常
-    if (account.trim().length === 0 || password.trim().length === 0 || email.trim().length === 0 || isError === true) {
+    if (account.trim().length === 0 || password.trim().length === 0 || email.trim().length === 0 || isError === true || password !== checkPassword) {
       //有異常跳提示框
       Swal.fire({
         position: 'top',
@@ -84,8 +84,8 @@ export default function SettigPage() {
       })
       return;
     }
-    const token = await localStorage.getItem('token')
-    const id = await localStorage.getItem('currentUserId')
+    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('currentUserId')
     const { success, message } = await resetUserAccount(
       token,
       id,
