@@ -41,10 +41,12 @@ export default function PostPage() {
       if (!result) {
         navigate('/login')
       } else {
-        const response = await getSingleTweet(token, postId)
-        const { avatar } = await getUserData(token, id);
-        const { users } = await getTopTenUser(token)
-        const { data } = await getSingleReplyTweet(token, postId)
+        const [ response, { avatar }, { users }, { data }] = await Promise.all([
+          getSingleTweet(token, postId),
+          getUserData(token, id),
+          getTopTenUser(token),
+          getSingleReplyTweet(token, postId),
+        ])
         if(response && response.data.User.account === userAccount) {
           setTweetInfo(response.data)
           setUserAvatar(avatar)
