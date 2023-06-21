@@ -8,7 +8,7 @@ import redIcon from "assets/icons/red-icon.svg"
 import defaultAvatar from "assets/icons/default-avatar.svg";
 import { ReactComponent as Cross } from "assets/icons/cross-gray.svg";
 
-export default function AdminTweetCard( {tweetInfo} ) {
+export default function AdminTweetCard( {tweetInfo, setNeedRender} ) {
   const { id, createdAt, description } = tweetInfo
   const { avatar, name, account } = tweetInfo.User
 
@@ -57,9 +57,7 @@ export default function AdminTweetCard( {tweetInfo} ) {
             popup: styles['my-custom-popup'],
           }
         })
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        setNeedRender(true)
       }if (!success) {
         //顯示刪除失敗
         Swal.fire({
