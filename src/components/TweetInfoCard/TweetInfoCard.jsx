@@ -209,7 +209,6 @@ export function TweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
 
 //User喜歡的貼文
 export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
-  console.log(tweet)
   const navigate = useNavigate();
   const { TweetId } = tweet
   const { account, avatar, name } = tweet.Tweet.User;
@@ -272,7 +271,6 @@ export function LikeTweetInfoCard({ tweet, userAvatar, setNeedRerender }) {
 
   //導向貼文頁面
   const handlePostClick = (event) => {
-    console.log(event);
     navigate(`/user/${account}/post/${TweetId}`);
   };
 

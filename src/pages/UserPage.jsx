@@ -114,6 +114,7 @@ export default function UserPage() {
         return item.Tweet !== null;
       });
 
+      setisfollow(!data.isCurrentUserFollowed)
       setTweetList(filterTweetData);
       setLikeList(filterLikeData);
       setReplyList(filterReplyData);
@@ -129,6 +130,8 @@ export default function UserPage() {
     }
   }, [userId, needRerender]);
 
+  
+
   //回到上一頁
   const handleBack = () => {
     navigate(-1);
@@ -137,13 +140,11 @@ export default function UserPage() {
   //追蹤功能
   const handleFollowClick = () => {
     follow(userId);
-    setisfollow(false);
     setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(userId);
-    setisfollow(true);
     setNeedRerender(true)
   };
 
