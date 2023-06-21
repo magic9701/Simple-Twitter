@@ -115,7 +115,7 @@ export default function UserPage() {
       });
 
       setTweetList(filterTweetData);
-      setLikeList(filterLikeData.reverse());
+      setLikeList(filterLikeData);
       setReplyList(filterReplyData);
       setTopTenUsers(users);
 
