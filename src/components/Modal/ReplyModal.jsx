@@ -193,9 +193,8 @@ export const SecondReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,us
   const [ inputNone , setInputNone ] = useState(false)
   //要回覆的推文的資訊
   const { createdAt, description } = tweet.Tweet
-  const { account, avatar, name} = tweet.User
-  const tweetId = tweet.id
-
+  const { account, avatar, name} = tweet.Tweet.User
+  const tweetId = tweet.TweetId
 
   //距今多久的發文，時間轉換
   const createdAtTime = new Date(createdAt);

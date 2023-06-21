@@ -12,7 +12,6 @@ function SuggestedFollow({user, setNeedRerender}) {
   const { follow, unfollow } = useContext(UserContext)
   const [ isfollow, setisfollow ] = useState(!isFollowed)
   const currentUserId = localStorage.getItem('currentUserId')
-  console.log(id, isFollowed)
 
   useEffect(() => {
     setisfollow(!isFollowed);
