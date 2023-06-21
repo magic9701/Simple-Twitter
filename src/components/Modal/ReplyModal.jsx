@@ -73,7 +73,7 @@ export const ReplyModal = ({ isOpen, onClose, setModalOpen, userAvatar ,userAcco
       return;
     }
     
-    const { success } = await postReply(token, comment, tweetId)
+    const success = await postReply(token, comment, tweetId)
     if (success) {
       //顯示推文成功
       Swal.fire({
