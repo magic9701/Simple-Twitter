@@ -14,6 +14,7 @@ import { changeUserProfile } from "api/user";
 //icon
 import greenIcon from "assets/icons/green-Icon.svg";
 import redIcon from "assets/icons/red-icon.svg";
+import blueIcon from "assets/icons/blue-icon.svg";
 import defaultAvatar from "assets/icons/default-avatar.svg";
 import defaultBanner from "assets/icons/default-banner.svg";
 import { ReactComponent as CameraIcon } from "assets/icons/camera-icon.svg";
@@ -42,13 +43,14 @@ const UserInfoModal = ({
 
   const handleBannerChange = () => {
     try {
-      bannerFileInputRef.current?.click();
+      bannerFileInputRef.current?.click()
     } catch (error) {
-      console.error("Error opening banner file input:", error);
+      console.error("Error opening banner file input:", error)
     }
-  };
+  }
+  //使用者上傳banner
   const handleBannerUpload = async (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
       if (!file.type.startsWith("image/")) {
         Swal.fire({
@@ -78,6 +80,7 @@ const UserInfoModal = ({
   const handleAvatarChange = () => {
     avatarFileInputRef.current?.click();
   };
+
   const handleAvatarUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -104,10 +107,30 @@ const UserInfoModal = ({
       const avatarURL = URL.createObjectURL(file);
       setAvatar(avatarURL);
     }
-  };
+  }
+
   const handleNotiFailClick = () => {
     closeModal();
-  };
+  }
+
+  const showProcessingMessage = () => {
+    Swal.fire({
+      position: "top",
+      title: `
+            <div class="${styles["my-custom-title"]}">
+              <div class="${styles["my-custom-title-text"]}">圖片上傳中</div>
+              <div class="${styles["my-custom-title-icon"]}">
+                <img src="${blueIcon}" alt="loading" class="${styles["my-custom-image"]}" />
+              </div>
+            </div>
+          `,
+      showConfirmButton: false,
+      customClass: {
+          popup: styles["my-custom-popup"],
+      },
+    });
+  }
+
   const handleSave = async () => {
     //前端檢查輸入內容，確定沒有指輸入空格或未輸入內容，isError代表輸入框內容有異常
     if (name.trim().length === 0) {
@@ -149,6 +172,7 @@ const UserInfoModal = ({
       return;
     }
     try {
+      showProcessingMessage()
       const updatedProfile = {
         name: name,
         introduction: introduction,
