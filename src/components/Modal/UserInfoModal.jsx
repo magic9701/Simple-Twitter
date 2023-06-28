@@ -51,10 +51,24 @@ const UserInfoModal = ({
     const file = event.target.files[0];
     if (file) {
       if (!file.type.startsWith("image/")) {
-        console.log("Invalid file type. Please select an image.");
+        Swal.fire({
+          position: "top",
+          title: `
+              <div class="${styles["my-custom-title"]}">
+                <div class="${styles["my-custom-title-text"]}">只能上傳圖片，請重新選擇</div>
+                <div class="${styles["my-custom-title-icon"]}">
+                  <img src="${redIcon}" alt="fail" class="${styles["my-custom-image"]}" />
+                </div>
+              </div>
+            `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles["my-custom-popup"],
+          },
+        });
         return;
       }
-      console.log("Selected file:", file);
       setNewBanner(file);
       const bannerURL = URL.createObjectURL(file);
       setBanner(bannerURL);
@@ -68,17 +82,30 @@ const UserInfoModal = ({
     const file = event.target.files[0];
     if (file) {
       if (!file.type.startsWith("image/")) {
-        console.log("Invalid file type. Please select an image.");
+        Swal.fire({
+          position: "top",
+          title: `
+              <div class="${styles["my-custom-title"]}">
+                <div class="${styles["my-custom-title-text"]}">只能上傳圖片，請重新選擇</div>
+                <div class="${styles["my-custom-title-icon"]}">
+                  <img src="${redIcon}" alt="fail" class="${styles["my-custom-image"]}" />
+                </div>
+              </div>
+            `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles["my-custom-popup"],
+          },
+        });
         return;
       }
-      console.log("Selected file:", file);
       setNewAvatar(file);
       const avatarURL = URL.createObjectURL(file);
       setAvatar(avatarURL);
     }
   };
   const handleNotiFailClick = () => {
-    console.log("點擊");
     closeModal();
   };
   const handleSave = async () => {
@@ -134,7 +161,6 @@ const UserInfoModal = ({
       if (result.success) {
         closeModal();
         //跳修改成功提示框
-
         Swal.fire({
           position: "top",
           title: `
