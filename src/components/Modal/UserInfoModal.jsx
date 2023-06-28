@@ -118,7 +118,7 @@ const UserInfoModal = ({
       position: "top",
       title: `
             <div class="${styles["my-custom-title"]}">
-              <div class="${styles["my-custom-title-text"]}">圖片上傳中</div>
+              <div class="${styles["my-custom-title-text"]}">上傳中</div>
               <div class="${styles["my-custom-title-icon"]}">
                 <img src="${blueIcon}" alt="loading" class="${styles["my-custom-image"]}" />
               </div>
