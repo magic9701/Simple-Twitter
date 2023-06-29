@@ -10,22 +10,22 @@ import { useEffect, useContext, useState } from 'react';
 function SuggestedFollow({user, setNeedRerender}) {
   const { id, avatar, account, name, isFollowed } = user
   const { follow, unfollow } = useContext(UserContext)
-  const [ isfollow, setisfollow ] = useState(!isFollowed)
+  const [ isfollow, setIsfollow ] = useState(!isFollowed)
   const currentUserId = localStorage.getItem('currentUserId')
 
   useEffect(() => {
-    setisfollow(!isFollowed);
+    setIsfollow(!isFollowed);
   }, [isFollowed]);
 
   const handleFollowClick = () => {
     follow(id)
-    setisfollow(false)
+    setIsfollow(false)
     setNeedRerender(true)
   };
 
   const handleUnfollowClick = () => {
     unfollow(id)
-    setisfollow(true)
+    setIsfollow(true)
     setNeedRerender(true)
   };
 
@@ -42,10 +42,10 @@ function SuggestedFollow({user, setNeedRerender}) {
       </div>
       <div className={styles.nameContainer}>
         <h6 className={styles.name}>
-          {account}
+          {name}
         </h6>
         <h6 className={`${styles.userId} secondary-text-medium`}>
-          @{name}
+          @{account}
         </h6>
       </div>
       { currentUserId !== id.toString() &&

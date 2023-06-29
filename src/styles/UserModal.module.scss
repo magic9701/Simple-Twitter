@@ -11,7 +11,7 @@
 .modal {
   position: fixed;
   top: 56px;
-  left: 500px;
+  left: calc(50% - 317px);
   width: 634px;
   height: 610px;
   background-color: #FFFFFF;
@@ -37,7 +37,6 @@
 }
 .userChangeTitle{
   padding-left: 71px;
-  //styleName: heading/h5;
   font-family: Noto Sans TC;
   font-size: 18px;
   font-weight: 700;
@@ -97,8 +96,8 @@ left: 284.14px;
   height: 20px;
   width: 20px;
   position: absolute;
-  top:190.17px;
-  left: 78px;
+  top: 188px;
+  left: 74px;
 }
 
 //提示框

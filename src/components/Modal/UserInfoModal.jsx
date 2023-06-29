@@ -1,16 +1,26 @@
-import styles from "../../styles/UserModal.module.scss";
 import React, { useRef, useState } from "react";
-import { ReactComponent as NotiFailIcon } from "../../assets/icons/noti-fail.svg";
-import { SecondaryButton } from "../Button/Button";
-import UserInput from "components/InputBlock/userInput";
-import { changeUserProfile } from "api/user";
-import { ReactComponent as CameraIcon } from "assets/icons/camera-icon.svg";
-import { ReactComponent as CrossWhiteIcon } from "assets/icons/cross-white.svg";
 import Swal from "sweetalert2";
+
+//scss
+import styles from "styles/UserModal.module.scss";
+
+//components
+import { SecondaryButton } from "components/Button/Button.jsx";
+import UserInput from "components/InputBlock/userInput";
+
+//api
+import { changeUserProfile } from "api/user";
+
+//icon
 import greenIcon from "assets/icons/green-Icon.svg";
 import redIcon from "assets/icons/red-icon.svg";
+import blueIcon from "assets/icons/blue-icon.svg";
 import defaultAvatar from "assets/icons/default-avatar.svg";
 import defaultBanner from "assets/icons/default-banner.svg";
+import { ReactComponent as CameraIcon } from "assets/icons/camera-icon.svg";
+import { ReactComponent as CrossWhiteIcon } from "assets/icons/cross-white.svg";
+import { ReactComponent as NotiFailIcon } from "assets/icons/noti-fail.svg";
+
 const UserInfoModal = ({
   userData,
   closeModal,
@@ -21,32 +31,46 @@ const UserInfoModal = ({
   const initialAvatar = userData.avatar
   const initialIntroduction = userData.introduction === null ? "" : userData.introduction
 
-  const [isError, setIsError] = useState(false);
-  const [name, setNewName] = useState(initialName);
-  const [introduction, setNewIntroduction] = useState(initialIntroduction);
-  const [banner, setBanner] = useState(initialBanner);
-  const [newBanner, setNewBanner] = useState("");
-  const [avatar, setAvatar] = useState(initialAvatar);
-  const [newAvatar, setNewAvatar] = useState("");
-  const avatarFileInputRef = useRef(null);
-  const bannerFileInputRef = useRef(null);
+  const [isError, setIsError] = useState(false)
+  const [name, setNewName] = useState(initialName)
+  const [introduction, setNewIntroduction] = useState(initialIntroduction)
+  const [banner, setBanner] = useState(initialBanner)
+  const [newBanner, setNewBanner] = useState("")
+  const [avatar, setAvatar] = useState(initialAvatar)
+  const [newAvatar, setNewAvatar] = useState("")
+  const avatarFileInputRef = useRef(null)
+  const bannerFileInputRef = useRef(null)
 
   const handleBannerChange = () => {
-    console.log("Banner file input clicked");
     try {
-      bannerFileInputRef.current?.click();
+      bannerFileInputRef.current?.click()
     } catch (error) {
-      console.error("Error opening banner file input:", error);
+      console.error("Error opening banner file input:", error)
     }
-  };
+  }
+  //使用者上傳banner
   const handleBannerUpload = async (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
       if (!file.type.startsWith("image/")) {
-        console.log("Invalid file type. Please select an image.");
+        Swal.fire({
+          position: "top",
+          title: `
+              <div class="${styles["my-custom-title"]}">
+                <div class="${styles["my-custom-title-text"]}">只能上傳圖片，請重新選擇</div>
+                <div class="${styles["my-custom-title-icon"]}">
+                  <img src="${redIcon}" alt="fail" class="${styles["my-custom-image"]}" />
+                </div>
+              </div>
+            `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles["my-custom-popup"],
+          },
+        });
         return;
       }
-      console.log("Selected file:", file);
       setNewBanner(file);
       const bannerURL = URL.createObjectURL(file);
       setBanner(bannerURL);
@@ -56,23 +80,57 @@ const UserInfoModal = ({
   const handleAvatarChange = () => {
     avatarFileInputRef.current?.click();
   };
+
   const handleAvatarUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
       if (!file.type.startsWith("image/")) {
-        console.log("Invalid file type. Please select an image.");
+        Swal.fire({
+          position: "top",
+          title: `
+              <div class="${styles["my-custom-title"]}">
+                <div class="${styles["my-custom-title-text"]}">只能上傳圖片，請重新選擇</div>
+                <div class="${styles["my-custom-title-icon"]}">
+                  <img src="${redIcon}" alt="fail" class="${styles["my-custom-image"]}" />
+                </div>
+              </div>
+            `,
+          timer: 3000,
+          showConfirmButton: false,
+          customClass: {
+            popup: styles["my-custom-popup"],
+          },
+        });
         return;
       }
-      console.log("Selected file:", file);
       setNewAvatar(file);
       const avatarURL = URL.createObjectURL(file);
       setAvatar(avatarURL);
     }
-  };
+  }
+
   const handleNotiFailClick = () => {
-    console.log("點擊");
     closeModal();
-  };
+  }
+
+  const showProcessingMessage = () => {
+    Swal.fire({
+      position: "top",
+      title: `
+            <div class="${styles["my-custom-title"]}">
+              <div class="${styles["my-custom-title-text"]}">上傳中</div>
+              <div class="${styles["my-custom-title-icon"]}">
+                <img src="${blueIcon}" alt="loading" class="${styles["my-custom-image"]}" />
+              </div>
+            </div>
+          `,
+      showConfirmButton: false,
+      customClass: {
+          popup: styles["my-custom-popup"],
+      },
+    });
+  }
+
   const handleSave = async () => {
     //前端檢查輸入內容，確定沒有指輸入空格或未輸入內容，isError代表輸入框內容有異常
     if (name.trim().length === 0) {
@@ -114,6 +172,7 @@ const UserInfoModal = ({
       return;
     }
     try {
+      showProcessingMessage()
       const updatedProfile = {
         name: name,
         introduction: introduction,
@@ -126,7 +185,6 @@ const UserInfoModal = ({
       if (result.success) {
         closeModal();
         //跳修改成功提示框
-
         Swal.fire({
           position: "top",
           title: `
