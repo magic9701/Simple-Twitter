@@ -42,10 +42,10 @@ export default function PostPage() {
         navigate('/login')
       } else {
         const [ response, { avatar }, { users }, { data }] = await Promise.all([
-          getSingleTweet(token, postId),
-          getUserData(token, id),
-          getTopTenUser(token),
-          getSingleReplyTweet(token, postId),
+          getSingleTweet(postId),
+          getUserData(id),
+          getTopTenUser(),
+          getSingleReplyTweet(postId),
         ])
         if(response && response.data.User.account === userAccount) {
           setTweetInfo(response.data)

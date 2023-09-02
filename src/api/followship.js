@@ -1,15 +1,9 @@
-import axios from "axios";
-
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+import axiosInstance from "./AxiosInstance";
 
 //取得追蹤人數前10名的使用者
-export const getTopTenUser = async (token) => {
+export const getTopTenUser = async () => {
   try {
-    const response = await axios.get(`${authURL}/followships?top=10`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/followships?top=10`);
     const { users } = response.data;
     if (users) {
       return { users };
@@ -20,16 +14,12 @@ export const getTopTenUser = async (token) => {
 };
 
 //追蹤用戶
-export const followUser = async (token, id) => {
+export const followUser = async (id) => {
   try {
     const bodyData = {
       id,
     };
-    const response = await axios.post(`${authURL}/followships`, bodyData, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.post(`/followships`, bodyData);
     if (response) {
       return { success: true };
     }
@@ -39,13 +29,9 @@ export const followUser = async (token, id) => {
 };
 
 //取消追蹤
-export const unfollowUser = async (token, id) => {
+export const unfollowUser = async (id) => {
   try {
-    const response = await axios.delete(`${authURL}/followships/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.delete(`/followships/${id}`);
     if (response) {
       return { success: true };
     }
@@ -55,13 +41,9 @@ export const unfollowUser = async (token, id) => {
 };
 
 //取得追隨者的清單
-export const userFollower = async (token, id) => {
+export const userFollower = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}/followers`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}/followers`);
     const followerList = response.data;
     if (followerList) {
       return { followerList };
@@ -72,13 +54,9 @@ export const userFollower = async (token, id) => {
 };
 
 //取得追隨中的清單
-export const userFollowing = async (token, id) => {
+export const userFollowing = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}/followings`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}/followings`);
     const followingList = response.data;
     if (followingList) {
       return { followingList };

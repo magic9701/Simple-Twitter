@@ -1,19 +1,17 @@
-import axios from "axios";
-
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+import axiosInstance from "./AxiosInstance";
 
 //使用者登入
 export const login = async ({ account, password }) => {
   try {
-    const { data: responseData } = await axios.post(`${authURL}/users/signin`, {
+    const { data } = await axiosInstance.post(`/users/signin`, {
       account,
       password,
     });
-    const { token } = responseData.data;
-    const currentUserId = responseData.data.user.id;
-    const currentUserAccount = responseData.data.user.account;
+    const token = data.data.token;
+    const currentUserId = data.data.user.id;
+    const currentUserAccount = data.data.user.account;
 
-    if (token) {
+    if (data) {
       return {
         success: true,
         token: token,
@@ -37,7 +35,7 @@ export const register = async ({
   checkPassword,
 }) => {
   try {
-    const { data } = await axios.post(`${authURL}/users`, {
+    const { data } = await axiosInstance.post(`/users`, {
       account,
       name,
       email,
@@ -59,53 +57,11 @@ export const register = async ({
 };
 
 //檢查使用者是否登入
-export const checkUserPermission = async (token) => {
+export const checkUserPermission = async () => {
   try {
-    const response = await axios.get(`${authURL}/auth/user`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/auth/user`);
     return response;
   } catch (error) {
     console.error("[Check Permission Failed]:", error);
-  }
-};
-
-//檢查管理者是否登入
-export const checkAdminPermission = async (adminToken) => {
-  try {
-    const response = await axios.get(`${authURL}/auth/admin`, {
-      headers: {
-        Authorization: "Bearer " + adminToken,
-      },
-    });
-    return response;
-  } catch (error) {
-    console.error("[Check Permission Failed]:", error);
-  }
-};
-
-//管理者登入
-export const adminLogin = async ({ account, password }) => {
-  try {
-    const { data: responseData } = await axios.post(`${authURL}/admin/signin`, {
-      account,
-      password,
-    });
-    const { token } = responseData.data;
-    const currentAdminUser = responseData.data.user.account;
-
-    if (token) {
-      return {
-        success: true,
-        adminToken: token,
-        currentAdminUser: currentAdminUser,
-      };
-    }
-  } catch (error) {
-    console.error("[Admin Login Failed]:", error);
-    const { message } = error.response.data;
-    return { success: false, message };
   }
 };

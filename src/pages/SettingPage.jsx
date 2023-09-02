@@ -33,7 +33,7 @@ export default function SettigPage() {
       }
       const result = await checkUserPermission(token)
       if (result) {
-        const { account, email, name } = await getUserData(token, id)
+        const { account, email, name } = await getUserData(id)
         setAccount(account)
         setEmail(email)
         setName(name)

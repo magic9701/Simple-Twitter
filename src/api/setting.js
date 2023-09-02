@@ -1,15 +1,9 @@
-import axios from "axios";
-
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+import axiosInstance from "./AxiosInstance";
 
 //取得使用者資料by id
-export const getUserData = async (token, id) => {
+export const getUserData = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}`);
     return response.data;
   } catch (error) {
     console.error("[Get User Data Failed]: ", error);
@@ -17,13 +11,9 @@ export const getUserData = async (token, id) => {
 };
 
 //取得使用者資料by account
-export const getUserDataByAccount = async (token, account) => {
+export const getUserDataByAccount = async (userAccount) => {
   try {
-    const response = await axios.get(`${authURL}/users/${account}/users`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${userAccount}/users`);
     return response.data;
   } catch (error) {
     console.error("[Get User Data by Account Failed]: ", error);
@@ -32,26 +22,17 @@ export const getUserDataByAccount = async (token, account) => {
 
 //使用者修改帳戶資料
 export const resetUserAccount = async (
-  token,
   id,
   { account, name, email, password, checkPassword }
 ) => {
   try {
-    const { data } = await axios.put(
-      `${authURL}/users/${id}`,
-      {
-        account,
-        name,
-        email,
-        password,
-        checkPassword,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    const { data } = await axiosInstance.put(`/users/${id}`, {
+      account,
+      name,
+      email,
+      password,
+      checkPassword,
+    });
     const { status } = data;
 
     if (status === "success") {

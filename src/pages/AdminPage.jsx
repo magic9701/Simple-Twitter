@@ -5,7 +5,7 @@ import { PrimaryButton } from "components/Button/Button";
 import InputBlock from "components/InputBlock/InputBlock";
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { adminLogin, checkAdminPermission } from "api/auth.js"
+import { adminLogin, checkAdminPermission } from "api/admin"
 //icon引入
 import greenIcon from "assets/icons/green-Icon.svg"
 import redIcon from "assets/icons/red-icon.svg"

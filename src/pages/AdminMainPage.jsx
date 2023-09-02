@@ -1,9 +1,8 @@
 import styles from "styles/AdminMainPage.module.scss"
 import { AdminNav } from "components/Nav/Nav.jsx"
 import { useNavigate } from 'react-router-dom';
-import { checkAdminPermission } from 'api/auth';
 import { useEffect, useState } from "react";
-import { adminGetTweet } from "api/admin.js";
+import { adminGetTweet, checkAdminPermission } from "api/admin.js";
 import AdminTweetCard from "components/AdminTweetCard/AdminTweetCard.jsx"
 
 export default function AdminMainPage() {

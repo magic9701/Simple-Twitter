@@ -54,20 +54,16 @@ export default function UserPage() {
       } else {
         setIsPageActive("tweets");
       }
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-      }
-      const result = await checkUserPermission(token);
+      const result = await checkUserPermission();
       if (!result) {
         navigate("/login");
       } else {
         const id = localStorage.getItem("currentUserId");
         const currentUserAccount = localStorage.getItem("currentUserAccount");
         const [{ users }, { avatar }, data] = await Promise.all([
-          getTopTenUser(token),
-          getUserData(token, id),
-          getUserDataByAccount(token, userAccount)
+          getTopTenUser(),
+          getUserData(id),
+          getUserDataByAccount(userAccount)
         ])
         if (users) {
           //call API取得前10名追蹤，放入popular
@@ -96,13 +92,12 @@ export default function UserPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
       const [tweetData, likeData, replyData, { users }, data] = await Promise.all([
-          getUserTweets(token, userData.id),
-          getUserLike(token, userData.id),
-          getUserReply(token, userData.id),
-          getTopTenUser(token),
-          getUserDataByAccount(token, userAccount)
+          getUserTweets(userData.id),
+          getUserLike(userData.id),
+          getUserReply(userData.id),
+          getTopTenUser(),
+          getUserDataByAccount(userAccount)
         ])
       const filterTweetData = tweetData.data.filter(function (item) {
         return item.Tweet !== null;

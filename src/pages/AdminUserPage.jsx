@@ -2,9 +2,8 @@ import styles from "styles/AdminUserPage.module.scss"
 import { AdminNav } from "components/Nav/Nav.jsx"
 import AdminUserCard from "components/AdminUserCard/AdminUserCard.jsx"
 import { useNavigate } from 'react-router-dom';
-import { checkAdminPermission } from 'api/auth';
 import { useEffect, useState } from "react";
-import { adminGetUserList } from "api/admin.js"
+import { adminGetUserList, checkAdminPermission } from "api/admin.js"
 
 
 export default function AdminUserPage() {

@@ -1,18 +1,12 @@
-import axios from "axios";
-
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+import axiosInstance from "./AxiosInstance";
 
 //新增推文
-export const postTweet = async (token, description) => {
+export const postTweet = async (description) => {
   try {
     const bodyData = {
       description: description,
     };
-    const response = await axios.post(`${authURL}/tweets`, bodyData, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.post(`/tweets`, bodyData);
     if (response) {
       return { success: true };
     }
@@ -22,19 +16,14 @@ export const postTweet = async (token, description) => {
 };
 
 //新增回覆
-export const postReply = async (token, comment, tweetId) => {
+export const postReply = async (comment, tweetId) => {
   try {
     const bodyData = {
       comment: comment,
     };
-    const response = await axios.post(
-      `${authURL}/tweets/${tweetId}/replies`,
-      bodyData,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
+    const response = await axiosInstance.post(
+      `/tweets/${tweetId}/replies`,
+      bodyData
     );
     if (response) {
       return { success: true };
@@ -45,13 +34,9 @@ export const postReply = async (token, comment, tweetId) => {
 };
 
 //取得所有推文
-export const getAllTweets = async (token) => {
+export const getAllTweets = async () => {
   try {
-    const response = await axios.get(`${authURL}/tweets`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/tweets`);
 
     const { data } = response;
     if (data) {
@@ -63,13 +48,9 @@ export const getAllTweets = async (token) => {
 };
 
 //取得特定使用者的所有推文
-export const getUserTweets = async (token, id) => {
+export const getUserTweets = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}/tweets`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}/tweets`);
 
     if (response) {
       return response;
@@ -80,13 +61,9 @@ export const getUserTweets = async (token, id) => {
 };
 
 //取得特定使用者的所有回覆
-export const getUserReply = async (token, id) => {
+export const getUserReply = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}/replied_tweets`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}/replied_tweets`);
 
     if (response) {
       return response;
@@ -97,13 +74,9 @@ export const getUserReply = async (token, id) => {
 };
 
 //取得特定使用者的所有Like的貼文
-export const getUserLike = async (token, id) => {
+export const getUserLike = async (id) => {
   try {
-    const response = await axios.get(`${authURL}/users/${id}/likes`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/users/${id}/likes`);
     if (response) {
       return response;
     }
@@ -113,13 +86,9 @@ export const getUserLike = async (token, id) => {
 };
 
 //取得單一推文的回應
-export const getSingleReplyTweet = async (token, postId) => {
+export const getSingleReplyTweet = async (postId) => {
   try {
-    const response = await axios.get(`${authURL}/tweets/${postId}/replies`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/tweets/${postId}/replies`);
     if (response) {
       return response;
     }
@@ -129,13 +98,9 @@ export const getSingleReplyTweet = async (token, postId) => {
 };
 
 //取得指定推文
-export const getSingleTweet = async (token, postId) => {
+export const getSingleTweet = async (postId) => {
   try {
-    const response = await axios.get(`${authURL}/tweets/${postId}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const response = await axiosInstance.get(`/tweets/${postId}`);
     if (response) {
       return response;
     }
@@ -145,17 +110,9 @@ export const getSingleTweet = async (token, postId) => {
 };
 
 //喜歡一則貼文
-export const likeTweet = async (token, tweetId) => {
+export const likeTweet = async (tweetId) => {
   try {
-    const response = await axios.post(
-      `${authURL}/tweets/${tweetId}/like`,
-      null,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    const response = await axiosInstance.post(`/tweets/${tweetId}/like`);
     if (response) {
       return { success: true };
     }
@@ -165,17 +122,9 @@ export const likeTweet = async (token, tweetId) => {
 };
 
 //取消喜歡一則貼文
-export const unlikeTweet = async (token, tweetId) => {
+export const unlikeTweet = async (tweetId) => {
   try {
-    const response = await axios.post(
-      `${authURL}/tweets/${tweetId}/unlike`,
-      null,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    const response = await axiosInstance.post(`/tweets/${tweetId}/unlike`);
     if (response) {
       return { success: true };
     }

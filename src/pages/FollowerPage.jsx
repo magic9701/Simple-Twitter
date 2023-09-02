@@ -46,18 +46,18 @@ export default function FollowerPage() {
         if (!token) {
           navigate('/login')
         }
-        const result = await checkUserPermission(token)
+        const result = await checkUserPermission()
         if (!result) {
           navigate('/login')
         }
-        const { users } = await getTopTenUser(token)
-        const { id, tweetCount, name } = await getUserDataByAccount(token, userAccount);
+        const { users } = await getTopTenUser()
+        const { id, tweetCount, name } = await getUserDataByAccount(userAccount);
           if (id) {
             setTopTenUsers(users)
             setPathUserName(name);
             setPathUserTweetCount(tweetCount);
-            const { followerList } = await userFollower(token, id);
-            const { followingList } = await userFollowing(token, id);
+            const { followerList } = await userFollower(id);
+            const { followingList } = await userFollowing(id);
             setRenderList(followerList);
             setRenderFollowingList(followingList);
             setNeedRerender(false)

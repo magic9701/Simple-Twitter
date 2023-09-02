@@ -31,14 +31,14 @@ export default function MainPage() {
       if (!token) {
         navigate('/login');
       }
-      const result = await checkUserPermission(token);
+      const result = await checkUserPermission();
       if (!result) {
         navigate('/login');
       } else {
         const [{ users }, response, { avatar }] = await Promise.all([
-          getTopTenUser(token),
-          getAllTweets(token),
-          getUserData(token, id)
+          getTopTenUser(),
+          getAllTweets(),
+          getUserData(id)
         ])
           setTweetsList(response.data)
           setUserAvatar(avatar);
@@ -54,10 +54,9 @@ export default function MainPage() {
   useEffect(() => {
     const rerenderPage = async () => {
       if(needRerender) {
-        const token = localStorage.getItem('token');
         const [{ users }, response ] = await Promise.all([
-          getTopTenUser(token),
-          getAllTweets(token),
+          getTopTenUser(),
+          getAllTweets(),
         ])
         setTweetsList(response.data)
         if (users) {
