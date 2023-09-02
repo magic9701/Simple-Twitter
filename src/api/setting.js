@@ -1,4 +1,4 @@
-import axiosInstance from "./AxiosInstance";
+import axiosInstance from "api/AxiosInstance.js";
 
 //取得使用者資料by id
 export const getUserData = async (id) => {

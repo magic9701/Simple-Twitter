@@ -1,4 +1,4 @@
-import axiosInstance from "./AxiosInstance";
+import axiosInstance from "api/AxiosInstance.js";
 
 //取得追蹤人數前10名的使用者
 export const getTopTenUser = async () => {

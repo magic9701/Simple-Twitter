@@ -1,4 +1,4 @@
-import axiosInstance from "./AxiosInstance";
+import axiosInstance from "api/AxiosInstance.js";
 
 //新增推文
 export const postTweet = async (description) => {

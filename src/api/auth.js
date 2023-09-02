@@ -1,4 +1,4 @@
-import axiosInstance from "./AxiosInstance";
+import axiosInstance from "api/AxiosInstance.js";
 
 //使用者登入
 export const login = async ({ account, password }) => {
