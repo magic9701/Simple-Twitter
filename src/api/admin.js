@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+const authURL = "https://twitter-api-on-cloud-run-txr4klwjbq-uc.a.run.app/api";
 
 //瀏覽使用者清單
 export const adminGetUserList = async (adminToken) => {

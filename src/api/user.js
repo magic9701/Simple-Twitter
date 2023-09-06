@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+const authURL = "https://twitter-api-on-cloud-run-txr4klwjbq-uc.a.run.app/api";
 
 const axiosInstance = axios.create({
   authURL,
@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -25,14 +25,14 @@ export const changeUserProfile = async (token, id, formData) => {
   try {
     const { data } = await axios.put(`${authURL}/users/${id}`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer ' + token
-      }
-    })
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    });
     if (data) {
-           return { success: true };
-          }
+      return { success: true };
+    }
   } catch (error) {
-    console.error('[putPersonalInfo failed]', error)
+    console.error("[putPersonalInfo failed]", error);
   }
-}
+};

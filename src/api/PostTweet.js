@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authURL = "https://pure-falls-11392.herokuapp.com/api";
+const authURL = "https://twitter-api-on-cloud-run-txr4klwjbq-uc.a.run.app/api";
 
 //新增推文
 export const postTweet = async (token, description) => {
